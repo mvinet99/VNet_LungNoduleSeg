@@ -14,8 +14,12 @@ Explanation of each script:
 
 - predict.py - predict masks for test / validate set
 
-- preprocessing.py - preprocess LIDC / NLST / UCLA datasets
+- preprocessing.py - preprocess LIDC / NLST / UCLA datasets (work in progress!)
 
 - train.py - main training script for training the VNet
 
 - utils.py - helper functions for training the VNet
+
+**To train the model, change filepaths to your data & model savepoint in train.py and execute**
+
+**To evaluate/test the model, change filepaths to your data & model savepoint in evaluate.py and execute**
