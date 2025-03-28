@@ -32,18 +32,20 @@ def resample_nii(input_path: str,
 
 def find_object_centroid(mask):
     # Ensure mask is binary
+    mask = mask.get_fdata()
+
     mask = (mask == 1)
 
     # Label connected components
     labeled_array, num_features = label(mask)
-    
+
     if num_features == 0:
         return None  # No objects found
 
     # Get the largest connected component
     unique, counts = np.unique(labeled_array, return_counts=True)
     largest_label = unique[1:][np.argmax(counts[1:])]  # Ignore background (label 0)
-    
+
     # Compute centroid of the largest object
     centroid = center_of_mass(mask, labeled_array, largest_label)
     
@@ -178,7 +180,7 @@ nlst_z = list(nlst_csv['coordZ'])
 nlst_diam = list(nlst_csv['longest_axial_diameter_(mm)'])
 
 for nodule_path in tqdm(nodule_list, 'Running...'):
-    if 'NLST_CT_annotations' in nodule_path or 'Ticket8859' in nodule_path:
+    if 'NLST_CT_annotations' in nodule_path or 'Ticket8859' in nodule_path or 'LIDC' in nodule_path:
         skip = 0
     else:
     # 1. Resample images to 1.5x1.5x1.5
@@ -190,6 +192,7 @@ for nodule_path in tqdm(nodule_list, 'Running...'):
         # 2. Obtain the nodule coordinate from the correct spreadsheet 
         if nodule_dataset[nodule_list.index(nodule_path)] == 'UCLA':
             # For UCLA dataset, there do not exist XYZ coordiantes for nodule centroids. For this, use the label volume to find the centroid
+
             center = find_object_centroid(nib.load(nodule_list_labels[nodule_list.index(nodule_path)]))
             x = center[0]
             y = center[1]
@@ -244,11 +247,6 @@ for nodule_path in tqdm(nodule_list, 'Running...'):
             z = voxelxyz[0][2]
         
         # 3. Trim to a fixed 96x96x16 size centered on the nodule center coordinate, saving as .npy
-        print(coord_system)
-        print(x,y,z)
-        #print(trimmed_img.shape)
-        print(diam)
-        print(fname)
         trimmed_img = trim_nifti(resampled_img, (x, y, z), (96, 96, 16))
         trimmed_mask = trim_nifti(resampled_mask, (x, y, z), (96, 96, 16))
 

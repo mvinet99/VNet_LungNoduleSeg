@@ -1,13 +1,6 @@
-import numpy as np
-import cv2 as cv
-import torch
-import torchvision
-import torchvision.transforms as transforms
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import cv2
-
 from utils import CBAM3D
 
 def passthrough(x, **kwargs):
@@ -53,6 +46,7 @@ def _make_nConv(nchan, depth, elu):
         layers.append(LUConv(nchan, elu))
     return nn.Sequential(*layers)
 
+# Down transition for VNet
 class DownTransition(nn.Module):
     def __init__(self, inChans, nConvs, elu, dropout=False):
         super(DownTransition, self).__init__()
@@ -79,7 +73,7 @@ class DownTransition(nn.Module):
         
         return out
 
-
+# Up Transition for VNet
 class UpTransition(nn.Module):
     def __init__(self, inChans, outChans, nConvs, elu, dropout=False):
         super(UpTransition, self).__init__()
@@ -102,7 +96,7 @@ class UpTransition(nn.Module):
         out = self.relu2(torch.add(out, xcat))
         return out
 
-
+# Output Transition for VNet
 class OutputTransition(nn.Module):
     def __init__(self, inChans, elu, nll):
         super(OutputTransition, self).__init__()
@@ -110,7 +104,9 @@ class OutputTransition(nn.Module):
         self.bn1 = ContBatchNorm3d(2)
         self.conv2 = nn.Conv3d(2, 2, kernel_size=1)
         self.relu1 = ELUCons(elu, 2)
+
         # Somewhere in here: CAM Attention mechanism & BAM Attention machanism
+        
         if nll:
             self.softmax = lambda x: F.log_softmax(x, dim=1)
         else:
@@ -122,11 +118,13 @@ class OutputTransition(nn.Module):
         out = self.conv2(out)
 
         # make channels the last axis
-        out = out.permute(0, 2, 3, 4, 1).contiguous()
+        #out = out.permute(0, 2, 3, 4, 1).contiguous()
 
         # flatten
-        out = out.view(out.numel() // 2, 2)
-        out = self.softmax(out)
+        #out = out.view(out.numel() // 2, 2)
+        #out = self.softmax(out.permute(0,4,1,2,3))
+
+        #out = out.permute(0,4,1,2,3)
         # treat channel 0 as the predicted output
         return out
 
@@ -188,7 +186,7 @@ class InputTransition(nn.Module):
 
         # Expand input tensor along channel dimension (dim=1)
         # This will create 16 channels from the input tensor
-        x16 = x.repeat(1, 16, 1, 1, 1)  # repeat along the channel dimension
+        #x16 = x.repeat(1, 16, 1, 1, 1)  # repeat along the channel dimension
 
         # Apply the CBAM attention module 
         #out = self.cbam(out)
