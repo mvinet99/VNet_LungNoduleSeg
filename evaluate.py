@@ -26,7 +26,7 @@ def set_seed(seed: int):
 set_seed(42)
 
 # Dice coefficient calculation
-def dice_score(pred, target):
+def dice_score(pred:torch.Tensor, target:torch.Tensor):
     pred = (pred > 0.5).float()
     intersection = torch.sum(pred * target)
     return (2. * intersection) / (torch.sum(pred) + torch.sum(target) + 1e-6)
@@ -40,7 +40,7 @@ def load_model(checkpoint_path, device):
     return model
 
 # Predict and save masks
-def predict_and_evaluate(model, image_folder, mask_folder, output_folder, device):
+def predict_and_evaluate(model:torch.nn.Module, image_folder:os.PathLike, mask_folder:os.PathLike, output_folder:os.PathLike, device:torch.device):
     dice_scores = []
     
     os.makedirs(output_folder, exist_ok=True)

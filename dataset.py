@@ -2,8 +2,9 @@ import numpy as np
 import os
 import torch
 import torch.nn.functional as F
+from typing import Tuple, List, Dict
 
-def ensure_tensor_size(tensor, target_size=(64, 64, 64)):
+def ensure_tensor_size(tensor:torch.Tensor, target_size:Tuple[int,int,int]=(64, 64, 64)):
     # Check if the tensor is already the desired size
     if tensor.shape[1:] == target_size:  
         return tensor
@@ -15,7 +16,7 @@ def ensure_tensor_size(tensor, target_size=(64, 64, 64)):
     tensor = tensor.permute(0, 1, 4, 2, 3)
 
     # Resize using trilinear interpolation
-    resized_tensor = F.interpolate(
+    resized_tensor:torch.Tensor = F.interpolate(
         tensor.float(), 
         size=target_size, 
         mode='trilinear', 
@@ -26,7 +27,7 @@ def ensure_tensor_size(tensor, target_size=(64, 64, 64)):
     return resized_tensor.squeeze(0).permute(0, 2, 1, 3) 
 
 
-def ensure_tensor_size_mask(tensor, target_size=(64, 64, 64)):
+def ensure_tensor_size_mask(tensor:torch.Tensor, target_size:Tuple[int,int,int]=(64, 64, 64)):
     # Ensure tensor is at least 3D
     if tensor.dim() == 3:  
         tensor = tensor.unsqueeze(0)  # Add a channel dimension 

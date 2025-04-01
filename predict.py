@@ -57,7 +57,7 @@ with torch.no_grad():
         im = np.expand_dims(im, 0)
         im = torch.from_numpy(im).to(device)
         im = im.unsqueeze(0)
-        predMask = model(im)
+        predMask:torch.Tensor = model(im)
         predMask = predMask.squeeze(0)
         
         predMask = predMask.cpu().numpy()
