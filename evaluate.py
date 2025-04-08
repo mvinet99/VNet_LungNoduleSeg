@@ -32,7 +32,7 @@ def dice_score(pred:torch.Tensor, target:torch.Tensor):
     return (2. * intersection) / (torch.sum(pred) + torch.sum(target) + 1e-6)
 
 # Load the model
-def load_model(checkpoint_path, device):
+def load_model(checkpoint_path:os.PathLike, device:torch.device):
     model = VNet()
     model.load_state_dict(torch.load(checkpoint_path, map_location=device))
     model.to(device)
@@ -71,16 +71,19 @@ def predict_and_evaluate(model:torch.nn.Module, image_folder:os.PathLike, mask_f
     
     return dice_scores
 
-# Set device and paths
-device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+def main():
+    # Set device and paths
+    device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 
-checkpoint_path = "/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/LUNA16/model.pth"
-image_folder = "/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/LUNA16/data/val/images/"
-mask_folder = "/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/LUNA16/data/val/masks/"
-output_folder = "/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/LUNA16/predicted/"
+    checkpoint_path = "/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/LUNA16/model.pth"
+    image_folder = "/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/LUNA16/data/val/images/"
+    mask_folder = "/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/LUNA16/data/val/masks/"
+    output_folder = "/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/LUNA16/predicted/"
 
-model = load_model(checkpoint_path, device)
-dice_scores = predict_and_evaluate(model, image_folder, mask_folder, output_folder, device)
+    model = load_model(checkpoint_path, device)
+    dice_scores = predict_and_evaluate(model, image_folder, mask_folder, output_folder, device)
 
-print('Average dice score is', statistics.mean(dice_scores))
+    print('Average dice score is', statistics.mean(dice_scores))
 
+if __name__ == "__main__":
+    main()

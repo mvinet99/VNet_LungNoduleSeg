@@ -1,0 +1,8 @@
+# config.yaml
+evaluation:
+  image_dir: /radraid2/mvinet/VNet_Lung_Nodule_Segmentation/data/splits/val/images/
+  mask_dir: /radraid2/mvinet/VNet_Lung_Nodule_Segmentation/data/splits/val/masks/
+  model_path: /radraid2/mvinet/VNet_Lung_Nodule_Segmentation/LUNA16/model.pth
+  batch_size: 16
+  seed: 42
+  cuda_devices: "2" # Use "-1" to force CPU
