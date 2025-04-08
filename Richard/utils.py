@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import statistics
 import random
-from Richard.model import VNet
+from model import VNet
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
