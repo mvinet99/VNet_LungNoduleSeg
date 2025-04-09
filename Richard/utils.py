@@ -7,6 +7,9 @@ from model import VNet
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import functools
+import time
+import logging
 
 class DiceLoss(nn.Module):
     def __init__(self, weight=None, size_average=True):
@@ -94,6 +97,51 @@ class DiameterLoss(nn.Module):
         loss = torch.abs(pred_diameter - targets).mean()
         return loss
 
+# Model debugging decorator
+def setup_logging(level=logging.DEBUG):
+
+    logging.basicConfig(
+        level=level, 
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+    return logging.getLogger()
+
+def debug_decorator(func):
+    """Decorator to conditionally log debug information based on self.debug"""
+    # Create a module-level logger - each module gets its own logger
+    logger = logging.getLogger(__name__)
+    
+    @functools.wraps(func)
+    def wrapper(self, *args, **kwargs):
+        debug_active = getattr(self, 'debug', False)
+        func_name = self.__class__.__name__ + "." + func.__name__
+        
+        # Log input if debug is active
+        if debug_active:
+            logger.debug(f"Entering {func_name}")
+            for i, arg in enumerate(args):
+                if isinstance(arg, torch.Tensor):
+                    logger.debug(f"Arg {i} shape: {arg.shape}")
+        
+        # Start a timer for performance monitoring
+        start_time = time.time()
+        
+        # Call the original function
+        output = func(self, *args, **kwargs)
+        
+        # Log output and performance info if debug is active
+        if debug_active:
+            execution_time = time.time() - start_time
+            logger.debug(f"{func_name} executed in {execution_time:.5f} seconds")
+            
+            if isinstance(output, torch.Tensor):
+                logger.debug(f"Output shape: {output.shape}")
+                logger.debug(f"Output stats - min: {output.min().item():.4f}, max: {output.max().item():.4f}, mean: {output.mean().item():.4f}")
+            
+            logger.debug(f"Exiting {func_name}")
+        
+        return output
+    return wrapper
 
 # Make predictions on val / test set and evaluate average dice score 
 
