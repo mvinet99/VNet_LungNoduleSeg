@@ -1,0 +1,16 @@
+model: vnet
+dataset: luna16_2d
+dataloader: dataloader
+optimizer: AdamW
+criterion:
+    BCE:
+        name: BCEWithLogitsLoss
+        weight: 0.5
+    Dice:
+        name: DiceLoss
+        weight: 0.5
+training:
+    num_epochs: 10
+    batch_size: 16
+
+

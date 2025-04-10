@@ -1,0 +1,11 @@
+# LUNA16 2D 0-axis Dataset Configuration
+train:
+  image_dir: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/LUNA16/train/images_2D_0axis/
+  mask_dir: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/LUNA16/train/masks_2D_0axis/
+  augment: true
+  normalize: true
+val:
+  image_dir: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/LUNA16/val/images_2D_0axis/
+  mask_dir: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/LUNA16/val/masks_2D_0axis/
+  augment: false
+  normalize: true
