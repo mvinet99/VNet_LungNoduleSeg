@@ -5,7 +5,7 @@ import logging
 import functools
 import time
 from typing import Optional, Callable, Dict, Any, Union, List, Tuple
-from Richard.src.utils.utils import debug_decorator
+from richard.src.utils.utils import debug_decorator
 
 # Create module-level logger
 logger = logging.getLogger(__name__)

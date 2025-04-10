@@ -3,7 +3,7 @@ import os
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-from Richard.src.data.dataset import AllDataset  
+from richard.src.data.dataset import AllDataset  
 
 # --- Configuration ---
 # IMPORTANT: Replace these with the actual paths to your TRAINING dataset
