@@ -5,6 +5,9 @@
 *.pyw
 *.pyz
 *.pywz
+**checkpoints/
+**logs/
 
 richard/data/
+
 

@@ -10,22 +10,28 @@ import torch.nn.functional as F
 import functools
 import time
 import logging
+from pathlib import Path
+from ruamel.yaml import YAML
+from typing import Optional, Dict
 
 class DiceLoss(nn.Module):
-    def __init__(self, weight=None, size_average=True):
+    """Computes Dice Loss for binary segmentation.
+
+    Assumes input is probabilities (e.g., after sigmoid) and target is binary mask.
+    Input and target tensors are expected to be flattened or will be flattened.
+    """
+    def __init__(self, smooth: float = 1e-6):
         super(DiceLoss, self).__init__()
+        self.smooth = smooth
 
-    def forward(self, inputs, targets, smooth=1):       
-        
-        # Flatten label and prediction tensors
-        inputs = inputs.view(-1)
-        targets = targets.view(-1)
-
+    def forward(self, inputs: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+        inputs = inputs.contiguous().view(-1)
+        targets = targets.contiguous().view(-1)
+        targets = targets.float()
         intersection = (inputs * targets).sum()
-                  
-        dice = (2.*intersection + smooth)/(inputs.sum() + targets.sum() + smooth)  
-
-        return 1 - dice
+        denominator = inputs.sum() + targets.sum()
+        dice_coefficient = (2. * intersection + self.smooth) / (denominator + self.smooth)
+        return 1. - dice_coefficient
 
 class DiameterLoss(nn.Module):
     def __init__(self):
@@ -143,8 +149,6 @@ def debug_decorator(func):
         return output
     return wrapper
 
-# Make predictions on val / test set and evaluate average dice score 
-
 def set_seed(seed: int):
     """Set random number generator seeds for reproducibility.
 
@@ -161,7 +165,27 @@ def set_seed(seed: int):
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
 
-set_seed(42)
+def set_visible_devices(device_ids=None):
+    """Set the visible devices for PyTorch.
+
+    This function sets the visible devices for PyTorch to ensure that the same
+    GPU is used for each run. If no device IDs are provided, it will use all
+    available devices
+    """
+
+    if device_ids:
+        if isinstance(device_ids, str):
+            device_ids = [int(id) for id in device_ids.split(',')]
+        os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, device_ids))
+    else:
+        # Show all devices (gpustat)
+        os.system("gpustat")
+        # Get user input for device IDs
+        user_input = str(input("Enter the device IDs to use (example '0,1') : "))
+        device_ids = [int(id) for id in user_input.split(',')]
+        os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, device_ids))
+
+    print(f"Visible devices: {os.environ['CUDA_VISIBLE_DEVICES']}")
 
 # Dice coefficient calculation
 def dice_score(pred:torch.Tensor, target:torch.Tensor):
@@ -213,6 +237,112 @@ def predict_and_evaluate(model:torch.nn.Module, image_folder:os.PathLike, mask_f
         dice_scores.append(dice)
     
     return dice_scores
+# --- Configuration Loading Helper ---
+def _load_and_merge_yaml_configs(main_config_path: Path) -> dict:
+    yaml = YAML()
+    config_dir = main_config_path.parent
+    merged_cfg = {}
+    logger = logging.getLogger(__name__) # Use logger defined in this module
+
+    try:
+        with open(main_config_path, 'r') as f:
+            base_cfg = yaml.load(f)
+            logger.info(f"Decorator loaded base config from: {main_config_path}")
+    except FileNotFoundError:
+        logger.error(f"Decorator: Main configuration file not found: {main_config_path}")
+        raise # Re-raise exception to signal failure
+    except Exception as e:
+        logger.error(f"Decorator: Error loading main configuration {main_config_path}: {e}")
+        raise # Re-raise exception
+
+    for key, value_name in base_cfg.items():
+        # Construct path: e.g., richard/config/model/vnet.yaml
+        if not isinstance(value_name, dict) and not isinstance(value_name, list):
+            specific_config_path = config_dir / key / f"{value_name}.yaml"
+            try:
+                with open(specific_config_path, 'r') as f:
+                    specific_cfg = yaml.load(f)
+                    # Store the loaded dictionary under the key (e.g., merged_cfg['model'] = {content of vnet.yaml})
+                    merged_cfg[key] = specific_cfg
+                    logger.info(f"Decorator loaded config for '{key}' from: {specific_config_path}")
+            except FileNotFoundError:
+                logger.error(f"Decorator: Specific configuration file not found for key '{key}': {specific_config_path}")
+                # Decide behavior: Assign empty dict or raise error? Raising is often safer.
+                # merged_cfg[key] = {}
+                raise FileNotFoundError(f"Missing specific config file: {specific_config_path}")
+            except Exception as e:
+                logger.error(f"Decorator: Error loading specific configuration {specific_config_path}: {e}")
+                # merged_cfg[key] = {}
+                raise # Re-raise exception
+        else:
+            merged_cfg[key] = value_name
+
+    return merged_cfg
+
+# --- Configuration Loading Decorator ---
+def load_config_decorator(config_arg_name: str = "config"):
+    """
+    Decorator to load and merge YAML configurations specified in a base file.
+
+    Assumes the decorated function receives an object (like argparse.Namespace)
+    as its first argument (`args`), and that object has an attribute named
+    `config_arg_name` containing the path to the main config file.
+
+    Injects the loaded config dictionary as a keyword argument 'cfg' into the
+    decorated function call.
+    """
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            logger = logging.getLogger(__name__) # Use logger
+            # --- Find the config path ---
+            main_config_path_str = None
+            args_obj = None
+            if args:
+                # Assuming the first positional argument holds the config path attribute
+                args_obj = args[0]
+                if hasattr(args_obj, config_arg_name):
+                    main_config_path_str = getattr(args_obj, config_arg_name)
+                else:
+                    logger.error(f"Decorator: Argument object missing attribute '{config_arg_name}'.")
+                    raise AttributeError(f"Argument object missing attribute '{config_arg_name}'.")
+            else:
+                logger.error("Decorator: No positional arguments found to retrieve config path from.")
+                raise ValueError("Decorator requires positional arguments to find config path.")
+
+
+            if main_config_path_str is None:
+                 # This case should ideally be caught by checks above
+                logger.error(f"Decorator could not find config path string for arg '{config_arg_name}'.")
+                raise ValueError(f"Config path attribute '{config_arg_name}' did not provide a path.")
+
+            main_config_path = Path(main_config_path_str)
+
+            # --- Load and merge config ---
+            try:
+                loaded_cfg = _load_and_merge_yaml_configs(main_config_path)
+                logger.info("Decorator successfully loaded and merged configurations.")
+            except Exception as e:
+                 logger.error(f"Decorator failed during config loading: {e}", exc_info=True)
+                 # Stop execution if config loading fails
+                 raise # Re-raise the exception encountered during loading
+
+            # --- Call original function with injected config ---
+            # Pass original args/kwargs along, and add 'cfg'
+            logger.info("Decorator injecting loaded 'cfg' into function call.")
+            # Check if 'cfg' is already in kwargs to prevent potential conflicts
+            if 'cfg' in kwargs:
+                 logger.warning(f"Decorator attempting to inject 'cfg', but it already exists in kwargs. Overwriting.")
+
+            # Ensure we don't modify the original kwargs dict if not necessary,
+            # but create a new one if 'cfg' needs to be added.
+            new_kwargs = kwargs.copy()
+            new_kwargs['cfg'] = loaded_cfg
+
+            return func(*args, **new_kwargs) # Inject cfg via updated kwargs
+
+        return wrapper
+    return decorator
 
 def main():
     # Set device and paths

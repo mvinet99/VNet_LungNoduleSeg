@@ -162,7 +162,7 @@ class upsample_block(nn.Module):
 class VNet2D(nn.Module):
     def __init__(self,
                  in_channels=1,
-                 out_channels=2,
+                 out_channels=1,
                  conv_kernel_size=5,
                  conv_stride=1, 
                  conv_padding=2,
