@@ -1,0 +1,5 @@
+# LUNA16 2D 0-axis Dataset Configuration
+train_image_dir: /radraid2/dongwoolee/VNet_LungNoduleSeg/data/LUNA16/train/images_2D_0axis/
+train_mask_dir: /radraid2/dongwoolee/VNet_LungNoduleSeg/data/LUNA16/train/masks_2D_0axis/
+val_image_dir: /radraid2/dongwoolee/VNet_LungNoduleSeg/data/LUNA16/val/images_2D_0axis/
+val_mask_dir: /radraid2/dongwoolee/VNet_LungNoduleSeg/data/LUNA16/val/masks_2D_0axis/

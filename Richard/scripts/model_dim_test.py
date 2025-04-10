@@ -1,9 +1,9 @@
 import torch
 import torch.nn.functional as F
-from Richard.VNet2D import VNet2D
+from Richard.src.models.VNet2D import VNet2D
 import logging
 import argparse
-from Richard.utils import setup_logging
+from Richard.src.utils.utils import setup_logging
 
 # Create module-level logger
 logger = logging.getLogger(__name__)

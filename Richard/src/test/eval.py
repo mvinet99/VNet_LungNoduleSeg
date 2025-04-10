@@ -8,8 +8,8 @@ from tqdm import tqdm
 import argparse
 import yaml
 
-from Richard.dataset import AllDataset
-from Richard.utils import load_model, dice_score, set_seed
+from Richard.src.data.dataset import AllDataset
+from Richard.src.utils.utils import load_model, dice_score, set_seed
 
 BASE_DIR = "/radraid2/dongwoolee/VNet_LungNoduleSeg/Richard"
 

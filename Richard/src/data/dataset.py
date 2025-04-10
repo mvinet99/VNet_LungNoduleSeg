@@ -8,51 +8,10 @@ import torchvision.transforms.functional as TF # Import functional API
 from typing import Tuple, List, Dict, Optional
 import random # Import random for synchronized transforms
 
-def ensure_tensor_size(tensor:torch.Tensor, target_size:Tuple[int,int,int]=(64, 64, 64)):
-    # Check if the tensor is already the desired size
-    if tensor.shape[1:] == target_size:  
-        return tensor
-
-    # Add a batch dimension 
-    tensor = tensor.unsqueeze(0)
-
-    # Permute the tensor 
-    tensor = tensor.permute(0, 1, 4, 2, 3)
-
-    # Resize using trilinear interpolation
-    resized_tensor:torch.Tensor = F.interpolate(
-        tensor.float(), 
-        size=target_size, 
-        mode='trilinear', 
-        align_corners=False
-    )
-
-    # Remove batch dimension and permute back 
-    return resized_tensor.squeeze(0).permute(0, 2, 1, 3) 
-
-def ensure_tensor_size_mask(tensor:torch.Tensor, target_size:Tuple[int,int,int]=(64, 64, 64)):
-    # Ensure tensor is at least 3D
-    if tensor.dim() == 3:  
-        tensor = tensor.unsqueeze(0)  # Add a channel dimension 
-
-    # Ensure tensor is 4D 
-    if tensor.dim() == 4:
-        tensor = tensor.unsqueeze(0)  # Add a batch dimension
-
-    # Ensure correct shape before resizing
-    if tensor.shape[2:] != target_size:  
-        tensor = F.interpolate(
-            tensor.float(),
-            size=target_size,
-            mode="nearest"  
-        )
-
-    return tensor.squeeze(0).squeeze(0)  # Remove batch dimension
-
 class AllDataset(Dataset):
     def __init__(self, image_dir:str, mask_dir:str,
                  augment:bool=False,
-                 normalize:bool=True): # Added normalize flag
+                 normalize:bool=True):
         self.image_dir = image_dir
         self.mask_dir = mask_dir
         self.augment = augment
@@ -86,8 +45,7 @@ class AllDataset(Dataset):
         # Define normalization transform here if needed
         if self.normalize:
             # Assuming single channel (grayscale). Adjust if multi-channel.
-            # These values might need adjustment based on your dataset's statistics.
-            self.image_normalize = transforms.Normalize(mean=[0.5], std=[0.5])
+            self.image_normalize = transforms.Normalize(mean=[-593.9970], std=[417.0208]) # Calculated values for LUNA16 train set
         else:
             self.image_normalize = None
 
@@ -96,7 +54,7 @@ class AllDataset(Dataset):
     
     def _apply_transforms(self, image: torch.Tensor, mask: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """Applies augmentations and normalization to the image and mask."""
-        # --- Apply Augmentations Synchronously --- 
+        # --- Apply Augmentations Synchronously to both image and mask --- 
         if self.augment:
             # 1. Random Horizontal Flip
             if random.random() > 0.5:
@@ -111,11 +69,9 @@ class AllDataset(Dataset):
             # 3. Random Rotation 
             angle = random.uniform(-10, 10)
             image = TF.rotate(image, angle)
-            # Use nearest neighbor interpolation for masks to avoid creating new pixel values
             mask = TF.rotate(mask, angle, interpolation=TF.InterpolationMode.NEAREST)
 
             # 4. Random Affine (Translate, Scale, Shear)
-            # Get parameters first, then apply to both
             affine_params = transforms.RandomAffine.get_params(degrees=(0,0), translate=(0.1, 0.1), 
                                                                scale_ranges=(0.9, 1.1), shears=(-5, 5), 
                                                                img_size=image.shape[1:]) # Get size from C, H, W
@@ -126,29 +82,20 @@ class AllDataset(Dataset):
         if self.image_normalize:
             image = self.image_normalize(image)
 
-        # Ensure mask remains in [0, 1] range after potential float transforms if needed
-        # mask = torch.clamp(mask, 0, 1)
-
-        # Ensure final mask is the correct type (float for Dice/BCE, long for CrossEntropy)
-        # Keeping float32 as per previous assumption
-
         return image, mask
 
     def __getitem__(self, index):
         img_path = os.path.join(self.image_dir, self.images[index])
         mask_path = os.path.join(self.mask_dir, self.masks[index])
-        
-        # Load image and mask as tensors (assuming they are saved as numpy arrays)
-        # Ensure they are loaded correctly, potentially add error handling
+        # Load image and mask as tensors from .npy files
         try:
             image = torch.tensor(np.load(img_path), dtype=torch.float32)
             mask = torch.tensor(np.load(mask_path), dtype=torch.float32) # Keep as float for Dice
         except Exception as e:
             print(f"Error loading data for index {index}: {e}")
             print(f"Image path: {img_path}, Mask path: {mask_path}")
-            # Return None or raise error, depending on desired behavior
+
             # Returning dummy tensors to avoid crashing the loader entirely
-            # Adjust size as needed
             return torch.zeros((1, 64, 64), dtype=torch.float32), torch.zeros((1, 64, 64), dtype=torch.float32)
 
         # Add channel dimension if image/mask are HxW (assuming grayscale)
