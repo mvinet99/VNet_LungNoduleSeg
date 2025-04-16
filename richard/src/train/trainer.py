@@ -11,8 +11,8 @@ from richard.src.utils.utils import DiceLoss
 class Trainer:
     def __init__(self, 
                  model: nn.Module, 
-                 train_loader: data.DataLoader, 
-                 val_loader: data.DataLoader, 
+                 train_loader: Optional[data.DataLoader]=None, 
+                 val_loader: Optional[data.DataLoader]=None,
                  test_loader: Optional[data.DataLoader]=None, 
                  optimizer: Optional[optim.Optimizer]=None, 
                  criterion: Optional[nn.Module] = None, 
@@ -154,7 +154,7 @@ class Trainer:
         total_dice_score = 0.0
         total_diameter_loss = 0.0
 
-        batch_progress = tqdm(self.test_loader, desc=f"Epoch {self.epoch+1} [Test]", leave=False, unit="batch")
+        batch_progress = tqdm(self.test_loader, desc=f"Epoch [Test]", leave=False, unit="batch")
 
         with torch.no_grad():
             for i, (images, labels) in enumerate(batch_progress):
