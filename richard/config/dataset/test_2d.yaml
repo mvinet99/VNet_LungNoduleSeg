@@ -1,0 +1,5 @@
+test:
+  image_dir: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/
+  mask_dir: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/
+  augment: false
+  normalize: true

@@ -6,3 +6,7 @@ val:
   batch_size: 16
   shuffle: false
   num_workers: 8
+test:
+  batch_size: 16
+  shuffle: false
+  num_workers: 8
