@@ -24,8 +24,16 @@ This directory contains the primary code, configuration, and related files for t
 The main entry point for training the model is typically:
 
 ```bash
+# For Training - change the train.yaml accordingly
+
 # Run from the project root (VNet_LungNoduleSeg)
 python -m richard.src.train.train --config richard/config/train.yaml
+```
+
+```bash
+# For Testing
+# Run from the project root (VNET_LungNoduleSeg)
+python -m richard.src.test.test --config richard/config/test.yaml
 ```
 
 Refer to the specific configuration files in `config/` to adjust model hyperparameters, dataset paths, and training settings. 
