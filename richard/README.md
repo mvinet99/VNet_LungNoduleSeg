@@ -33,6 +33,7 @@ python -m richard.src.train.train --config richard/config/train.yaml
 ```bash
 # For Testing
 # Run from the project root (VNET_LungNoduleSeg)
+# Test scipts have interactive model weight choosing tool. Need model weights saved in the correct location to run the test script.
 python -m richard.src.test.test --config richard/config/test.yaml
 ```
 
