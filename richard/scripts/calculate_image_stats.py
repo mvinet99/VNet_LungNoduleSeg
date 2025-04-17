@@ -3,12 +3,14 @@ import os
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from richard.src.data.dataset import AllDataset  
 
 # --- Configuration ---
 # IMPORTANT: Replace these with the actual paths to your TRAINING dataset
-TRAIN_IMAGE_DIR = "/radraid2/dongwoolee/VNet_LungNoduleSeg/data/LUNA16/train/images_2D_0axis"
-TRAIN_MASK_DIR = "/radraid2/dongwoolee/VNet_LungNoduleSeg/data/LUNA16/train/masks_2D_0axis" # Mask dir needed for dataset init, but masks aren't used for stats
+TRAIN_IMAGE_DIR = "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/images_2D_0axis"
+TRAIN_MASK_DIR = "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/masks_2D_0axis" # Mask dir needed for dataset init, but masks aren't used for stats
 BATCH_SIZE = 16 
 NUM_WORKERS = 4
 # --- End Configuration ---
