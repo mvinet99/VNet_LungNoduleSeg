@@ -13,6 +13,7 @@ import logging
 from pathlib import Path
 from ruamel.yaml import YAML
 from typing import Optional, Dict
+from datetime import datetime
 
 class DiceLoss(nn.Module):
     """Computes Dice Loss for binary segmentation.
@@ -104,13 +105,51 @@ class DiameterLoss(nn.Module):
         return loss
 
 # Model debugging decorator
-def setup_logging(level=logging.DEBUG):
+def setup_logging(console_level=logging.INFO, file_level=logging.DEBUG, log_dir:os.PathLike=None, start_time:Optional[str]=None, test:bool=False):
+    # Define the detailed log format
+    log_format = '%(asctime)s - %(name)s:%(funcName)s:%(lineno)d - %(levelname)s - %(message)s'
+    formatter = logging.Formatter(log_format)
 
-    logging.basicConfig(
-        level=level, 
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    )
-    return logging.getLogger()
+    # Get the root logger
+    root_logger = logging.getLogger()
+    # Set root logger level to the lowest level you want to process (DEBUG)
+    root_logger.setLevel(logging.DEBUG) 
+
+    # Remove existing handlers to avoid duplicates if this is called multiple times
+    # Be cautious if other libraries might add handlers you want to keep
+    for handler in root_logger.handlers[:]:
+        root_logger.removeHandler(handler)
+
+    # --- Console Handler (INFO level) --- 
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(console_level) # Set console level
+    console_handler.setFormatter(formatter)
+    root_logger.addHandler(console_handler)
+    # -----------------------------------
+
+    # --- File Handler (DEBUG level) --- 
+    if log_dir:
+        os.makedirs(log_dir, exist_ok=True)
+        timestamp = start_time if start_time else datetime.now().strftime("%y-%m-%d_%H:%M:%S")
+        # Determine log filename based on the intended FILE level (DEBUG)
+        log_filename = f"debug_{timestamp}.log" if not test else f"test_{timestamp}.log"
+        log_filepath = os.path.join(log_dir, log_filename)
+        
+        file_handler = logging.FileHandler(log_filepath)
+        file_handler.setLevel(file_level) # Set file level to DEBUG
+        file_handler.setFormatter(formatter)
+        root_logger.addHandler(file_handler)
+        root_logger.info(f"File logging (DEBUG level) activated: {log_filepath}") 
+    else:
+        root_logger.info("File logging disabled (no log directory provided).")
+    # ---------------------------------
+
+    # Log initial status
+    root_logger.info(f"Console logging level set to: {logging.getLevelName(console_handler.level)}")
+    if log_dir:
+        root_logger.info(f"File logging level set to: {logging.getLevelName(file_handler.level)}")
+
+    return root_logger
 
 def debug_decorator(func):
     """Decorator to conditionally log debug information based on self.debug"""
@@ -339,6 +378,7 @@ def load_config_decorator(config_arg_name: str = "config"):
             new_kwargs = kwargs.copy()
             new_kwargs['cfg'] = loaded_cfg
 
+            logger.debug(f"Decorator injected 'cfg' into function call: {new_kwargs['cfg']}")
             return func(*args, **new_kwargs) # Inject cfg via updated kwargs
 
         return wrapper
