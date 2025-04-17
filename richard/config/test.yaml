@@ -1,13 +1,15 @@
 model: vnet
-model_checkpoint:
-    - /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint.pth
 dataset: test_2d
 dataloader: dataloader
-criterion:
-    BCE:
-        name: BCEWithLogitsLoss
-        weight: 0.5
-    Dice:
-        name: DiceLoss
-        weight: 0.5
+# --- Testing Specific Configuration ---
+testing:
+  model_checkpoint_dir: "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints"
+  results_dir: "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results"
+
+  # --- Tester Parameters ---
+  thresh_min: 0.0
+  thresh_max: 1.0
+  thresh_step: 0.05
+  num_visual_samples: 40
+  overlay_opacity: 0.3
 
