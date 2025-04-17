@@ -8,7 +8,8 @@ from torch.utils.data import DataLoader
 import logging
 import argparse
 from pathlib import Path
-from typing import Union
+from typing import Union, Optional
+from datetime import datetime
 # Assuming these modules exist based on previous context
 from richard.src.data.dataset import AllDataset
 from richard.src.models.VNet2D import VNet2D
@@ -22,7 +23,7 @@ from richard.src.utils.loss import CombinedLoss
 
 # Apply the decorator
 @load_config_decorator(config_arg_name="config")
-def train(args: argparse.Namespace, cfg: dict): # Add cfg parameter
+def train(args: argparse.Namespace, cfg: dict, start_time: Optional[str]=None): # Add cfg parameter
     # Set device
     set_visible_devices(args.cuda_visible) # Note: This might interact oddly with the decorator if it needs args.config
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -87,6 +88,28 @@ def train(args: argparse.Namespace, cfg: dict): # Add cfg parameter
     else:
         logging.error(f"Unsupported optimizer: {optimizer_name}")
         return
+    
+    # --- Scheduler ---
+    scheduler_cfg = cfg.get("scheduler", None)
+    if scheduler_cfg:
+        scheduler_name = scheduler_cfg.pop("name")
+        if scheduler_name.lower() == "step":
+            scheduler = optim.lr_scheduler.StepLR(optimizer, **scheduler_cfg)
+            logging.info(f"Initialized StepLR scheduler with params: {scheduler_cfg}")
+
+        elif scheduler_name.lower() == "cosineannealinglr":
+            scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, **scheduler_cfg)
+            logging.info(f"Initialized CosineAnnealingLR scheduler with params: {scheduler_cfg}")
+
+        elif scheduler_name.lower() == "reducelronplateau":
+            scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, **scheduler_cfg)
+            logging.info(f"Initialized ReduceLROnPlateau scheduler with params: {scheduler_cfg}")
+
+        else:
+            logging.error(f"Unsupported scheduler: {scheduler_name}")
+            return
+    else:
+        logging.info("No scheduler configuration provided.")
         
     # --- Criterion Setup (Simplified) ---
     criterion_config_dict = cfg.get("criterion") # Get the dict (e.g., content of bce_dice.yaml)
@@ -111,9 +134,13 @@ def train(args: argparse.Namespace, cfg: dict): # Add cfg parameter
         train_loader=train_loader,
         val_loader=val_loader,
         optimizer=optimizer,
+        scheduler=scheduler,
         criterion=combined_criterion,
-        device=device
+        device=device,
+        config=cfg,
+        start_time=start_time
     )
+
     logging.info(f"Starting training for {num_epochs} epochs...")
     trainer.train(num_epochs=num_epochs, save_dir=args.save_dir)
     logging.info("Training finished.")
@@ -131,18 +158,24 @@ if __name__ == "__main__":
     parser.add_argument("--debug", action="store_true",
                         help="Enable debug mode (less verbose logging).")
     parser.add_argument("--save_dir", type=str, default="/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints",
-                        help="Directory to save checkpoints and logs.")
+                        help="Directory to save checkpoints.")
+    parser.add_argument("--log_dir", type=str, default="/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/logs",
+                        help="Directory to save logs.")
     args = parser.parse_args()
+
+    start_time = datetime.now().strftime("%y-%m-%d_%H:%M:%S")
 
     # Set logging
     if args.debug:
-        setup_logging(level=logging.DEBUG)
+        setup_logging(console_level=logging.DEBUG, file_level=logging.DEBUG, log_dir=args.log_dir, start_time=start_time)
     else:
-        setup_logging(level=logging.INFO)
+        setup_logging(console_level=logging.INFO, file_level=logging.DEBUG, log_dir=args.log_dir, start_time=start_time)
+
+    logging.info(f"Start time: {start_time}")
 
     # Train
     # Call train as before; decorator handles config loading and injection
     try:
-        train(args)
+        train(args, start_time=start_time)
     except Exception as e:
         logging.error(f"Unhandled exception during train execution: {e}", exc_info=True)
