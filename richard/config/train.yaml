@@ -2,15 +2,26 @@ model: vnet
 dataset: luna16_2d
 dataloader: dataloader
 optimizer: AdamW
+scheduler: ReduceLROnPlateau
 criterion:
-    BCE:
-        name: BCEWithLogitsLoss
-        weight: 0.5
+#    Focal:
+#        name: FocalLoss
+#        weight: 1.0 # Adjust weight as needed
+#        params:
+#            alpha: 0.25
+#            gamma: 2.0
+#    BCE:
+#        name: BCEWithLogitsLoss
+#        weight: 1.0
+#        params:
+#            pos_weight: 102.0 # Pass pos_weight directly if needed by BCE
     Dice:
         name: DiceLoss
-        weight: 0.5
+        weight: 1.0
 training:
-    num_epochs: 10
+    num_epochs: 30
     batch_size: 16
+    early_stopping_patience: 15
+    early_stopping_min_delta: 0.0005
 
 
