@@ -220,7 +220,7 @@ class VNet2D(nn.Module):
                                               sampling_conv_stride, sampling_conv_padding, sampling_conv_bn, 
                                               sampling_conv_activation_fn, dropout_rate=dropout_rate, debug=debug)
     
-        self.final_conv = conv2d_block(32, out_channels, 1, 1, 0, conv_bn, conv_activation_fn, debug=debug)
+        self.final_conv = nn.Conv2d(32, out_channels, kernel_size=1, stride=1, padding=0)
         
     @debug_decorator
     def forward(self, x):
