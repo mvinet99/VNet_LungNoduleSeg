@@ -11,7 +11,9 @@ import random # Import random for synchronized transforms
 class AllDataset(Dataset):
     def __init__(self, image_dir:str, mask_dir:str,
                  augment:bool=False,
-                 normalize:bool=True):
+                 normalize:bool=True,
+                 mean:List=[-493.0376],
+                 std:List=[443.1897]):
         self.image_dir = image_dir
         self.mask_dir = mask_dir
         self.augment = augment
@@ -45,7 +47,7 @@ class AllDataset(Dataset):
         # Define normalization transform here if needed
         if self.normalize:
             # Assuming single channel (grayscale). Adjust if multi-channel.
-            self.image_normalize = transforms.Normalize(mean=[-593.9970], std=[417.0208]) # Calculated values for LUNA16 train set
+            self.image_normalize = transforms.Normalize(mean=mean, std=std) # Calculated values for LUNA16 train set
         else:
             self.image_normalize = None
 
