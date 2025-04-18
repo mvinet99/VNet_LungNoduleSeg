@@ -14,6 +14,7 @@ from pathlib import Path
 from ruamel.yaml import YAML
 from typing import Optional, Dict
 from datetime import datetime
+import json
 
 class DiceLoss(nn.Module):
     """Computes Dice Loss for binary segmentation.
@@ -132,7 +133,7 @@ def setup_logging(console_level=logging.INFO, file_level=logging.DEBUG, log_dir:
         os.makedirs(log_dir, exist_ok=True)
         timestamp = start_time if start_time else datetime.now().strftime("%y-%m-%d_%H:%M:%S")
         # Determine log filename based on the intended FILE level (DEBUG)
-        log_filename = f"debug_{timestamp}.log" if not test else f"test_{timestamp}.log"
+        log_filename = f"train_{timestamp}.log" if not test else f"test_{timestamp}.log"
         log_filepath = os.path.join(log_dir, log_filename)
         
         file_handler = logging.FileHandler(log_filepath)
@@ -378,7 +379,7 @@ def load_config_decorator(config_arg_name: str = "config"):
             new_kwargs = kwargs.copy()
             new_kwargs['cfg'] = loaded_cfg
 
-            logger.debug(f"Decorator injected 'cfg' into function call: {new_kwargs['cfg']}")
+            logger.debug(f"Decorator injected 'cfg' into function call:\n {json.dumps(new_kwargs['cfg'], indent=2, sort_keys=False)}")
             return func(*args, **new_kwargs) # Inject cfg via updated kwargs
 
         return wrapper

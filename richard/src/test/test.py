@@ -11,6 +11,8 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+import pprint
+import json
 
 # Custom imports
 from richard.src.data.dataset import AllDataset
@@ -133,9 +135,17 @@ def test(args: argparse.Namespace, cfg: dict, checkpoint_basename: str):
             logging.info(f"Loaded model state_dict from checkpoint: {model_checkpoint_path}")
             if 'epoch' in checkpoint:
                  logging.info(f"Checkpoint trained for {checkpoint['epoch']} epochs.")
+            if 'config' in checkpoint:
+                 logging.debug("Checkpoint config:\n" + json.dumps(checkpoint['config'], indent=2, sort_keys=False))
+            else:
+                 logging.debug("Checkpoint does not contain a 'config' key.")
         else:
              model.load_state_dict(checkpoint)
              logging.warning(f"Loaded state_dict directly from checkpoint file (expected 'model_state_dict' key): {model_checkpoint_path}")
+             if isinstance(checkpoint, dict) and 'config' in checkpoint:
+                 logging.debug("Checkpoint config:\n" + json.dumps(checkpoint['config'], indent=2, sort_keys=False))
+             else:
+                 logging.debug("Checkpoint (direct load) does not contain a 'config' key.")
     except Exception as e:
         logging.error(f"Error loading model checkpoint {model_checkpoint_path}: {e}", exc_info=True)
         return
@@ -224,7 +234,9 @@ if __name__ == "__main__":
                   log_dir=log_dir, 
                   start_time=checkpoint_basename, # Use basename for log file name part
                   test=True)
-                  
+    # Suppress matplotlib font_manager debug logs
+    logging.getLogger('matplotlib.font_manager').setLevel(logging.WARNING)
+    
     logging.info(f"Attempting to test checkpoint: {args.ckpt_name}")
     logging.info(f"Using config: {args.config}")
 
