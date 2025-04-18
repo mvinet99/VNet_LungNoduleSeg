@@ -6,9 +6,9 @@
 *.pyz
 *.pywz
 **checkpoints/
-**logs/
 
 richard/data/
 richard/results/
+richard/logs/parallel_tests/
 .cursorignore
 
