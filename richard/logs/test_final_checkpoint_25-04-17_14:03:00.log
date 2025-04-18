@@ -1,0 +1,194 @@
+2025-04-17 17:07:55,700 - root:setup_logging:143 - INFO - File logging (DEBUG level) activated: richard/logs/test_final_checkpoint_25-04-17_14:03:00.log
+2025-04-17 17:07:55,700 - root:setup_logging:149 - INFO - Console logging level set to: INFO
+2025-04-17 17:07:55,700 - root:setup_logging:151 - INFO - File logging level set to: DEBUG
+2025-04-17 17:07:55,700 - root:<module>:240 - INFO - Attempting to test checkpoint: final_checkpoint_25-04-17_14:03:00.pth
+2025-04-17 17:07:55,701 - root:<module>:241 - INFO - Using config: richard/config/test.yaml
+2025-04-17 17:07:55,715 - richard.src.utils.utils:_load_and_merge_yaml_configs:290 - INFO - Decorator loaded base config from: richard/config/test.yaml
+2025-04-17 17:07:55,723 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'model' from: richard/config/model/vnet.yaml
+2025-04-17 17:07:55,729 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataset' from: richard/config/dataset/test_2d.yaml
+2025-04-17 17:07:55,736 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataloader' from: richard/config/dataloader/dataloader.yaml
+2025-04-17 17:07:55,740 - richard.src.utils.utils:wrapper:364 - INFO - Decorator successfully loaded and merged configurations.
+2025-04-17 17:07:55,740 - richard.src.utils.utils:wrapper:372 - INFO - Decorator injecting loaded 'cfg' into function call.
+2025-04-17 17:07:55,740 - richard.src.utils.utils:wrapper:382 - DEBUG - Decorator injected 'cfg' into function call:
+ {
+  "model": {
+    "name": "VNet2D",
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "test": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "testing": {
+    "model_checkpoint_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints",
+    "results_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results",
+    "thresh_min": 0.0,
+    "thresh_max": 1.0,
+    "thresh_step": 0.05,
+    "num_visual_samples": 40,
+    "overlay_opacity": 0.3
+  }
+}
+2025-04-17 17:07:55,950 - root:test:69 - INFO - Using device: cuda
+2025-04-17 17:07:55,950 - root:test:71 - INFO - Test function received config keys: ['model', 'dataset', 'dataloader', 'testing']
+2025-04-17 17:07:55,951 - root:test:78 - INFO - Test results will be saved in: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-17_14:03:00
+2025-04-17 17:08:02,075 - root:test:93 - INFO - Loaded test dataset with 15181 samples.
+2025-04-17 17:08:02,077 - root:test:95 - INFO - Created Test DataLoader.
+2025-04-17 17:08:02,565 - root:test:110 - INFO - Initialized model: VNet2D
+2025-04-17 17:08:02,817 - root:test:135 - INFO - Loaded model state_dict from checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-17_14:03:00.pth
+2025-04-17 17:08:02,818 - root:test:137 - INFO - Checkpoint trained for 30 epochs.
+2025-04-17 17:08:02,818 - root:test:139 - DEBUG - Checkpoint config:
+{
+  "model": {
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "train": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/LUNA16/train/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/LUNA16/train/masks_2D_0axis/",
+      "augment": true,
+      "normalize": true,
+      "mean": [
+        -593.997
+      ],
+      "std": [
+        417.0208
+      ]
+    },
+    "val": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/LUNA16/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/LUNA16/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -593.997
+      ],
+      "std": [
+        417.0208
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "optimizer": {
+    "lr": 1e-05,
+    "weight_decay": 0.01
+  },
+  "scheduler": {
+    "factor": 0.2,
+    "mode": "max",
+    "patience": 5,
+    "min_lr": 1e-06
+  },
+  "criterion": {
+    "Dice": {
+      "name": "DiceLoss",
+      "weight": 1.0
+    }
+  },
+  "training": {
+    "num_epochs": 30,
+    "batch_size": 16,
+    "early_stopping_patience": 15,
+    "early_stopping_min_delta": 0.0005
+  }
+}
+2025-04-17 17:08:02,818 - root:test:164 - WARNING - Criterion configuration missing. Test loss will not be calculated.
+2025-04-17 17:08:02,822 - richard.src.test.tester:__init__:55 - INFO - Tester initialized. Results will be saved to: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-17_14:03:00
+2025-04-17 17:08:02,822 - richard.src.test.tester:__init__:56 - INFO - Evaluating Dice at thresholds: [0.0, 0.05, 0.1, 0.15000000000000002, 0.2, 0.25, 0.30000000000000004, 0.35000000000000003, 0.4, 0.45, 0.5, 0.55, 0.6000000000000001, 0.65, 0.7000000000000001, 0.75, 0.8, 0.8500000000000001, 0.9, 0.9500000000000001, 1.0]
+2025-04-17 17:08:02,822 - richard.src.test.tester:__init__:57 - INFO - Generating 40 visualization samples.
+2025-04-17 17:08:02,823 - richard.src.test.tester:evaluate:74 - INFO - Starting evaluation...
+2025-04-17 17:08:56,130 - richard.src.test.tester:evaluate:102 - INFO - --- Evaluation Complete ---
+2025-04-17 17:08:56,133 - richard.src.test.tester:evaluate:103 - INFO - Average Dice Scores per Threshold:
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.00: 0.0625
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.05: 0.1826
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.10: 0.1863
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.15: 0.1884
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.20: 0.1900
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.25: 0.1912
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.30: 0.1923
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.35: 0.1933
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.40: 0.1942
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.45: 0.1951
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.50: 0.1960
+2025-04-17 17:08:56,134 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.55: 0.1969
+2025-04-17 17:08:56,136 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.60: 0.1979
+2025-04-17 17:08:56,137 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.65: 0.1988
+2025-04-17 17:08:56,137 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.70: 0.1999
+2025-04-17 17:08:56,137 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.75: 0.2010
+2025-04-17 17:08:56,137 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.80: 0.2024
+2025-04-17 17:08:56,138 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.85: 0.2042
+2025-04-17 17:08:56,138 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.90: 0.2068
+2025-04-17 17:08:56,138 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.95: 0.2114
+2025-04-17 17:08:56,138 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 1.00: 0.0000
+2025-04-17 17:08:56,138 - richard.src.test.tester:evaluate:106 - INFO - Best Average Dice Score: 0.2114 at Threshold: 0.95
+2025-04-17 17:08:56,143 - richard.src.test.tester:generate_visualizations:155 - INFO - Generating visualizations using threshold 0.95...
+2025-04-17 17:08:56,525 - matplotlib.pyplot:switch_backend:497 - DEBUG - Loaded backend agg version v2.2.
+2025-04-17 17:09:02,970 - richard.src.test.tester:generate_visualizations:203 - INFO - Saved 40 visualization samples to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-17_14:03:00/overlays and masks to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-17_14:03:00/predicted_masks
+2025-04-17 17:09:02,971 - root:test:190 - INFO - Testing process finished.
