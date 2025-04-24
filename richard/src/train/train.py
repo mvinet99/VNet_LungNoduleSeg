@@ -10,6 +10,7 @@ import argparse
 from pathlib import Path
 from typing import Union, Optional
 from datetime import datetime
+import copy # Import the copy module
 # Assuming these modules exist based on previous context
 from richard.src.data.dataset import AllDataset
 from richard.src.models.VNet2D import VNet2D
@@ -32,10 +33,14 @@ def train(args: argparse.Namespace, cfg: dict, start_time: Optional[str]=None): 
     # The 'cfg' dictionary is directly available.
     logging.info(f"Train function received config keys: {list(cfg.keys())}")
 
+    # Create a deep copy of the config for modification during instantiation
+    cfg_for_instantiation = copy.deepcopy(cfg)
+    logging.debug("Created deep copy of config for instantiation.")
+    
     # --- Dataset and DataLoader ---
     # Use the injected cfg dictionary
-    dataset_cfg = cfg.get("dataset", {})
-    dataloader_cfg = cfg.get("dataloader", {})
+    dataset_cfg = cfg_for_instantiation.get("dataset", {})
+    dataloader_cfg = cfg_for_instantiation.get("dataloader", {})
 
     if not dataset_cfg:
         logging.error("Dataset configuration missing or empty after loading. Exiting.")
@@ -58,7 +63,7 @@ def train(args: argparse.Namespace, cfg: dict, start_time: Optional[str]=None): 
         return
 
     # --- Model ---
-    model_params = cfg.get("model", {})
+    model_params = cfg_for_instantiation.get("model", {})
     if not model_params:
         logging.error("Model configuration missing. Exiting.")
         return
@@ -76,7 +81,7 @@ def train(args: argparse.Namespace, cfg: dict, start_time: Optional[str]=None): 
          return
 
     # --- Optimizer ---
-    optimizer_cfg = cfg.get("optimizer", {"name": "Adam", "lr": 1e-4})
+    optimizer_cfg = cfg_for_instantiation.get("optimizer", {"name": "Adam", "lr": 1e-4})
     optimizer_name = optimizer_cfg.pop("name")
 
     if optimizer_name.lower() == "adam":
@@ -90,7 +95,7 @@ def train(args: argparse.Namespace, cfg: dict, start_time: Optional[str]=None): 
         return
     
     # --- Scheduler ---
-    scheduler_cfg = cfg.get("scheduler", None)
+    scheduler_cfg = cfg_for_instantiation.get("scheduler", None)
     if scheduler_cfg:
         scheduler_name = scheduler_cfg.pop("name")
         if scheduler_name.lower() == "step":
@@ -112,7 +117,7 @@ def train(args: argparse.Namespace, cfg: dict, start_time: Optional[str]=None): 
         logging.info("No scheduler configuration provided.")
         
     # --- Criterion Setup (Simplified) ---
-    criterion_config_dict = cfg.get("criterion") # Get the dict (e.g., content of bce_dice.yaml)
+    criterion_config_dict = cfg_for_instantiation.get("criterion") # Get the dict (e.g., content of bce_dice.yaml)
     if not criterion_config_dict:
         logging.error("Criterion configuration section is missing or empty.")
         return
@@ -126,7 +131,7 @@ def train(args: argparse.Namespace, cfg: dict, start_time: Optional[str]=None): 
         return
 
     # --- Trainer Setup (Simplified) ---
-    training_cfg = cfg.get("training", {"num_epochs": 30})
+    training_cfg = cfg_for_instantiation.get("training", {"num_epochs": 30})
     num_epochs = training_cfg.get("num_epochs")
 
     trainer = Trainer(
