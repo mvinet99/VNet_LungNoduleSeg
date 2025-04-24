@@ -12,14 +12,33 @@ def main():
     # Directory containing .pth files
     checkpoint_dir = Path("/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints")
     # GPUs to use and max concurrent jobs per GPU
-    gpus = ["2", "3"]
-    max_per_gpu = 6
+    gpus = ["2"]
+    max_per_gpu = 2
 
     # Collect all matching checkpoint files
     ckpts = sorted(checkpoint_dir.glob("final_checkpoint_*.pth"))
     if not ckpts:
         print(f"No checkpoints found in {checkpoint_dir} matching 'final_checkpoint_*.pth'.")
         return
+
+    # check if the results for the ckpt already exists
+    results_base_dir = Path("/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results")
+    results_dir_names = [d.name for d in results_base_dir.glob("*") if d.is_dir()]
+
+    # Create a new list with checkpoints that need processing
+    ckpts_to_process = []
+    for ckpt in ckpts:
+        if ckpt.stem in results_dir_names:
+            print(f"Results for {ckpt.stem} already exist in {results_base_dir}")
+        else:
+            ckpts_to_process.append(ckpt)
+
+    # Replace original list with filtered list
+    only_process_new = False
+    if only_process_new:
+        ckpts = ckpts_to_process
+    else:
+        ckpts = ckpts
 
     # Directory for logs
     log_dir = Path("/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/logs/parallel_tests")
