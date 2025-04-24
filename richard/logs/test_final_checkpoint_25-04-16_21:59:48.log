@@ -1,15 +1,15 @@
-2025-04-17 17:05:24,734 - root:setup_logging:143 - INFO - File logging (DEBUG level) activated: richard/logs/test_final_checkpoint_25-04-16_21:59:48.log
-2025-04-17 17:05:24,735 - root:setup_logging:149 - INFO - Console logging level set to: INFO
-2025-04-17 17:05:24,735 - root:setup_logging:151 - INFO - File logging level set to: DEBUG
-2025-04-17 17:05:24,735 - root:<module>:240 - INFO - Attempting to test checkpoint: final_checkpoint_25-04-16_21:59:48.pth
-2025-04-17 17:05:24,735 - root:<module>:241 - INFO - Using config: richard/config/test.yaml
-2025-04-17 17:05:24,743 - richard.src.utils.utils:_load_and_merge_yaml_configs:290 - INFO - Decorator loaded base config from: richard/config/test.yaml
-2025-04-17 17:05:24,751 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'model' from: richard/config/model/vnet.yaml
-2025-04-17 17:05:24,755 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataset' from: richard/config/dataset/test_2d.yaml
-2025-04-17 17:05:24,761 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataloader' from: richard/config/dataloader/dataloader.yaml
-2025-04-17 17:05:24,761 - richard.src.utils.utils:wrapper:364 - INFO - Decorator successfully loaded and merged configurations.
-2025-04-17 17:05:24,761 - richard.src.utils.utils:wrapper:372 - INFO - Decorator injecting loaded 'cfg' into function call.
-2025-04-17 17:05:24,761 - richard.src.utils.utils:wrapper:382 - DEBUG - Decorator injected 'cfg' into function call:
+2025-04-23 23:45:46,829 - root:setup_logging:143 - INFO - File logging (DEBUG level) activated: richard/logs/test_final_checkpoint_25-04-16_21:59:48.log
+2025-04-23 23:45:46,830 - root:setup_logging:149 - INFO - Console logging level set to: INFO
+2025-04-23 23:45:46,830 - root:setup_logging:151 - INFO - File logging level set to: DEBUG
+2025-04-23 23:45:46,831 - root:<module>:240 - INFO - Attempting to test checkpoint: final_checkpoint_25-04-16_21:59:48.pth
+2025-04-23 23:45:46,831 - root:<module>:241 - INFO - Using config: richard/config/test.yaml
+2025-04-23 23:45:46,837 - richard.src.utils.utils:_load_and_merge_yaml_configs:290 - INFO - Decorator loaded base config from: richard/config/test.yaml
+2025-04-23 23:45:46,843 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'model' from: richard/config/model/vnet.yaml
+2025-04-23 23:45:46,846 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataset' from: richard/config/dataset/test_2d.yaml
+2025-04-23 23:45:46,850 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataloader' from: richard/config/dataloader/dataloader.yaml
+2025-04-23 23:45:46,851 - richard.src.utils.utils:wrapper:364 - INFO - Decorator successfully loaded and merged configurations.
+2025-04-23 23:45:46,851 - richard.src.utils.utils:wrapper:372 - INFO - Decorator injecting loaded 'cfg' into function call.
+2025-04-23 23:45:46,851 - richard.src.utils.utils:wrapper:382 - DEBUG - Decorator injected 'cfg' into function call:
  {
   "model": {
     "name": "VNet2D",
@@ -64,19 +64,19 @@
     "thresh_min": 0.0,
     "thresh_max": 1.0,
     "thresh_step": 0.05,
-    "num_visual_samples": 40,
+    "num_visual_patients": 10,
     "overlay_opacity": 0.3
   }
 }
-2025-04-17 17:05:25,596 - root:test:69 - INFO - Using device: cuda
-2025-04-17 17:05:25,596 - root:test:71 - INFO - Test function received config keys: ['model', 'dataset', 'dataloader', 'testing']
-2025-04-17 17:05:25,597 - root:test:78 - INFO - Test results will be saved in: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-16_21:59:48
-2025-04-17 17:05:30,775 - root:test:93 - INFO - Loaded test dataset with 15181 samples.
-2025-04-17 17:05:30,777 - root:test:95 - INFO - Created Test DataLoader.
-2025-04-17 17:05:32,436 - root:test:110 - INFO - Initialized model: VNet2D
-2025-04-17 17:05:32,754 - root:test:135 - INFO - Loaded model state_dict from checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-16_21:59:48.pth
-2025-04-17 17:05:32,754 - root:test:137 - INFO - Checkpoint trained for 28 epochs.
-2025-04-17 17:05:32,755 - root:test:139 - DEBUG - Checkpoint config:
+2025-04-23 23:45:47,013 - root:test:69 - INFO - Using device: cuda
+2025-04-23 23:45:47,013 - root:test:71 - INFO - Test function received config keys: ['model', 'dataset', 'dataloader', 'testing']
+2025-04-23 23:45:47,015 - root:test:78 - INFO - Test results will be saved in: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-16_21:59:48
+2025-04-23 23:45:47,200 - root:test:93 - INFO - Loaded test dataset with 15181 samples.
+2025-04-23 23:45:47,201 - root:test:95 - INFO - Created Test DataLoader.
+2025-04-23 23:45:47,645 - root:test:110 - INFO - Initialized model: VNet2D
+2025-04-23 23:45:47,888 - root:test:135 - INFO - Loaded model state_dict from checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-16_21:59:48.pth
+2025-04-23 23:45:47,888 - root:test:137 - INFO - Checkpoint trained for 28 epochs.
+2025-04-23 23:45:47,888 - root:test:139 - DEBUG - Checkpoint config:
 {
   "model": {
     "in_channels": 1,
@@ -161,36 +161,50 @@
     "early_stopping_min_delta": 0.001
   }
 }
-2025-04-17 17:05:32,755 - root:test:164 - WARNING - Criterion configuration missing. Test loss will not be calculated.
-2025-04-17 17:05:32,761 - richard.src.test.tester:__init__:55 - INFO - Tester initialized. Results will be saved to: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-16_21:59:48
-2025-04-17 17:05:32,761 - richard.src.test.tester:__init__:56 - INFO - Evaluating Dice at thresholds: [0.0, 0.05, 0.1, 0.15000000000000002, 0.2, 0.25, 0.30000000000000004, 0.35000000000000003, 0.4, 0.45, 0.5, 0.55, 0.6000000000000001, 0.65, 0.7000000000000001, 0.75, 0.8, 0.8500000000000001, 0.9, 0.9500000000000001, 1.0]
-2025-04-17 17:05:32,761 - richard.src.test.tester:__init__:57 - INFO - Generating 40 visualization samples.
-2025-04-17 17:05:32,762 - richard.src.test.tester:evaluate:74 - INFO - Starting evaluation...
-2025-04-17 17:07:38,779 - richard.src.test.tester:evaluate:102 - INFO - --- Evaluation Complete ---
-2025-04-17 17:07:38,779 - richard.src.test.tester:evaluate:103 - INFO - Average Dice Scores per Threshold:
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.00: 0.0625
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.05: 0.1514
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.10: 0.2710
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.15: 0.3062
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.20: 0.3279
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.25: 0.3444
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.30: 0.3584
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.35: 0.3707
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.40: 0.3821
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.45: 0.3929
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.50: 0.4036
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.55: 0.4143
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.60: 0.4251
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.65: 0.4363
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.70: 0.4476
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.75: 0.4599
-2025-04-17 17:07:38,780 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.80: 0.4743
-2025-04-17 17:07:38,781 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.85: 0.4895
-2025-04-17 17:07:38,781 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.90: 0.5079
-2025-04-17 17:07:38,781 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 0.95: 0.5288
-2025-04-17 17:07:38,781 - richard.src.test.tester:evaluate:105 - INFO -   Threshold 1.00: 0.0000
-2025-04-17 17:07:38,781 - richard.src.test.tester:evaluate:106 - INFO - Best Average Dice Score: 0.5288 at Threshold: 0.95
-2025-04-17 17:07:38,782 - richard.src.test.tester:generate_visualizations:155 - INFO - Generating visualizations using threshold 0.95...
-2025-04-17 17:07:39,039 - matplotlib.pyplot:switch_backend:497 - DEBUG - Loaded backend agg version v2.2.
-2025-04-17 17:07:43,970 - richard.src.test.tester:generate_visualizations:203 - INFO - Saved 40 visualization samples to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-16_21:59:48/overlays and masks to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-16_21:59:48/predicted_masks
-2025-04-17 17:07:43,970 - root:test:190 - INFO - Testing process finished.
+2025-04-23 23:45:47,888 - root:test:164 - WARNING - Criterion configuration missing. Test loss will not be calculated.
+2025-04-23 23:45:47,893 - richard.src.test.tester:__init__:55 - INFO - Tester initialized. Results will be saved to: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-16_21:59:48
+2025-04-23 23:45:47,893 - richard.src.test.tester:__init__:56 - INFO - Evaluating Dice at thresholds: [0.0, 0.05, 0.1, 0.15000000000000002, 0.2, 0.25, 0.30000000000000004, 0.35000000000000003, 0.4, 0.45, 0.5, 0.55, 0.6000000000000001, 0.65, 0.7000000000000001, 0.75, 0.8, 0.8500000000000001, 0.9, 0.9500000000000001, 1.0]
+2025-04-23 23:45:47,893 - richard.src.test.tester:__init__:57 - INFO - Generating visualizations for 10 patients.
+2025-04-23 23:45:47,894 - richard.src.test.tester:evaluate:94 - INFO - Starting evaluation...
+2025-04-23 23:45:56,150 - richard.src.test.tester:evaluate:128 - INFO - Computing dice scores for 1248 patients...
+2025-04-23 23:46:37,041 - richard.src.test.tester:evaluate:151 - INFO - --- Evaluation Complete ---
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:152 - INFO - Processed 1248 patients
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:153 - INFO - Average Patient Dice Scores per Threshold:
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.00: 0.0277
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.05: 0.0963
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.10: 0.2148
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.15: 0.2540
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.20: 0.2793
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.25: 0.2994
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.30: 0.3169
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.35: 0.3327
+2025-04-23 23:46:37,042 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.40: 0.3479
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.45: 0.3624
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.50: 0.3771
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.55: 0.3919
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.60: 0.4069
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.65: 0.4231
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.70: 0.4399
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.75: 0.4583
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.80: 0.4805
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.85: 0.5053
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.90: 0.5357
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.95: 0.5762
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 1.00: 0.0000
+2025-04-23 23:46:37,043 - richard.src.test.tester:evaluate:156 - INFO - Best Average Patient Dice Score: 0.5762 at Threshold: 0.95
+2025-04-23 23:46:37,100 - richard.src.test.tester:generate_visualizations:206 - INFO - Generating visualizations for 10 patients using threshold 0.95...
+2025-04-23 23:46:37,106 - richard.src.test.tester:generate_visualizations:216 - INFO - Found 1248 total patients in dataset
+2025-04-23 23:46:37,106 - richard.src.test.tester:generate_visualizations:220 - INFO - Will generate visualizations for patients: NLST1000, NLST1001, NLST1002, NLST1003, NLST1004, NLST1005, NLST1006, NLST1007, NLST1008, NLST1009
+2025-04-23 23:46:37,659 - matplotlib.pyplot:switch_backend:497 - DEBUG - Loaded backend agg version v2.2.
+2025-04-23 23:46:41,546 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1004: saved 8 slices
+2025-04-23 23:46:41,548 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1002: saved 2 slices
+2025-04-23 23:46:41,549 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1005: saved 5 slices
+2025-04-23 23:46:41,550 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1003: saved 2 slices
+2025-04-23 23:46:41,552 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1000: saved 14 slices
+2025-04-23 23:46:41,553 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1007: saved 3 slices
+2025-04-23 23:46:41,554 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1008: saved 3 slices
+2025-04-23 23:46:41,556 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1009: saved 3 slices
+2025-04-23 23:46:41,557 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1001: saved 14 slices
+2025-04-23 23:46:41,558 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1006: saved 6 slices
+2025-04-23 23:46:41,558 - richard.src.test.tester:generate_visualizations:297 - INFO - Saved visualizations for 10 patients (60 total slices)
+2025-04-23 23:46:41,558 - root:test:190 - INFO - Testing process finished.

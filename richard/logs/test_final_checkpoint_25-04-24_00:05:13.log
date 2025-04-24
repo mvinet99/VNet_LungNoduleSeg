@@ -1,0 +1,663 @@
+2025-04-24 00:42:17,408 - root:setup_logging:143 - INFO - File logging (DEBUG level) activated: richard/logs/test_final_checkpoint_25-04-24_00:05:13.log
+2025-04-24 00:42:17,409 - root:setup_logging:149 - INFO - Console logging level set to: INFO
+2025-04-24 00:42:17,409 - root:setup_logging:151 - INFO - File logging level set to: DEBUG
+2025-04-24 00:42:17,409 - root:<module>:240 - INFO - Attempting to test checkpoint: final_checkpoint_25-04-24_00:05:13.pth
+2025-04-24 00:42:17,409 - root:<module>:241 - INFO - Using config: richard/config/test.yaml
+2025-04-24 00:42:17,415 - richard.src.utils.utils:_load_and_merge_yaml_configs:290 - INFO - Decorator loaded base config from: richard/config/test.yaml
+2025-04-24 00:42:17,419 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'model' from: richard/config/model/vnet.yaml
+2025-04-24 00:42:17,423 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataset' from: richard/config/dataset/test_2d.yaml
+2025-04-24 00:42:17,427 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataloader' from: richard/config/dataloader/dataloader.yaml
+2025-04-24 00:42:17,428 - richard.src.utils.utils:wrapper:364 - INFO - Decorator successfully loaded and merged configurations.
+2025-04-24 00:42:17,428 - richard.src.utils.utils:wrapper:372 - INFO - Decorator injecting loaded 'cfg' into function call.
+2025-04-24 00:42:17,428 - richard.src.utils.utils:wrapper:382 - DEBUG - Decorator injected 'cfg' into function call:
+ {
+  "model": {
+    "name": "VNet2D",
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "test": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "testing": {
+    "model_checkpoint_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints",
+    "results_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results",
+    "thresh_min": 0.0,
+    "thresh_max": 1.0,
+    "thresh_step": 0.05,
+    "num_visual_patients": 10,
+    "overlay_opacity": 0.3
+  }
+}
+2025-04-24 00:42:17,577 - root:test:69 - INFO - Using device: cuda
+2025-04-24 00:42:17,578 - root:test:71 - INFO - Test function received config keys: ['model', 'dataset', 'dataloader', 'testing']
+2025-04-24 00:42:17,579 - root:test:78 - INFO - Test results will be saved in: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-24_00:05:13
+2025-04-24 00:42:30,225 - root:test:93 - INFO - Loaded test dataset with 15181 samples.
+2025-04-24 00:42:30,228 - root:test:95 - INFO - Created Test DataLoader.
+2025-04-24 00:42:30,780 - root:test:110 - INFO - Initialized model: VNet2D
+2025-04-24 00:42:30,952 - root:test:135 - INFO - Loaded model state_dict from checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-24_00:05:13.pth
+2025-04-24 00:42:30,952 - root:test:137 - INFO - Checkpoint trained for 30 epochs.
+2025-04-24 00:42:30,953 - root:test:139 - DEBUG - Checkpoint config:
+{
+  "model": {
+    "name": "VNet2D",
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "train": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/masks_2D_0axis/",
+      "augment": true,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    },
+    "val": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 1e-05,
+    "weight_decay": 0.01
+  },
+  "scheduler": {
+    "name": "ReduceLROnPlateau",
+    "factor": 0.2,
+    "mode": "max",
+    "patience": 5,
+    "min_lr": 1e-06
+  },
+  "criterion": {
+    "Dice": {
+      "name": "DiceLoss",
+      "weight": 1.0
+    }
+  },
+  "training": {
+    "num_epochs": 30,
+    "batch_size": 16,
+    "early_stopping_patience": 15,
+    "early_stopping_min_delta": 0.0005
+  },
+  "checkpoint": {
+    "path": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-17_13:58:47.pth",
+    "freeze_config": {
+      "freeze": true,
+      "config": {
+        "init_conv": false,
+        "downsample_block_1": false,
+        "downsample_block_2": false,
+        "downsample_block_3": false,
+        "downsample_block_4": false,
+        "upsample_block_1": false,
+        "upsample_block_2": false,
+        "upsample_block_3": false,
+        "upsample_block_4": false,
+        "final_conv": false
+      }
+    }
+  }
+}
+2025-04-24 00:42:30,953 - root:test:164 - WARNING - Criterion configuration missing. Test loss will not be calculated.
+2025-04-24 00:42:30,962 - richard.src.test.tester:__init__:55 - INFO - Tester initialized. Results will be saved to: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-24_00:05:13
+2025-04-24 00:42:30,962 - richard.src.test.tester:__init__:56 - INFO - Evaluating Dice at thresholds: [0.0, 0.05, 0.1, 0.15000000000000002, 0.2, 0.25, 0.30000000000000004, 0.35000000000000003, 0.4, 0.45, 0.5, 0.55, 0.6000000000000001, 0.65, 0.7000000000000001, 0.75, 0.8, 0.8500000000000001, 0.9, 0.9500000000000001, 1.0]
+2025-04-24 00:42:30,962 - richard.src.test.tester:__init__:57 - INFO - Generating visualizations for 10 patients.
+2025-04-24 00:42:30,963 - richard.src.test.tester:evaluate:94 - INFO - Starting evaluation...
+2025-04-24 00:42:39,671 - richard.src.test.tester:evaluate:128 - INFO - Computing dice scores for 1248 patients...
+2025-04-24 00:43:13,101 - richard.src.test.tester:evaluate:151 - INFO - --- Evaluation Complete ---
+2025-04-24 00:43:13,102 - richard.src.test.tester:evaluate:152 - INFO - Processed 1248 patients
+2025-04-24 00:43:13,102 - richard.src.test.tester:evaluate:153 - INFO - Average Patient Dice Scores per Threshold:
+2025-04-24 00:43:13,102 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.00: 0.0277
+2025-04-24 00:43:13,102 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.05: 0.6947
+2025-04-24 00:43:13,102 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.10: 0.6910
+2025-04-24 00:43:13,102 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.15: 0.6894
+2025-04-24 00:43:13,102 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.20: 0.6881
+2025-04-24 00:43:13,102 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.25: 0.6869
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.30: 0.6857
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.35: 0.6845
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.40: 0.6836
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.45: 0.6820
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.50: 0.6813
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.55: 0.6804
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.60: 0.6791
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.65: 0.6774
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.70: 0.6759
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.75: 0.6738
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.80: 0.6716
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.85: 0.6687
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.90: 0.6657
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.95: 0.6601
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 1.00: 0.0000
+2025-04-24 00:43:13,103 - richard.src.test.tester:evaluate:156 - INFO - Best Average Patient Dice Score: 0.6947 at Threshold: 0.05
+2025-04-24 00:43:13,152 - richard.src.test.tester:generate_visualizations:206 - INFO - Generating visualizations for 10 patients using threshold 0.05...
+2025-04-24 00:43:13,157 - richard.src.test.tester:generate_visualizations:216 - INFO - Found 1248 total patients in dataset
+2025-04-24 00:43:13,157 - richard.src.test.tester:generate_visualizations:220 - INFO - Will generate visualizations for patients: NLST1000, NLST1001, NLST1002, NLST1003, NLST1004, NLST1005, NLST1006, NLST1007, NLST1008, NLST1009
+2025-04-24 00:43:13,889 - matplotlib.pyplot:switch_backend:497 - DEBUG - Loaded backend agg version v2.2.
+2025-04-24 00:43:17,465 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1007: saved 3 slices
+2025-04-24 00:43:17,467 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1008: saved 3 slices
+2025-04-24 00:43:17,467 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1002: saved 2 slices
+2025-04-24 00:43:17,469 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1000: saved 14 slices
+2025-04-24 00:43:17,470 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1001: saved 14 slices
+2025-04-24 00:43:17,471 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1004: saved 8 slices
+2025-04-24 00:43:17,471 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1005: saved 5 slices
+2025-04-24 00:43:17,472 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1009: saved 3 slices
+2025-04-24 00:43:17,473 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1003: saved 2 slices
+2025-04-24 00:43:17,474 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1006: saved 6 slices
+2025-04-24 00:43:17,474 - richard.src.test.tester:generate_visualizations:297 - INFO - Saved visualizations for 10 patients (60 total slices)
+2025-04-24 00:43:17,474 - root:test:190 - INFO - Testing process finished.
+2025-04-24 00:49:28,585 - root:setup_logging:143 - INFO - File logging (DEBUG level) activated: richard/logs/test_final_checkpoint_25-04-24_00:05:13.log
+2025-04-24 00:49:28,585 - root:setup_logging:149 - INFO - Console logging level set to: INFO
+2025-04-24 00:49:28,585 - root:setup_logging:151 - INFO - File logging level set to: DEBUG
+2025-04-24 00:49:28,585 - root:<module>:240 - INFO - Attempting to test checkpoint: final_checkpoint_25-04-24_00:05:13.pth
+2025-04-24 00:49:28,586 - root:<module>:241 - INFO - Using config: richard/config/test.yaml
+2025-04-24 00:49:28,594 - richard.src.utils.utils:_load_and_merge_yaml_configs:290 - INFO - Decorator loaded base config from: richard/config/test.yaml
+2025-04-24 00:49:28,604 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'model' from: richard/config/model/vnet.yaml
+2025-04-24 00:49:28,610 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataset' from: richard/config/dataset/test_2d.yaml
+2025-04-24 00:49:28,619 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataloader' from: richard/config/dataloader/dataloader.yaml
+2025-04-24 00:49:28,619 - richard.src.utils.utils:wrapper:364 - INFO - Decorator successfully loaded and merged configurations.
+2025-04-24 00:49:28,620 - richard.src.utils.utils:wrapper:372 - INFO - Decorator injecting loaded 'cfg' into function call.
+2025-04-24 00:49:28,620 - richard.src.utils.utils:wrapper:382 - DEBUG - Decorator injected 'cfg' into function call:
+ {
+  "model": {
+    "name": "VNet2D",
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "test": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "testing": {
+    "model_checkpoint_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints",
+    "results_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results",
+    "thresh_min": 0.0,
+    "thresh_max": 0.06,
+    "thresh_step": 0.01,
+    "num_visual_patients": 10,
+    "overlay_opacity": 0.3
+  }
+}
+2025-04-24 00:49:32,886 - root:test:69 - INFO - Using device: cuda
+2025-04-24 00:49:32,887 - root:test:71 - INFO - Test function received config keys: ['model', 'dataset', 'dataloader', 'testing']
+2025-04-24 00:49:32,889 - root:test:78 - INFO - Test results will be saved in: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-24_00:05:13
+2025-04-24 00:49:47,305 - root:test:93 - INFO - Loaded test dataset with 15181 samples.
+2025-04-24 00:49:47,308 - root:test:95 - INFO - Created Test DataLoader.
+2025-04-24 00:49:47,927 - root:test:110 - INFO - Initialized model: VNet2D
+2025-04-24 00:49:48,254 - root:test:135 - INFO - Loaded model state_dict from checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-24_00:05:13.pth
+2025-04-24 00:49:48,254 - root:test:137 - INFO - Checkpoint trained for 30 epochs.
+2025-04-24 00:49:48,255 - root:test:139 - DEBUG - Checkpoint config:
+{
+  "model": {
+    "name": "VNet2D",
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "train": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/masks_2D_0axis/",
+      "augment": true,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    },
+    "val": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 1e-05,
+    "weight_decay": 0.01
+  },
+  "scheduler": {
+    "name": "ReduceLROnPlateau",
+    "factor": 0.2,
+    "mode": "max",
+    "patience": 5,
+    "min_lr": 1e-06
+  },
+  "criterion": {
+    "Dice": {
+      "name": "DiceLoss",
+      "weight": 1.0
+    }
+  },
+  "training": {
+    "num_epochs": 30,
+    "batch_size": 16,
+    "early_stopping_patience": 15,
+    "early_stopping_min_delta": 0.0005
+  },
+  "checkpoint": {
+    "path": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-17_13:58:47.pth",
+    "freeze_config": {
+      "freeze": true,
+      "config": {
+        "init_conv": false,
+        "downsample_block_1": false,
+        "downsample_block_2": false,
+        "downsample_block_3": false,
+        "downsample_block_4": false,
+        "upsample_block_1": false,
+        "upsample_block_2": false,
+        "upsample_block_3": false,
+        "upsample_block_4": false,
+        "final_conv": false
+      }
+    }
+  }
+}
+2025-04-24 00:49:48,255 - root:test:164 - WARNING - Criterion configuration missing. Test loss will not be calculated.
+2025-04-24 00:49:48,259 - richard.src.test.tester:__init__:55 - INFO - Tester initialized. Results will be saved to: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-24_00:05:13
+2025-04-24 00:49:48,259 - richard.src.test.tester:__init__:56 - INFO - Evaluating Dice at thresholds: [0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06]
+2025-04-24 00:49:48,260 - richard.src.test.tester:__init__:57 - INFO - Generating visualizations for 10 patients.
+2025-04-24 00:49:48,260 - richard.src.test.tester:evaluate:94 - INFO - Starting evaluation...
+2025-04-24 00:49:55,467 - richard.src.test.tester:evaluate:128 - INFO - Computing dice scores for 1248 patients...
+2025-04-24 00:49:58,494 - richard.src.test.tester:evaluate:151 - INFO - --- Evaluation Complete ---
+2025-04-24 00:49:58,495 - richard.src.test.tester:evaluate:152 - INFO - Processed 1248 patients
+2025-04-24 00:49:58,495 - richard.src.test.tester:evaluate:153 - INFO - Average Patient Dice Scores per Threshold:
+2025-04-24 00:49:58,495 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.00: 0.0277
+2025-04-24 00:49:58,495 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.01: 0.6981
+2025-04-24 00:49:58,496 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.02: 0.6970
+2025-04-24 00:49:58,496 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.03: 0.6962
+2025-04-24 00:49:58,496 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.04: 0.6956
+2025-04-24 00:49:58,496 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.05: 0.6947
+2025-04-24 00:49:58,496 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.06: 0.6932
+2025-04-24 00:49:58,496 - richard.src.test.tester:evaluate:156 - INFO - Best Average Patient Dice Score: 0.6981 at Threshold: 0.01
+2025-04-24 00:49:58,526 - richard.src.test.tester:generate_visualizations:206 - INFO - Generating visualizations for 10 patients using threshold 0.01...
+2025-04-24 00:49:58,535 - richard.src.test.tester:generate_visualizations:216 - INFO - Found 1248 total patients in dataset
+2025-04-24 00:49:58,536 - richard.src.test.tester:generate_visualizations:220 - INFO - Will generate visualizations for patients: NLST1000, NLST1001, NLST1002, NLST1003, NLST1004, NLST1005, NLST1006, NLST1007, NLST1008, NLST1009
+2025-04-24 00:49:59,351 - matplotlib.pyplot:switch_backend:497 - DEBUG - Loaded backend agg version v2.2.
+2025-04-24 00:50:06,100 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1003: saved 2 slices
+2025-04-24 00:50:06,102 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1007: saved 3 slices
+2025-04-24 00:50:06,103 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1008: saved 3 slices
+2025-04-24 00:50:06,104 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1009: saved 3 slices
+2025-04-24 00:50:06,104 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1004: saved 8 slices
+2025-04-24 00:50:06,105 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1001: saved 14 slices
+2025-04-24 00:50:06,106 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1000: saved 14 slices
+2025-04-24 00:50:06,106 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1005: saved 5 slices
+2025-04-24 00:50:06,107 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1006: saved 6 slices
+2025-04-24 00:50:06,108 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1002: saved 2 slices
+2025-04-24 00:50:06,108 - richard.src.test.tester:generate_visualizations:297 - INFO - Saved visualizations for 10 patients (60 total slices)
+2025-04-24 00:50:06,108 - root:test:190 - INFO - Testing process finished.
+2025-04-24 00:51:07,381 - root:setup_logging:143 - INFO - File logging (DEBUG level) activated: richard/logs/test_final_checkpoint_25-04-24_00:05:13.log
+2025-04-24 00:51:07,381 - root:setup_logging:149 - INFO - Console logging level set to: INFO
+2025-04-24 00:51:07,381 - root:setup_logging:151 - INFO - File logging level set to: DEBUG
+2025-04-24 00:51:07,382 - root:<module>:240 - INFO - Attempting to test checkpoint: final_checkpoint_25-04-24_00:05:13.pth
+2025-04-24 00:51:07,382 - root:<module>:241 - INFO - Using config: richard/config/test.yaml
+2025-04-24 00:51:07,392 - richard.src.utils.utils:_load_and_merge_yaml_configs:290 - INFO - Decorator loaded base config from: richard/config/test.yaml
+2025-04-24 00:51:07,408 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'model' from: richard/config/model/vnet.yaml
+2025-04-24 00:51:07,415 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataset' from: richard/config/dataset/test_2d.yaml
+2025-04-24 00:51:07,423 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataloader' from: richard/config/dataloader/dataloader.yaml
+2025-04-24 00:51:07,423 - richard.src.utils.utils:wrapper:364 - INFO - Decorator successfully loaded and merged configurations.
+2025-04-24 00:51:07,423 - richard.src.utils.utils:wrapper:372 - INFO - Decorator injecting loaded 'cfg' into function call.
+2025-04-24 00:51:07,424 - richard.src.utils.utils:wrapper:382 - DEBUG - Decorator injected 'cfg' into function call:
+ {
+  "model": {
+    "name": "VNet2D",
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "test": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "testing": {
+    "model_checkpoint_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints",
+    "results_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results",
+    "thresh_min": 0.0,
+    "thresh_max": 0.02,
+    "thresh_step": 0.002,
+    "num_visual_patients": 10,
+    "overlay_opacity": 0.3
+  }
+}
+2025-04-24 00:51:09,534 - root:test:69 - INFO - Using device: cuda
+2025-04-24 00:51:09,534 - root:test:71 - INFO - Test function received config keys: ['model', 'dataset', 'dataloader', 'testing']
+2025-04-24 00:51:09,535 - root:test:78 - INFO - Test results will be saved in: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-24_00:05:13
+2025-04-24 00:51:13,639 - root:test:93 - INFO - Loaded test dataset with 15181 samples.
+2025-04-24 00:51:13,642 - root:test:95 - INFO - Created Test DataLoader.
+2025-04-24 00:51:14,113 - root:test:110 - INFO - Initialized model: VNet2D
+2025-04-24 00:51:14,262 - root:test:135 - INFO - Loaded model state_dict from checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-24_00:05:13.pth
+2025-04-24 00:51:14,262 - root:test:137 - INFO - Checkpoint trained for 30 epochs.
+2025-04-24 00:51:14,262 - root:test:139 - DEBUG - Checkpoint config:
+{
+  "model": {
+    "name": "VNet2D",
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "train": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/masks_2D_0axis/",
+      "augment": true,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    },
+    "val": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 1e-05,
+    "weight_decay": 0.01
+  },
+  "scheduler": {
+    "name": "ReduceLROnPlateau",
+    "factor": 0.2,
+    "mode": "max",
+    "patience": 5,
+    "min_lr": 1e-06
+  },
+  "criterion": {
+    "Dice": {
+      "name": "DiceLoss",
+      "weight": 1.0
+    }
+  },
+  "training": {
+    "num_epochs": 30,
+    "batch_size": 16,
+    "early_stopping_patience": 15,
+    "early_stopping_min_delta": 0.0005
+  },
+  "checkpoint": {
+    "path": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-17_13:58:47.pth",
+    "freeze_config": {
+      "freeze": true,
+      "config": {
+        "init_conv": false,
+        "downsample_block_1": false,
+        "downsample_block_2": false,
+        "downsample_block_3": false,
+        "downsample_block_4": false,
+        "upsample_block_1": false,
+        "upsample_block_2": false,
+        "upsample_block_3": false,
+        "upsample_block_4": false,
+        "final_conv": false
+      }
+    }
+  }
+}
+2025-04-24 00:51:14,266 - root:test:164 - WARNING - Criterion configuration missing. Test loss will not be calculated.
+2025-04-24 00:51:14,282 - richard.src.test.tester:__init__:55 - INFO - Tester initialized. Results will be saved to: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-24_00:05:13
+2025-04-24 00:51:14,283 - richard.src.test.tester:__init__:56 - INFO - Evaluating Dice at thresholds: [0.0, 0.002, 0.004, 0.006, 0.008, 0.01, 0.012, 0.014, 0.016, 0.018000000000000002, 0.02]
+2025-04-24 00:51:14,283 - richard.src.test.tester:__init__:57 - INFO - Generating visualizations for 10 patients.
+2025-04-24 00:51:14,284 - richard.src.test.tester:evaluate:94 - INFO - Starting evaluation...
+2025-04-24 00:51:23,650 - richard.src.test.tester:evaluate:128 - INFO - Computing dice scores for 1248 patients...
+2025-04-24 00:51:29,095 - richard.src.test.tester:evaluate:151 - INFO - --- Evaluation Complete ---
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:152 - INFO - Processed 1248 patients
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:153 - INFO - Average Patient Dice Scores per Threshold:
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.00: 0.0277
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.00: 0.6979
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.00: 0.6988
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.01: 0.6992
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.01: 0.6984
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.01: 0.6981
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.01: 0.6976
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.01: 0.6976
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.02: 0.6971
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.02: 0.6972
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.02: 0.6970
+2025-04-24 00:51:29,096 - richard.src.test.tester:evaluate:156 - INFO - Best Average Patient Dice Score: 0.6992 at Threshold: 0.01
+2025-04-24 00:51:29,138 - richard.src.test.tester:generate_visualizations:206 - INFO - Generating visualizations for 10 patients using threshold 0.01...
+2025-04-24 00:51:29,147 - richard.src.test.tester:generate_visualizations:216 - INFO - Found 1248 total patients in dataset
+2025-04-24 00:51:29,147 - richard.src.test.tester:generate_visualizations:220 - INFO - Will generate visualizations for patients: NLST1000, NLST1001, NLST1002, NLST1003, NLST1004, NLST1005, NLST1006, NLST1007, NLST1008, NLST1009
+2025-04-24 00:51:29,405 - matplotlib.pyplot:switch_backend:497 - DEBUG - Loaded backend agg version v2.2.
+2025-04-24 00:51:35,787 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1009: saved 3 slices
+2025-04-24 00:51:35,788 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1007: saved 3 slices
+2025-04-24 00:51:35,788 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1008: saved 3 slices
+2025-04-24 00:51:35,789 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1001: saved 14 slices
+2025-04-24 00:51:35,790 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1002: saved 2 slices
+2025-04-24 00:51:35,790 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1005: saved 5 slices
+2025-04-24 00:51:35,791 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1004: saved 8 slices
+2025-04-24 00:51:35,793 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1000: saved 14 slices
+2025-04-24 00:51:35,794 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1003: saved 2 slices
+2025-04-24 00:51:35,794 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1006: saved 6 slices
+2025-04-24 00:51:35,795 - richard.src.test.tester:generate_visualizations:297 - INFO - Saved visualizations for 10 patients (60 total slices)
+2025-04-24 00:51:35,795 - root:test:190 - INFO - Testing process finished.
