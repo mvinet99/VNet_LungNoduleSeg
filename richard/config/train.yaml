@@ -24,4 +24,3 @@ training:
     early_stopping_patience: 15
     early_stopping_min_delta: 0.0005
 
-
