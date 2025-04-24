@@ -167,7 +167,7 @@ def test(args: argparse.Namespace, cfg: dict, checkpoint_basename: str):
     thresh_min = test_cfg.get('thresh_min', 0.0)
     thresh_max = test_cfg.get('thresh_max', 1.0)
     thresh_step = test_cfg.get('thresh_step', 0.05)
-    num_visuals = test_cfg.get('num_visual_samples', 10)
+    num_visuals = test_cfg.get('num_visual_patients', 10)
     overlay_opacity = test_cfg.get('overlay_opacity', 0.4)
     
     tester = Tester(
@@ -179,7 +179,7 @@ def test(args: argparse.Namespace, cfg: dict, checkpoint_basename: str):
         thresh_min=thresh_min,
         thresh_max=thresh_max,
         thresh_step=thresh_step,
-        num_visual_samples=num_visuals,
+        num_visual_patients=num_visuals,
         overlay_opacity=overlay_opacity
     )
     

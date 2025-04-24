@@ -22,7 +22,7 @@ class Tester:
                  thresh_min: float = 0.0,
                  thresh_max: float = 1.0,
                  thresh_step: float = 0.05,
-                 num_visual_samples: int = 10,
+                 num_visual_patients: int = 10,
                  overlay_opacity: float = 0.4):
         """
         Args:
@@ -32,7 +32,7 @@ class Tester:
             device: Device to run inference on (e.g., 'cuda').
             output_dir: Directory to save predicted masks and overlay images.
             thresholds: A list of thresholds to evaluate the Dice score at.
-            num_visual_samples: Number of samples to generate overlay visualizations for.
+            num_visual_patients: Number of patients to generate overlay visualizations for.
             overlay_opacity: Opacity level for the mask overlays (0.0 to 1.0).
         """
         self.model = model.to(device)
@@ -41,7 +41,7 @@ class Tester:
         self.device = device
         self.output_dir = Path(output_dir)
         self.thresholds = sorted(np.arange(thresh_min, thresh_max + thresh_step, thresh_step))
-        self.num_visual_samples = num_visual_samples
+        self.num_visual_patients = num_visual_patients
         self.overlay_opacity = overlay_opacity
         
         self.pred_mask_dir = self.output_dir / "predicted_masks"
@@ -54,8 +54,18 @@ class Tester:
 
         logger.info(f"Tester initialized. Results will be saved to: {self.output_dir}")
         logger.info(f"Evaluating Dice at thresholds: {self.thresholds}")
-        logger.info(f"Generating {self.num_visual_samples} visualization samples.")
+        logger.info(f"Generating visualizations for {self.num_visual_patients} patients.")
 
+    def _extract_patient_id(self, filename: str) -> str:
+        """Extract patient ID from filename.
+        
+        Format examples: NLST994_slice_29.npy, UCLA123_slice_45.npy
+        Returns: NLST994 or UCLA123
+        """
+        # Split by first underscore to get the patient identifier
+        parts = filename.split('_', 1)
+        return parts[0] if parts else filename
+    
     def _calculate_dice_score(self, predicted_mask: torch.Tensor, target_mask: torch.Tensor, smooth: float = 1e-6) -> float:
         """Calculates the Dice score between a predicted and target mask."""
         pred_flat = predicted_mask.contiguous().view(-1)
@@ -64,46 +74,86 @@ class Tester:
         dice_coefficient = (2. * intersection + smooth) / (pred_flat.sum() + target_flat.sum() + smooth)
         return dice_coefficient.item()
 
-    def evaluate(self) -> tuple[float, float, dict[float, float]]:
-        """Evaluates the model on the test set across multiple thresholds and returns best Dice and threshold."""
-        self.model.eval()
-        # Initialize dict to store total dice score sum for each threshold
-        total_dice_scores = {thresh: 0.0 for thresh in self.thresholds}
-        num_samples = 0
+    def _get_batch_filenames(self, batch_idx):
+        """Helper method to get filenames for the current batch."""
+        start_idx = batch_idx * self.test_loader.batch_size
+        end_idx = min(start_idx + self.test_loader.batch_size, len(self.test_loader.dataset))
+        return [self.test_loader.dataset.images[idx] for idx in range(start_idx, end_idx)]
 
+    def evaluate(self) -> tuple[float, float, dict[float, float]]:
+        """Evaluates the model on the test set per patient across multiple thresholds 
+        and returns the best average patient Dice score and corresponding threshold.
+        """
+        self.model.eval()
+        patient_probs = {}    # Store {patient_id: [probabilities]}
+        patient_labels = {}   # Store {patient_id: [labels]}
+        
+        # Initialize dictionary to store dice scores per threshold
+        patient_dice_by_threshold = {thresh: [] for thresh in self.thresholds}
+        
         logger.info("Starting evaluation...")
         batch_progress = tqdm(self.test_loader, desc="[Test Eval]", leave=False, unit="batch")
 
+        # Collect all probabilities and labels per patient
         with torch.no_grad():
-            for i, (images, labels) in enumerate(batch_progress):
+            for batch_idx, (images, labels) in enumerate(batch_progress):
+                # Get filenames for current batch
+                filenames = self._get_batch_filenames(batch_idx)
+                
+                # Process images through model
                 images = images.to(self.device)
                 labels = labels.to(self.device).float()
                 if labels.dim() == 3:
                     labels = labels.unsqueeze(1)
+                
                 outputs = self.model(images)
                 probs = torch.sigmoid(outputs)
+                
+                # Group results by patient ID
+                for slice_idx, filename in enumerate(filenames):
+                    patient_id = self._extract_patient_id(filename)
+                    
+                    # Initialize patient entry if first occurrence
+                    if patient_id not in patient_probs:
+                        patient_probs[patient_id] = []
+                        patient_labels[patient_id] = []
+                    
+                    # Store probability map and label for this slice
+                    patient_probs[patient_id].append(probs[slice_idx].cpu())
+                    patient_labels[patient_id].append(labels[slice_idx].cpu())
+                
+                batch_progress.set_postfix({"Patients": len(patient_probs)})
+        
+        # Calculate Dice score for each patient at each threshold
+        logger.info(f"Computing dice scores for {len(patient_probs)} patients...")
+        for patient_id, prob_slices in patient_probs.items():
+            # Stack all slices for this patient
+            patient_prob_volume = torch.stack(prob_slices)      # [num_slices, 1, H, W]
+            patient_label_volume = torch.stack(patient_labels[patient_id])
+            
+            # Calculate Dice score at each threshold
+            for thresh in self.thresholds:
+                patient_pred_volume = (patient_prob_volume > thresh).float()
+                dice = self._calculate_dice_score(patient_pred_volume, patient_label_volume)
+                patient_dice_by_threshold[thresh].append(dice)
 
-                # Evaluate Dice for each threshold for this batch
-                for thresh in self.thresholds:
-                    predicted_mask = (probs > thresh).float() # Shape [B, 1, H, W]
-                    # Calculate dice for each sample in the batch and sum
-                    batch_dice_sum = 0
-                    for single_pred, single_label in zip(predicted_mask, labels):
-                        batch_dice_sum += self._calculate_dice_score(single_pred, single_label)
-                    total_dice_scores[thresh] += batch_dice_sum # Accumulate sum over all samples
-
-                num_samples += images.size(0) # Count total samples processed
-
-        avg_dice_by_threshold = {thresh: total / num_samples for thresh, total in total_dice_scores.items()}
+        # Calculate average Dice score across patients for each threshold
+        avg_dice_by_threshold = {
+            thresh: sum(scores) / len(scores) if scores else 0.0 
+            for thresh, scores in patient_dice_by_threshold.items()
+        }
+        
         # Find best threshold and Dice
         best_threshold = max(avg_dice_by_threshold, key=avg_dice_by_threshold.get)
         best_dice = avg_dice_by_threshold[best_threshold]
 
+        # Log results
         logger.info("--- Evaluation Complete ---")
-        logger.info(f"Average Dice Scores per Threshold:")
-        for thresh, score in avg_dice_by_threshold.items():
+        logger.info(f"Processed {len(patient_probs)} patients")
+        logger.info(f"Average Patient Dice Scores per Threshold:")
+        for thresh, score in sorted(avg_dice_by_threshold.items()):
             logger.info(f"  Threshold {thresh:.2f}: {score:.4f}")
-        logger.info(f"Best Average Dice Score: {best_dice:.4f} at Threshold: {best_threshold:.2f}")
+        logger.info(f"Best Average Patient Dice Score: {best_dice:.4f} at Threshold: {best_threshold:.2f}")
 
         return best_dice, best_threshold, avg_dice_by_threshold
 
@@ -148,22 +198,45 @@ class Tester:
 
 
     def generate_visualizations(self, best_threshold: float):
-        """Generates and saves predicted masks and overlay visualizations."""
+        """Generates and saves predicted masks and overlay visualizations for a specific number of patients."""
         self.model.eval()
-        samples_saved = 0
+        patient_dirs = {}  # Track patient directories: {patient_id: (pred_dir, overlay_dir)}
+        processed_patients = set()  # Track which patients we've already processed
         
-        logger.info(f"Generating visualizations using threshold {best_threshold:.2f}...")
+        logger.info(f"Generating visualizations for {self.num_visual_patients} patients using threshold {best_threshold:.2f}...")
         
-        # Determine a unique base filename for each sample
-        # Using dataset indices might be ideal if the loader provides them.
-        # As a fallback, use enumeration index.
+        # First pass: collect all patient IDs from the dataset
+        all_patient_ids = set()
+        for batch_idx in range(len(self.test_loader)):
+            filenames = self._get_batch_filenames(batch_idx)
+            for filename in filenames:
+                patient_id = self._extract_patient_id(filename)
+                all_patient_ids.add(patient_id)
         
-        # Iterate through loader to get samples
+        logger.info(f"Found {len(all_patient_ids)} total patients in dataset")
+        
+        # Decide which patients to visualize (take first num_visual_patients)
+        patients_to_visualize = sorted(list(all_patient_ids))[:self.num_visual_patients]
+        logger.info(f"Will generate visualizations for patients: {', '.join(patients_to_visualize)}")
+        
+        # Second pass: process the data and save visualizations for selected patients
         with torch.no_grad():
-            for i, (images, labels) in enumerate(self.test_loader):
-                if samples_saved >= self.num_visual_samples:
-                    break # Stop once enough samples are saved
-
+            for batch_idx, (images, labels) in enumerate(self.test_loader):
+                # Get filenames for the current batch
+                filenames = self._get_batch_filenames(batch_idx)
+                
+                # Check if any filename in this batch belongs to a patient we want to visualize
+                batch_has_target_patient = False
+                for filename in filenames:
+                    patient_id = self._extract_patient_id(filename)
+                    if patient_id in patients_to_visualize:
+                        batch_has_target_patient = True
+                        break
+                
+                if not batch_has_target_patient:
+                    continue  # Skip this batch if no target patients
+                
+                # Process images through model
                 images = images.to(self.device)
                 labels = labels.to(self.device).float()
                 if labels.dim() == 3:
@@ -173,31 +246,52 @@ class Tester:
                 probs = torch.sigmoid(outputs)
                 predicted_masks = (probs > best_threshold).float()
 
-                # Save each sample in the batch until limit is reached
-                for j in range(images.size(0)):
-                    if samples_saved >= self.num_visual_samples:
-                        break
+                # Save slices for targeted patients
+                for slice_idx, filename in enumerate(filenames):
+                    patient_id = self._extract_patient_id(filename)
+                    
+                    # Skip if this patient is not in our target list
+                    if patient_id not in patients_to_visualize:
+                        continue
+                        
+                    # Create patient-specific directories if needed
+                    if patient_id not in patient_dirs:
+                        patient_pred_dir = self.pred_mask_dir / patient_id
+                        patient_overlay_dir = self.overlay_dir / patient_id
+                        patient_pred_dir.mkdir(exist_ok=True)
+                        patient_overlay_dir.mkdir(exist_ok=True)
+                        patient_dirs[patient_id] = (patient_pred_dir, patient_overlay_dir)
+                        processed_patients.add(patient_id)
+                    
+                    # Use the actual filename (without extension) for saving results
+                    base_filename = filename.split('.')[0]  # Remove file extension
+                    pred_mask_path = patient_dirs[patient_id][0] / f"{base_filename}_predmask.npy"
+                    overlay_path = patient_dirs[patient_id][1] / f"{base_filename}_overlay.png"
 
-                    # Define filenames based on batch index i and sample index j
-                    # If dataset provides filenames/ids, use those instead.
-                    base_filename = f"sample_{i*self.test_loader.batch_size + j:04d}" 
-                    pred_mask_path = self.pred_mask_dir / f"{base_filename}_predmask.npy"
-                    overlay_path = self.overlay_dir / f"{base_filename}_overlay.png"
+                    # Extract data for current slice
+                    img_np = images[slice_idx].cpu().numpy().squeeze()
+                    label_np = labels[slice_idx].cpu().numpy().squeeze()
+                    pred_mask_np = predicted_masks[slice_idx].cpu().numpy().squeeze()
 
-                    # Get single sample data (move to CPU, convert to NumPy)
-                    img_np = images[j].cpu().numpy().squeeze() # Assuming single channel input
-                    label_np = labels[j].cpu().numpy().squeeze()
-                    pred_mask_np = predicted_masks[j].cpu().numpy().squeeze()
-
-                    # Save predicted mask as numpy array
+                    # Save predicted mask
                     try:
                         np.save(pred_mask_path, pred_mask_np)
                     except Exception as e:
-                         logger.error(f"Failed to save predicted mask {pred_mask_path}: {e}")
+                        logger.error(f"Failed to save predicted mask {pred_mask_path}: {e}")
 
                     # Create and save overlay
                     self._create_overlay(img_np, label_np, pred_mask_np, overlay_path)
-                    
-                    samples_saved += 1
+                
+                # Early exit if we've processed all target patients
+                if len(processed_patients) >= self.num_visual_patients:
+                    break
         
-        logger.info(f"Saved {samples_saved} visualization samples to {self.overlay_dir} and masks to {self.pred_mask_dir}") 
+        # Count total slices saved
+        total_slices = 0
+        for patient_id in processed_patients:
+            pred_dir = patient_dirs[patient_id][0]
+            patient_slices = len(list(pred_dir.glob("*_predmask.npy")))
+            total_slices += patient_slices
+            logger.info(f"Patient {patient_id}: saved {patient_slices} slices")
+        
+        logger.info(f"Saved visualizations for {len(processed_patients)} patients ({total_slices} total slices)") 
