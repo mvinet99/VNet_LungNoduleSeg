@@ -661,3 +661,1455 @@
 2025-04-24 00:51:35,794 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1006: saved 6 slices
 2025-04-24 00:51:35,795 - richard.src.test.tester:generate_visualizations:297 - INFO - Saved visualizations for 10 patients (60 total slices)
 2025-04-24 00:51:35,795 - root:test:190 - INFO - Testing process finished.
+2025-04-24 21:47:33,532 - root:setup_logging:143 - INFO - File logging (DEBUG level) activated: richard/logs/test_final_checkpoint_25-04-24_00:05:13.log
+2025-04-24 21:47:33,533 - root:setup_logging:149 - INFO - Console logging level set to: INFO
+2025-04-24 21:47:33,533 - root:setup_logging:151 - INFO - File logging level set to: DEBUG
+2025-04-24 21:47:33,533 - root:<module>:240 - INFO - Attempting to test checkpoint: final_checkpoint_25-04-24_00:05:13.pth
+2025-04-24 21:47:33,534 - root:<module>:241 - INFO - Using config: richard/config/test.yaml
+2025-04-24 21:47:33,542 - richard.src.utils.utils:_load_and_merge_yaml_configs:290 - INFO - Decorator loaded base config from: richard/config/test.yaml
+2025-04-24 21:47:33,548 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'model' from: richard/config/model/vnet.yaml
+2025-04-24 21:47:33,552 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataset' from: richard/config/dataset/test_2d.yaml
+2025-04-24 21:47:33,557 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataloader' from: richard/config/dataloader/dataloader.yaml
+2025-04-24 21:47:33,558 - richard.src.utils.utils:wrapper:364 - INFO - Decorator successfully loaded and merged configurations.
+2025-04-24 21:47:33,558 - richard.src.utils.utils:wrapper:372 - INFO - Decorator injecting loaded 'cfg' into function call.
+2025-04-24 21:47:33,558 - richard.src.utils.utils:wrapper:382 - DEBUG - Decorator injected 'cfg' into function call:
+ {
+  "model": {
+    "name": "VNet2D",
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "test": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "testing": {
+    "model_checkpoint_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints",
+    "results_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results",
+    "thresh_min": 0.0,
+    "thresh_max": 0.01,
+    "thresh_step": 0.002,
+    "num_visual_patients": 1248,
+    "overlay_opacity": 0.3
+  }
+}
+2025-04-24 21:47:33,655 - root:test:69 - INFO - Using device: cuda
+2025-04-24 21:47:33,656 - root:test:71 - INFO - Test function received config keys: ['model', 'dataset', 'dataloader', 'testing']
+2025-04-24 21:47:33,657 - root:test:78 - INFO - Test results will be saved in: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-24_00:05:13
+2025-04-24 21:47:41,997 - root:test:93 - INFO - Loaded test dataset with 15181 samples.
+2025-04-24 21:47:41,998 - root:test:95 - INFO - Created Test DataLoader.
+2025-04-24 21:47:42,370 - root:test:110 - INFO - Initialized model: VNet2D
+2025-04-24 21:47:42,556 - root:test:135 - INFO - Loaded model state_dict from checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-24_00:05:13.pth
+2025-04-24 21:47:42,556 - root:test:137 - INFO - Checkpoint trained for 30 epochs.
+2025-04-24 21:47:42,557 - root:test:139 - DEBUG - Checkpoint config:
+{
+  "model": {
+    "name": "VNet2D",
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "train": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/masks_2D_0axis/",
+      "augment": true,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    },
+    "val": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 1e-05,
+    "weight_decay": 0.01
+  },
+  "scheduler": {
+    "name": "ReduceLROnPlateau",
+    "factor": 0.2,
+    "mode": "max",
+    "patience": 5,
+    "min_lr": 1e-06
+  },
+  "criterion": {
+    "Dice": {
+      "name": "DiceLoss",
+      "weight": 1.0
+    }
+  },
+  "training": {
+    "num_epochs": 30,
+    "batch_size": 16,
+    "early_stopping_patience": 15,
+    "early_stopping_min_delta": 0.0005
+  },
+  "checkpoint": {
+    "path": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-17_13:58:47.pth",
+    "freeze_config": {
+      "freeze": true,
+      "config": {
+        "init_conv": false,
+        "downsample_block_1": false,
+        "downsample_block_2": false,
+        "downsample_block_3": false,
+        "downsample_block_4": false,
+        "upsample_block_1": false,
+        "upsample_block_2": false,
+        "upsample_block_3": false,
+        "upsample_block_4": false,
+        "final_conv": false
+      }
+    }
+  }
+}
+2025-04-24 21:47:42,558 - root:test:164 - WARNING - Criterion configuration missing. Test loss will not be calculated.
+2025-04-24 21:47:42,561 - richard.src.test.tester:__init__:55 - INFO - Tester initialized. Results will be saved to: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/final_checkpoint_25-04-24_00:05:13
+2025-04-24 21:47:42,561 - richard.src.test.tester:__init__:56 - INFO - Evaluating Dice at thresholds: [0.0, 0.002, 0.004, 0.006, 0.008, 0.01]
+2025-04-24 21:47:42,562 - richard.src.test.tester:__init__:57 - INFO - Generating visualizations for 1248 patients.
+2025-04-24 21:47:42,562 - richard.src.test.tester:evaluate:94 - INFO - Starting evaluation...
+2025-04-24 21:47:49,290 - richard.src.test.tester:evaluate:128 - INFO - Computing dice scores for 1248 patients...
+2025-04-24 21:47:51,227 - richard.src.test.tester:evaluate:151 - INFO - --- Evaluation Complete ---
+2025-04-24 21:47:51,227 - richard.src.test.tester:evaluate:152 - INFO - Processed 1248 patients
+2025-04-24 21:47:51,227 - richard.src.test.tester:evaluate:153 - INFO - Average Patient Dice Scores per Threshold:
+2025-04-24 21:47:51,228 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.00: 0.0277
+2025-04-24 21:47:51,228 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.00: 0.6979
+2025-04-24 21:47:51,228 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.00: 0.6988
+2025-04-24 21:47:51,228 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.01: 0.6992
+2025-04-24 21:47:51,228 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.01: 0.6984
+2025-04-24 21:47:51,228 - richard.src.test.tester:evaluate:155 - INFO -   Threshold 0.01: 0.6981
+2025-04-24 21:47:51,228 - richard.src.test.tester:evaluate:156 - INFO - Best Average Patient Dice Score: 0.6992 at Threshold: 0.01
+2025-04-24 21:47:51,273 - richard.src.test.tester:generate_visualizations:206 - INFO - Generating visualizations for 1248 patients using threshold 0.01...
+2025-04-24 21:47:51,281 - richard.src.test.tester:generate_visualizations:216 - INFO - Found 1248 total patients in dataset
+2025-04-24 21:47:51,282 - richard.src.test.tester:generate_visualizations:220 - INFO - Will generate visualizations for patients: NLST1000, NLST1001, NLST1002, NLST1003, NLST1004, NLST1005, NLST1006, NLST1007, NLST1008, NLST1009, NLST1010, NLST1011, NLST1012, NLST1013, NLST1014, NLST1015, NLST1016, NLST1017, NLST1018, NLST1019, NLST1020, NLST1021, NLST1022, NLST1023, NLST1024, NLST1025, NLST1026, NLST1027, NLST1028, NLST1029, NLST1030, NLST1031, NLST1032, NLST1033, NLST1034, NLST1035, NLST1036, NLST1037, NLST1038, NLST1039, NLST1040, NLST1041, NLST1042, NLST1043, NLST1044, NLST1045, NLST1046, NLST1047, NLST1048, NLST1049, NLST1050, NLST1051, NLST1052, NLST1053, NLST1054, NLST1055, NLST1056, NLST1057, NLST1058, NLST1059, NLST1060, NLST1061, NLST1062, NLST1063, NLST1064, NLST1065, NLST1066, NLST1067, NLST1068, NLST1069, NLST1070, NLST1071, NLST1072, NLST1073, NLST1074, NLST1075, NLST1076, NLST1077, NLST1078, NLST1079, NLST1080, NLST1081, NLST1082, NLST1083, NLST1084, NLST1085, NLST1086, NLST1087, NLST1088, NLST1089, NLST1090, NLST1091, NLST1092, NLST1093, NLST1094, NLST1095, NLST1096, NLST1097, NLST1098, NLST1099, NLST1100, NLST1101, NLST1102, NLST1103, NLST1104, NLST1105, NLST1106, NLST1107, NLST1108, NLST1109, NLST1110, NLST1111, NLST1112, NLST1113, NLST1114, NLST1115, NLST1116, NLST1117, NLST1118, NLST1119, NLST1120, NLST1121, NLST1122, NLST1123, NLST1124, NLST1125, NLST1126, NLST1127, NLST1128, NLST1129, NLST1130, NLST1131, NLST1132, NLST1133, NLST1134, NLST1135, NLST1136, NLST1137, NLST1138, NLST1139, NLST1140, NLST1141, NLST1142, NLST1143, NLST1144, NLST1145, NLST1146, NLST1147, NLST1148, NLST1149, NLST1150, NLST1151, NLST1152, NLST1153, NLST1154, NLST1155, NLST1156, NLST1157, NLST1158, NLST1159, NLST1160, NLST1161, NLST1162, NLST1163, NLST1164, NLST1165, NLST1166, NLST1167, NLST1168, NLST1169, NLST1170, NLST1171, NLST1172, NLST1173, NLST1174, NLST1175, NLST1176, NLST1177, NLST1178, NLST1179, NLST1180, NLST1181, NLST1182, NLST1183, NLST1184, NLST1185, NLST1186, NLST1187, NLST1188, NLST1189, NLST1190, NLST1191, NLST1192, NLST1193, NLST1194, NLST1195, NLST1196, NLST1197, NLST1198, NLST1199, NLST1200, NLST1201, NLST1202, NLST1203, NLST1204, NLST1205, NLST1206, NLST1207, NLST1208, NLST1209, NLST1210, NLST1211, NLST1212, NLST1213, NLST1214, NLST1215, NLST1216, NLST1217, NLST1218, NLST1219, NLST1220, NLST1221, NLST1222, NLST1223, NLST1224, NLST1225, NLST1226, NLST1227, NLST1228, NLST1229, NLST1230, NLST1231, NLST1232, NLST1233, NLST1234, NLST1235, NLST1236, NLST1237, NLST1238, NLST1239, NLST1240, NLST1241, NLST994, NLST995, NLST996, NLST997, NLST998, NLST999, UCLA1, UCLA10, UCLA100, UCLA1000, UCLA101, UCLA102, UCLA103, UCLA104, UCLA105, UCLA106, UCLA107, UCLA108, UCLA109, UCLA11, UCLA110, UCLA111, UCLA112, UCLA113, UCLA114, UCLA115, UCLA116, UCLA117, UCLA118, UCLA119, UCLA12, UCLA120, UCLA121, UCLA122, UCLA123, UCLA124, UCLA125, UCLA126, UCLA127, UCLA128, UCLA129, UCLA13, UCLA130, UCLA131, UCLA132, UCLA133, UCLA134, UCLA135, UCLA136, UCLA137, UCLA138, UCLA139, UCLA14, UCLA140, UCLA141, UCLA142, UCLA143, UCLA144, UCLA145, UCLA146, UCLA147, UCLA148, UCLA149, UCLA15, UCLA150, UCLA151, UCLA152, UCLA153, UCLA154, UCLA155, UCLA156, UCLA157, UCLA158, UCLA159, UCLA16, UCLA160, UCLA161, UCLA162, UCLA163, UCLA164, UCLA165, UCLA166, UCLA167, UCLA168, UCLA169, UCLA17, UCLA170, UCLA171, UCLA172, UCLA173, UCLA174, UCLA175, UCLA176, UCLA177, UCLA178, UCLA179, UCLA18, UCLA180, UCLA181, UCLA182, UCLA183, UCLA184, UCLA185, UCLA186, UCLA187, UCLA188, UCLA189, UCLA19, UCLA190, UCLA191, UCLA192, UCLA193, UCLA194, UCLA195, UCLA196, UCLA197, UCLA198, UCLA199, UCLA2, UCLA20, UCLA200, UCLA201, UCLA202, UCLA203, UCLA204, UCLA205, UCLA206, UCLA207, UCLA208, UCLA209, UCLA21, UCLA210, UCLA211, UCLA212, UCLA213, UCLA214, UCLA215, UCLA216, UCLA217, UCLA218, UCLA219, UCLA22, UCLA220, UCLA221, UCLA222, UCLA223, UCLA224, UCLA225, UCLA226, UCLA227, UCLA228, UCLA229, UCLA23, UCLA230, UCLA231, UCLA232, UCLA233, UCLA234, UCLA235, UCLA236, UCLA237, UCLA238, UCLA239, UCLA24, UCLA240, UCLA241, UCLA242, UCLA243, UCLA244, UCLA245, UCLA246, UCLA247, UCLA248, UCLA249, UCLA25, UCLA250, UCLA251, UCLA252, UCLA253, UCLA254, UCLA255, UCLA256, UCLA257, UCLA258, UCLA259, UCLA26, UCLA260, UCLA261, UCLA262, UCLA263, UCLA264, UCLA265, UCLA266, UCLA267, UCLA268, UCLA269, UCLA27, UCLA270, UCLA271, UCLA272, UCLA273, UCLA274, UCLA275, UCLA276, UCLA277, UCLA278, UCLA279, UCLA28, UCLA280, UCLA281, UCLA282, UCLA283, UCLA284, UCLA285, UCLA286, UCLA287, UCLA288, UCLA289, UCLA29, UCLA290, UCLA291, UCLA292, UCLA293, UCLA294, UCLA295, UCLA296, UCLA297, UCLA298, UCLA299, UCLA3, UCLA30, UCLA300, UCLA301, UCLA302, UCLA303, UCLA304, UCLA305, UCLA306, UCLA307, UCLA308, UCLA309, UCLA31, UCLA310, UCLA311, UCLA312, UCLA313, UCLA314, UCLA315, UCLA316, UCLA317, UCLA318, UCLA319, UCLA32, UCLA320, UCLA321, UCLA322, UCLA323, UCLA324, UCLA325, UCLA326, UCLA327, UCLA328, UCLA329, UCLA33, UCLA330, UCLA331, UCLA332, UCLA333, UCLA334, UCLA335, UCLA336, UCLA337, UCLA338, UCLA339, UCLA34, UCLA340, UCLA341, UCLA342, UCLA343, UCLA344, UCLA345, UCLA346, UCLA347, UCLA348, UCLA349, UCLA35, UCLA350, UCLA351, UCLA352, UCLA353, UCLA354, UCLA355, UCLA356, UCLA357, UCLA358, UCLA359, UCLA36, UCLA360, UCLA361, UCLA362, UCLA363, UCLA364, UCLA365, UCLA366, UCLA367, UCLA368, UCLA369, UCLA37, UCLA370, UCLA371, UCLA372, UCLA373, UCLA374, UCLA375, UCLA376, UCLA377, UCLA378, UCLA379, UCLA38, UCLA380, UCLA381, UCLA382, UCLA383, UCLA384, UCLA385, UCLA386, UCLA387, UCLA388, UCLA389, UCLA39, UCLA390, UCLA391, UCLA392, UCLA393, UCLA394, UCLA395, UCLA396, UCLA397, UCLA398, UCLA399, UCLA4, UCLA40, UCLA400, UCLA401, UCLA402, UCLA403, UCLA404, UCLA405, UCLA406, UCLA407, UCLA408, UCLA409, UCLA41, UCLA410, UCLA411, UCLA412, UCLA413, UCLA414, UCLA415, UCLA416, UCLA417, UCLA418, UCLA419, UCLA42, UCLA420, UCLA421, UCLA422, UCLA423, UCLA424, UCLA425, UCLA426, UCLA427, UCLA428, UCLA429, UCLA43, UCLA430, UCLA431, UCLA432, UCLA433, UCLA434, UCLA435, UCLA436, UCLA437, UCLA438, UCLA439, UCLA44, UCLA440, UCLA441, UCLA442, UCLA443, UCLA444, UCLA445, UCLA446, UCLA447, UCLA448, UCLA449, UCLA45, UCLA450, UCLA451, UCLA452, UCLA453, UCLA454, UCLA455, UCLA456, UCLA457, UCLA458, UCLA459, UCLA46, UCLA460, UCLA461, UCLA462, UCLA463, UCLA464, UCLA465, UCLA466, UCLA467, UCLA468, UCLA469, UCLA47, UCLA470, UCLA471, UCLA472, UCLA473, UCLA474, UCLA475, UCLA476, UCLA477, UCLA478, UCLA479, UCLA48, UCLA480, UCLA481, UCLA482, UCLA483, UCLA484, UCLA485, UCLA486, UCLA487, UCLA488, UCLA489, UCLA49, UCLA490, UCLA491, UCLA492, UCLA493, UCLA494, UCLA495, UCLA496, UCLA497, UCLA498, UCLA499, UCLA5, UCLA50, UCLA500, UCLA501, UCLA502, UCLA503, UCLA504, UCLA505, UCLA506, UCLA507, UCLA508, UCLA509, UCLA51, UCLA510, UCLA511, UCLA512, UCLA513, UCLA514, UCLA515, UCLA516, UCLA517, UCLA518, UCLA519, UCLA52, UCLA520, UCLA521, UCLA522, UCLA523, UCLA524, UCLA525, UCLA526, UCLA527, UCLA528, UCLA529, UCLA53, UCLA530, UCLA531, UCLA532, UCLA533, UCLA534, UCLA535, UCLA536, UCLA537, UCLA538, UCLA539, UCLA54, UCLA540, UCLA541, UCLA542, UCLA543, UCLA544, UCLA545, UCLA546, UCLA547, UCLA548, UCLA549, UCLA55, UCLA550, UCLA551, UCLA552, UCLA553, UCLA554, UCLA555, UCLA556, UCLA557, UCLA558, UCLA559, UCLA56, UCLA560, UCLA561, UCLA562, UCLA563, UCLA564, UCLA565, UCLA566, UCLA567, UCLA568, UCLA569, UCLA57, UCLA570, UCLA571, UCLA572, UCLA573, UCLA574, UCLA575, UCLA576, UCLA577, UCLA578, UCLA579, UCLA58, UCLA580, UCLA581, UCLA582, UCLA583, UCLA584, UCLA585, UCLA586, UCLA587, UCLA588, UCLA589, UCLA59, UCLA590, UCLA591, UCLA592, UCLA593, UCLA594, UCLA595, UCLA596, UCLA597, UCLA598, UCLA599, UCLA6, UCLA60, UCLA600, UCLA601, UCLA602, UCLA603, UCLA604, UCLA605, UCLA606, UCLA607, UCLA608, UCLA609, UCLA61, UCLA610, UCLA611, UCLA612, UCLA613, UCLA614, UCLA615, UCLA616, UCLA617, UCLA618, UCLA619, UCLA62, UCLA620, UCLA621, UCLA622, UCLA623, UCLA624, UCLA625, UCLA626, UCLA627, UCLA628, UCLA629, UCLA63, UCLA630, UCLA631, UCLA632, UCLA633, UCLA634, UCLA635, UCLA636, UCLA637, UCLA638, UCLA639, UCLA64, UCLA640, UCLA641, UCLA642, UCLA643, UCLA644, UCLA645, UCLA646, UCLA647, UCLA648, UCLA649, UCLA65, UCLA650, UCLA651, UCLA652, UCLA653, UCLA654, UCLA655, UCLA656, UCLA657, UCLA658, UCLA659, UCLA66, UCLA660, UCLA661, UCLA662, UCLA663, UCLA664, UCLA665, UCLA666, UCLA667, UCLA668, UCLA669, UCLA67, UCLA670, UCLA671, UCLA672, UCLA673, UCLA674, UCLA675, UCLA676, UCLA677, UCLA678, UCLA679, UCLA68, UCLA680, UCLA681, UCLA682, UCLA683, UCLA684, UCLA685, UCLA686, UCLA687, UCLA688, UCLA689, UCLA69, UCLA690, UCLA691, UCLA692, UCLA693, UCLA694, UCLA695, UCLA696, UCLA697, UCLA698, UCLA699, UCLA7, UCLA70, UCLA700, UCLA701, UCLA702, UCLA703, UCLA704, UCLA705, UCLA706, UCLA707, UCLA708, UCLA709, UCLA71, UCLA710, UCLA711, UCLA712, UCLA713, UCLA714, UCLA715, UCLA716, UCLA717, UCLA718, UCLA719, UCLA72, UCLA720, UCLA721, UCLA722, UCLA723, UCLA724, UCLA725, UCLA726, UCLA727, UCLA728, UCLA729, UCLA73, UCLA730, UCLA731, UCLA732, UCLA733, UCLA734, UCLA735, UCLA736, UCLA737, UCLA738, UCLA739, UCLA74, UCLA740, UCLA741, UCLA742, UCLA743, UCLA744, UCLA745, UCLA746, UCLA747, UCLA748, UCLA749, UCLA75, UCLA750, UCLA751, UCLA752, UCLA753, UCLA754, UCLA755, UCLA756, UCLA757, UCLA758, UCLA759, UCLA76, UCLA760, UCLA761, UCLA762, UCLA763, UCLA764, UCLA765, UCLA766, UCLA767, UCLA768, UCLA769, UCLA77, UCLA770, UCLA771, UCLA772, UCLA773, UCLA774, UCLA775, UCLA776, UCLA777, UCLA778, UCLA779, UCLA78, UCLA780, UCLA781, UCLA782, UCLA783, UCLA784, UCLA785, UCLA786, UCLA787, UCLA788, UCLA789, UCLA79, UCLA790, UCLA791, UCLA792, UCLA793, UCLA794, UCLA795, UCLA796, UCLA797, UCLA798, UCLA799, UCLA8, UCLA80, UCLA800, UCLA801, UCLA802, UCLA803, UCLA804, UCLA805, UCLA806, UCLA807, UCLA808, UCLA809, UCLA81, UCLA810, UCLA811, UCLA812, UCLA813, UCLA814, UCLA815, UCLA816, UCLA817, UCLA818, UCLA819, UCLA82, UCLA820, UCLA821, UCLA822, UCLA823, UCLA824, UCLA825, UCLA826, UCLA827, UCLA828, UCLA829, UCLA83, UCLA830, UCLA831, UCLA832, UCLA833, UCLA834, UCLA835, UCLA836, UCLA837, UCLA838, UCLA839, UCLA84, UCLA840, UCLA841, UCLA842, UCLA843, UCLA844, UCLA845, UCLA846, UCLA847, UCLA848, UCLA849, UCLA85, UCLA850, UCLA851, UCLA852, UCLA853, UCLA854, UCLA855, UCLA856, UCLA857, UCLA858, UCLA859, UCLA86, UCLA860, UCLA861, UCLA862, UCLA863, UCLA864, UCLA865, UCLA866, UCLA867, UCLA868, UCLA869, UCLA87, UCLA870, UCLA871, UCLA872, UCLA873, UCLA874, UCLA875, UCLA876, UCLA877, UCLA878, UCLA879, UCLA88, UCLA880, UCLA881, UCLA882, UCLA883, UCLA884, UCLA885, UCLA886, UCLA887, UCLA888, UCLA889, UCLA89, UCLA890, UCLA891, UCLA892, UCLA893, UCLA894, UCLA895, UCLA896, UCLA897, UCLA898, UCLA899, UCLA9, UCLA90, UCLA900, UCLA901, UCLA902, UCLA903, UCLA904, UCLA905, UCLA906, UCLA907, UCLA908, UCLA909, UCLA91, UCLA910, UCLA911, UCLA912, UCLA913, UCLA914, UCLA915, UCLA916, UCLA917, UCLA918, UCLA919, UCLA92, UCLA920, UCLA921, UCLA922, UCLA923, UCLA924, UCLA925, UCLA926, UCLA927, UCLA928, UCLA929, UCLA93, UCLA930, UCLA931, UCLA932, UCLA933, UCLA934, UCLA935, UCLA936, UCLA937, UCLA938, UCLA939, UCLA94, UCLA940, UCLA941, UCLA942, UCLA943, UCLA944, UCLA945, UCLA946, UCLA947, UCLA948, UCLA949, UCLA95, UCLA950, UCLA951, UCLA952, UCLA953, UCLA954, UCLA955, UCLA956, UCLA957, UCLA958, UCLA959, UCLA96, UCLA960, UCLA961, UCLA962, UCLA963, UCLA964, UCLA965, UCLA966, UCLA967, UCLA968, UCLA969, UCLA97, UCLA970, UCLA971, UCLA972, UCLA973, UCLA974, UCLA975, UCLA976, UCLA977, UCLA978, UCLA979, UCLA98, UCLA980, UCLA981, UCLA982, UCLA983, UCLA984, UCLA985, UCLA986, UCLA987, UCLA988, UCLA989, UCLA99, UCLA990, UCLA991, UCLA992, UCLA993, UCLA994, UCLA995, UCLA996, UCLA997, UCLA998, UCLA999
+2025-04-24 21:47:51,484 - matplotlib.pyplot:switch_backend:497 - DEBUG - Loaded backend agg version v2.2.
+2025-04-24 22:04:47,987 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA796: saved 24 slices
+2025-04-24 22:04:47,989 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA433: saved 23 slices
+2025-04-24 22:04:47,991 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA548: saved 12 slices
+2025-04-24 22:04:47,993 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA456: saved 9 slices
+2025-04-24 22:04:47,994 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1201: saved 2 slices
+2025-04-24 22:04:47,995 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA263: saved 6 slices
+2025-04-24 22:04:47,996 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1152: saved 6 slices
+2025-04-24 22:04:47,997 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA130: saved 10 slices
+2025-04-24 22:04:47,999 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1037: saved 4 slices
+2025-04-24 22:04:48,001 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA431: saved 11 slices
+2025-04-24 22:04:48,002 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA98: saved 27 slices
+2025-04-24 22:04:48,004 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA667: saved 6 slices
+2025-04-24 22:04:48,006 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA936: saved 8 slices
+2025-04-24 22:04:48,007 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1102: saved 12 slices
+2025-04-24 22:04:48,007 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1057: saved 4 slices
+2025-04-24 22:04:48,009 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA22: saved 64 slices
+2025-04-24 22:04:48,010 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1049: saved 4 slices
+2025-04-24 22:04:48,012 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA24: saved 8 slices
+2025-04-24 22:04:48,013 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA96: saved 7 slices
+2025-04-24 22:04:48,015 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA820: saved 26 slices
+2025-04-24 22:04:48,016 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA704: saved 5 slices
+2025-04-24 22:04:48,017 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA2: saved 8 slices
+2025-04-24 22:04:48,018 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1169: saved 3 slices
+2025-04-24 22:04:48,019 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA621: saved 8 slices
+2025-04-24 22:04:48,020 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA61: saved 6 slices
+2025-04-24 22:04:48,021 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA290: saved 5 slices
+2025-04-24 22:04:48,022 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA33: saved 8 slices
+2025-04-24 22:04:48,023 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA356: saved 5 slices
+2025-04-24 22:04:48,025 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA702: saved 12 slices
+2025-04-24 22:04:48,026 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1122: saved 5 slices
+2025-04-24 22:04:48,027 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1113: saved 3 slices
+2025-04-24 22:04:48,029 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA474: saved 6 slices
+2025-04-24 22:04:48,032 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA519: saved 18 slices
+2025-04-24 22:04:48,033 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA240: saved 10 slices
+2025-04-24 22:04:48,035 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA920: saved 14 slices
+2025-04-24 22:04:48,037 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA840: saved 6 slices
+2025-04-24 22:04:48,038 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA269: saved 12 slices
+2025-04-24 22:04:48,039 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1105: saved 4 slices
+2025-04-24 22:04:48,040 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA757: saved 10 slices
+2025-04-24 22:04:48,041 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1080: saved 7 slices
+2025-04-24 22:04:48,042 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1114: saved 9 slices
+2025-04-24 22:04:48,045 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA551: saved 22 slices
+2025-04-24 22:04:48,047 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA839: saved 5 slices
+2025-04-24 22:04:48,049 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA437: saved 5 slices
+2025-04-24 22:04:48,051 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA676: saved 23 slices
+2025-04-24 22:04:48,053 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA469: saved 27 slices
+2025-04-24 22:04:48,055 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA562: saved 9 slices
+2025-04-24 22:04:48,057 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA696: saved 12 slices
+2025-04-24 22:04:48,058 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA317: saved 16 slices
+2025-04-24 22:04:48,060 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA439: saved 15 slices
+2025-04-24 22:04:48,062 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA546: saved 37 slices
+2025-04-24 22:04:48,064 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA801: saved 8 slices
+2025-04-24 22:04:48,065 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA386: saved 25 slices
+2025-04-24 22:04:48,068 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA632: saved 28 slices
+2025-04-24 22:04:48,070 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA660: saved 7 slices
+2025-04-24 22:04:48,072 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1036: saved 15 slices
+2025-04-24 22:04:48,074 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA741: saved 8 slices
+2025-04-24 22:04:48,076 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA561: saved 20 slices
+2025-04-24 22:04:48,078 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA558: saved 7 slices
+2025-04-24 22:04:48,079 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA173: saved 8 slices
+2025-04-24 22:04:48,082 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA471: saved 25 slices
+2025-04-24 22:04:48,083 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA618: saved 11 slices
+2025-04-24 22:04:48,084 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1183: saved 4 slices
+2025-04-24 22:04:48,086 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA805: saved 12 slices
+2025-04-24 22:04:48,089 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA834: saved 13 slices
+2025-04-24 22:04:48,092 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA789: saved 9 slices
+2025-04-24 22:04:48,093 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1175: saved 11 slices
+2025-04-24 22:04:48,096 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA731: saved 12 slices
+2025-04-24 22:04:48,097 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1144: saved 2 slices
+2025-04-24 22:04:48,099 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1184: saved 3 slices
+2025-04-24 22:04:48,102 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA949: saved 14 slices
+2025-04-24 22:04:48,104 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1115: saved 9 slices
+2025-04-24 22:04:48,104 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1232: saved 3 slices
+2025-04-24 22:04:48,106 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA666: saved 6 slices
+2025-04-24 22:04:48,108 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA825: saved 6 slices
+2025-04-24 22:04:48,110 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA837: saved 16 slices
+2025-04-24 22:04:48,111 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA448: saved 11 slices
+2025-04-24 22:04:48,112 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA625: saved 4 slices
+2025-04-24 22:04:48,114 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA542: saved 18 slices
+2025-04-24 22:04:48,114 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA176: saved 6 slices
+2025-04-24 22:04:48,115 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA642: saved 2 slices
+2025-04-24 22:04:48,116 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1120: saved 15 slices
+2025-04-24 22:04:48,117 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA521: saved 8 slices
+2025-04-24 22:04:48,118 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1011: saved 14 slices
+2025-04-24 22:04:48,119 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA983: saved 8 slices
+2025-04-24 22:04:48,119 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA131: saved 9 slices
+2025-04-24 22:04:48,121 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA408: saved 15 slices
+2025-04-24 22:04:48,121 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA106: saved 10 slices
+2025-04-24 22:04:48,122 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA304: saved 10 slices
+2025-04-24 22:04:48,123 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA215: saved 28 slices
+2025-04-24 22:04:48,123 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA11: saved 8 slices
+2025-04-24 22:04:48,124 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1173: saved 3 slices
+2025-04-24 22:04:48,125 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA879: saved 19 slices
+2025-04-24 22:04:48,127 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA536: saved 5 slices
+2025-04-24 22:04:48,128 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA956: saved 22 slices
+2025-04-24 22:04:48,129 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA807: saved 4 slices
+2025-04-24 22:04:48,130 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA948: saved 14 slices
+2025-04-24 22:04:48,132 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA711: saved 18 slices
+2025-04-24 22:04:48,133 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA615: saved 6 slices
+2025-04-24 22:04:48,134 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA773: saved 12 slices
+2025-04-24 22:04:48,135 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA160: saved 9 slices
+2025-04-24 22:04:48,135 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1217: saved 3 slices
+2025-04-24 22:04:48,136 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA167: saved 5 slices
+2025-04-24 22:04:48,137 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST995: saved 8 slices
+2025-04-24 22:04:48,137 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1190: saved 3 slices
+2025-04-24 22:04:48,138 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA88: saved 3 slices
+2025-04-24 22:04:48,140 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA954: saved 17 slices
+2025-04-24 22:04:48,140 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST996: saved 4 slices
+2025-04-24 22:04:48,142 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA463: saved 6 slices
+2025-04-24 22:04:48,143 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA848: saved 11 slices
+2025-04-24 22:04:48,143 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1236: saved 5 slices
+2025-04-24 22:04:48,145 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA815: saved 11 slices
+2025-04-24 22:04:48,146 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA686: saved 8 slices
+2025-04-24 22:04:48,147 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA751: saved 5 slices
+2025-04-24 22:04:48,150 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA547: saved 17 slices
+2025-04-24 22:04:48,151 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1131: saved 4 slices
+2025-04-24 22:04:48,152 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1214: saved 17 slices
+2025-04-24 22:04:48,153 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA135: saved 6 slices
+2025-04-24 22:04:48,153 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1204: saved 4 slices
+2025-04-24 22:04:48,154 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1099: saved 6 slices
+2025-04-24 22:04:48,156 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA709: saved 3 slices
+2025-04-24 22:04:48,157 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA238: saved 9 slices
+2025-04-24 22:04:48,159 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA953: saved 4 slices
+2025-04-24 22:04:48,160 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1213: saved 10 slices
+2025-04-24 22:04:48,162 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA931: saved 3 slices
+2025-04-24 22:04:48,164 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA482: saved 7 slices
+2025-04-24 22:04:48,170 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA836: saved 5 slices
+2025-04-24 22:04:48,174 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA606: saved 15 slices
+2025-04-24 22:04:48,176 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA23: saved 30 slices
+2025-04-24 22:04:48,178 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA117: saved 20 slices
+2025-04-24 22:04:48,179 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA357: saved 18 slices
+2025-04-24 22:04:48,181 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA413: saved 11 slices
+2025-04-24 22:04:48,181 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA351: saved 8 slices
+2025-04-24 22:04:48,182 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA137: saved 8 slices
+2025-04-24 22:04:48,183 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA539: saved 4 slices
+2025-04-24 22:04:48,185 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA748: saved 39 slices
+2025-04-24 22:04:48,187 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA425: saved 21 slices
+2025-04-24 22:04:48,188 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1016: saved 4 slices
+2025-04-24 22:04:48,189 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1086: saved 18 slices
+2025-04-24 22:04:48,189 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1022: saved 4 slices
+2025-04-24 22:04:48,190 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA342: saved 13 slices
+2025-04-24 22:04:48,191 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA737: saved 16 slices
+2025-04-24 22:04:48,193 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA414: saved 14 slices
+2025-04-24 22:04:48,194 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA808: saved 9 slices
+2025-04-24 22:04:48,195 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA569: saved 16 slices
+2025-04-24 22:04:48,196 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA212: saved 10 slices
+2025-04-24 22:04:48,197 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA253: saved 13 slices
+2025-04-24 22:04:48,198 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA626: saved 16 slices
+2025-04-24 22:04:48,199 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA359: saved 7 slices
+2025-04-24 22:04:48,199 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1109: saved 3 slices
+2025-04-24 22:04:48,200 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA672: saved 14 slices
+2025-04-24 22:04:48,201 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA303: saved 10 slices
+2025-04-24 22:04:48,202 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA961: saved 5 slices
+2025-04-24 22:04:48,203 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA387: saved 7 slices
+2025-04-24 22:04:48,205 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA706: saved 12 slices
+2025-04-24 22:04:48,205 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1052: saved 6 slices
+2025-04-24 22:04:48,206 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA720: saved 7 slices
+2025-04-24 22:04:48,208 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA722: saved 20 slices
+2025-04-24 22:04:48,209 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1125: saved 7 slices
+2025-04-24 22:04:48,210 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA717: saved 8 slices
+2025-04-24 22:04:48,210 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1199: saved 3 slices
+2025-04-24 22:04:48,211 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA472: saved 4 slices
+2025-04-24 22:04:48,213 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA423: saved 19 slices
+2025-04-24 22:04:48,214 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA101: saved 10 slices
+2025-04-24 22:04:48,215 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA91: saved 40 slices
+2025-04-24 22:04:48,217 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA563: saved 5 slices
+2025-04-24 22:04:48,219 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA688: saved 15 slices
+2025-04-24 22:04:48,221 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA950: saved 16 slices
+2025-04-24 22:04:48,223 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA912: saved 5 slices
+2025-04-24 22:04:48,225 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA854: saved 15 slices
+2025-04-24 22:04:48,227 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA645: saved 9 slices
+2025-04-24 22:04:48,227 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1158: saved 13 slices
+2025-04-24 22:04:48,229 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA908: saved 2 slices
+2025-04-24 22:04:48,231 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA863: saved 9 slices
+2025-04-24 22:04:48,233 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA669: saved 3 slices
+2025-04-24 22:04:48,234 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1147: saved 3 slices
+2025-04-24 22:04:48,235 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1225: saved 4 slices
+2025-04-24 22:04:48,237 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA708: saved 6 slices
+2025-04-24 22:04:48,238 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA972: saved 7 slices
+2025-04-24 22:04:48,240 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA673: saved 8 slices
+2025-04-24 22:04:48,242 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA464: saved 13 slices
+2025-04-24 22:04:48,244 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA692: saved 11 slices
+2025-04-24 22:04:48,246 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA841: saved 25 slices
+2025-04-24 22:04:48,248 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA674: saved 24 slices
+2025-04-24 22:04:48,249 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA194: saved 16 slices
+2025-04-24 22:04:48,250 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA268: saved 13 slices
+2025-04-24 22:04:48,252 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1193: saved 16 slices
+2025-04-24 22:04:48,253 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA172: saved 53 slices
+2025-04-24 22:04:48,254 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA229: saved 3 slices
+2025-04-24 22:04:48,257 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA755: saved 14 slices
+2025-04-24 22:04:48,257 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA124: saved 5 slices
+2025-04-24 22:04:48,258 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA232: saved 5 slices
+2025-04-24 22:04:48,261 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA381: saved 6 slices
+2025-04-24 22:04:48,263 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA458: saved 23 slices
+2025-04-24 22:04:48,265 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA861: saved 43 slices
+2025-04-24 22:04:48,266 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA273: saved 9 slices
+2025-04-24 22:04:48,268 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA424: saved 8 slices
+2025-04-24 22:04:48,269 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1137: saved 3 slices
+2025-04-24 22:04:48,271 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA878: saved 10 slices
+2025-04-24 22:04:48,273 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA813: saved 5 slices
+2025-04-24 22:04:48,275 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA774: saved 4 slices
+2025-04-24 22:04:48,277 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA979: saved 16 slices
+2025-04-24 22:04:48,279 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA149: saved 8 slices
+2025-04-24 22:04:48,280 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA163: saved 10 slices
+2025-04-24 22:04:48,282 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA567: saved 12 slices
+2025-04-24 22:04:48,283 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA421: saved 9 slices
+2025-04-24 22:04:48,285 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA612: saved 3 slices
+2025-04-24 22:04:48,287 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA183: saved 11 slices
+2025-04-24 22:04:48,288 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA125: saved 4 slices
+2025-04-24 22:04:48,289 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA247: saved 9 slices
+2025-04-24 22:04:48,290 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA217: saved 14 slices
+2025-04-24 22:04:48,291 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1191: saved 3 slices
+2025-04-24 22:04:48,293 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA843: saved 10 slices
+2025-04-24 22:04:48,294 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA16: saved 14 slices
+2025-04-24 22:04:48,295 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA25: saved 14 slices
+2025-04-24 22:04:48,297 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA965: saved 25 slices
+2025-04-24 22:04:48,299 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA641: saved 6 slices
+2025-04-24 22:04:48,300 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1164: saved 2 slices
+2025-04-24 22:04:48,301 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA997: saved 6 slices
+2025-04-24 22:04:48,303 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA473: saved 8 slices
+2025-04-24 22:04:48,305 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA804: saved 44 slices
+2025-04-24 22:04:48,307 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1072: saved 4 slices
+2025-04-24 22:04:48,308 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA234: saved 8 slices
+2025-04-24 22:04:48,309 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA204: saved 8 slices
+2025-04-24 22:04:48,310 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA851: saved 12 slices
+2025-04-24 22:04:48,312 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA319: saved 24 slices
+2025-04-24 22:04:48,313 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA895: saved 3 slices
+2025-04-24 22:04:48,315 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA664: saved 11 slices
+2025-04-24 22:04:48,317 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA29: saved 10 slices
+2025-04-24 22:04:48,318 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA246: saved 5 slices
+2025-04-24 22:04:48,320 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA658: saved 11 slices
+2025-04-24 22:04:48,322 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA49: saved 5 slices
+2025-04-24 22:04:48,324 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA545: saved 8 slices
+2025-04-24 22:04:48,325 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1220: saved 3 slices
+2025-04-24 22:04:48,326 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA362: saved 19 slices
+2025-04-24 22:04:48,327 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA252: saved 11 slices
+2025-04-24 22:04:48,328 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1062: saved 3 slices
+2025-04-24 22:04:48,329 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA366: saved 26 slices
+2025-04-24 22:04:48,332 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA877: saved 37 slices
+2025-04-24 22:04:48,333 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA328: saved 6 slices
+2025-04-24 22:04:48,334 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA67: saved 9 slices
+2025-04-24 22:04:48,336 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA239: saved 6 slices
+2025-04-24 22:04:48,337 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1218: saved 3 slices
+2025-04-24 22:04:48,338 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA349: saved 13 slices
+2025-04-24 22:04:48,340 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA835: saved 8 slices
+2025-04-24 22:04:48,342 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA447: saved 20 slices
+2025-04-24 22:04:48,345 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA410: saved 13 slices
+2025-04-24 22:04:48,346 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA510: saved 13 slices
+2025-04-24 22:04:48,347 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA13: saved 41 slices
+2025-04-24 22:04:48,349 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA734: saved 11 slices
+2025-04-24 22:04:48,352 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA644: saved 7 slices
+2025-04-24 22:04:48,353 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA152: saved 9 slices
+2025-04-24 22:04:48,354 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA395: saved 21 slices
+2025-04-24 22:04:48,355 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA196: saved 10 slices
+2025-04-24 22:04:48,357 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1154: saved 11 slices
+2025-04-24 22:04:48,358 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1187: saved 4 slices
+2025-04-24 22:04:48,361 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA996: saved 9 slices
+2025-04-24 22:04:48,363 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA544: saved 7 slices
+2025-04-24 22:04:48,364 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA876: saved 13 slices
+2025-04-24 22:04:48,365 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA274: saved 10 slices
+2025-04-24 22:04:48,366 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA17: saved 15 slices
+2025-04-24 22:04:48,366 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1030: saved 3 slices
+2025-04-24 22:04:48,370 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA778: saved 4 slices
+2025-04-24 22:04:48,371 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1181: saved 1 slices
+2025-04-24 22:04:48,373 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA747: saved 38 slices
+2025-04-24 22:04:48,373 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1194: saved 16 slices
+2025-04-24 22:04:48,375 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA4: saved 5 slices
+2025-04-24 22:04:48,379 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA727: saved 7 slices
+2025-04-24 22:04:48,382 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA298: saved 9 slices
+2025-04-24 22:04:48,383 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA353: saved 8 slices
+2025-04-24 22:04:48,389 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA95: saved 10 slices
+2025-04-24 22:04:48,392 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA80: saved 9 slices
+2025-04-24 22:04:48,393 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1234: saved 5 slices
+2025-04-24 22:04:48,394 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1070: saved 4 slices
+2025-04-24 22:04:48,396 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA557: saved 8 slices
+2025-04-24 22:04:48,397 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA451: saved 6 slices
+2025-04-24 22:04:48,398 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA935: saved 12 slices
+2025-04-24 22:04:48,399 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1039: saved 6 slices
+2025-04-24 22:04:48,400 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA308: saved 7 slices
+2025-04-24 22:04:48,400 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA282: saved 9 slices
+2025-04-24 22:04:48,402 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA655: saved 7 slices
+2025-04-24 22:04:48,403 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA933: saved 7 slices
+2025-04-24 22:04:48,404 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA344: saved 8 slices
+2025-04-24 22:04:48,406 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA760: saved 15 slices
+2025-04-24 22:04:48,406 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1163: saved 2 slices
+2025-04-24 22:04:48,407 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA343: saved 11 slices
+2025-04-24 22:04:48,408 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA509: saved 8 slices
+2025-04-24 22:04:48,409 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1155: saved 9 slices
+2025-04-24 22:04:48,410 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA53: saved 9 slices
+2025-04-24 22:04:48,411 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA559: saved 7 slices
+2025-04-24 22:04:48,413 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA405: saved 16 slices
+2025-04-24 22:04:48,415 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA64: saved 5 slices
+2025-04-24 22:04:48,415 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA280: saved 9 slices
+2025-04-24 22:04:48,417 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA581: saved 8 slices
+2025-04-24 22:04:48,418 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA58: saved 39 slices
+2025-04-24 22:04:48,419 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1143: saved 2 slices
+2025-04-24 22:04:48,421 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA901: saved 7 slices
+2025-04-24 22:04:48,422 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA337: saved 37 slices
+2025-04-24 22:04:48,424 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA434: saved 5 slices
+2025-04-24 22:04:48,426 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA698: saved 26 slices
+2025-04-24 22:04:48,428 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA420: saved 18 slices
+2025-04-24 22:04:48,429 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA981: saved 4 slices
+2025-04-24 22:04:48,430 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA346: saved 14 slices
+2025-04-24 22:04:48,431 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1040: saved 6 slices
+2025-04-24 22:04:48,436 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA906: saved 7 slices
+2025-04-24 22:04:48,438 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA12: saved 18 slices
+2025-04-24 22:04:48,441 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA944: saved 3 slices
+2025-04-24 22:04:48,442 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1116: saved 9 slices
+2025-04-24 22:04:48,443 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1171: saved 3 slices
+2025-04-24 22:04:48,446 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA640: saved 10 slices
+2025-04-24 22:04:48,447 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA739: saved 7 slices
+2025-04-24 22:04:48,448 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA492: saved 26 slices
+2025-04-24 22:04:48,449 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA265: saved 15 slices
+2025-04-24 22:04:48,450 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA736: saved 7 slices
+2025-04-24 22:04:48,451 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA831: saved 8 slices
+2025-04-24 22:04:48,452 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA892: saved 8 slices
+2025-04-24 22:04:48,453 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA256: saved 9 slices
+2025-04-24 22:04:48,454 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA87: saved 52 slices
+2025-04-24 22:04:48,455 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA970: saved 11 slices
+2025-04-24 22:04:48,456 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA670: saved 36 slices
+2025-04-24 22:04:48,457 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA728: saved 7 slices
+2025-04-24 22:04:48,460 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA705: saved 29 slices
+2025-04-24 22:04:48,461 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA210: saved 27 slices
+2025-04-24 22:04:48,462 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA75: saved 22 slices
+2025-04-24 22:04:48,463 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA312: saved 7 slices
+2025-04-24 22:04:48,465 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA816: saved 13 slices
+2025-04-24 22:04:48,467 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA662: saved 11 slices
+2025-04-24 22:04:48,467 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA360: saved 10 slices
+2025-04-24 22:04:48,469 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA468: saved 3 slices
+2025-04-24 22:04:48,470 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1231: saved 3 slices
+2025-04-24 22:04:48,470 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA251: saved 11 slices
+2025-04-24 22:04:48,473 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA380: saved 12 slices
+2025-04-24 22:04:48,473 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1009: saved 3 slices
+2025-04-24 22:04:48,474 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA347: saved 8 slices
+2025-04-24 22:04:48,475 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1180: saved 5 slices
+2025-04-24 22:04:48,476 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA323: saved 9 slices
+2025-04-24 22:04:48,478 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA44: saved 23 slices
+2025-04-24 22:04:48,479 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA338: saved 18 slices
+2025-04-24 22:04:48,480 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA897: saved 7 slices
+2025-04-24 22:04:48,481 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA285: saved 7 slices
+2025-04-24 22:04:48,482 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA488: saved 12 slices
+2025-04-24 22:04:48,484 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA602: saved 11 slices
+2025-04-24 22:04:48,484 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1029: saved 3 slices
+2025-04-24 22:04:48,486 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA695: saved 11 slices
+2025-04-24 22:04:48,486 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA289: saved 6 slices
+2025-04-24 22:04:48,487 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1126: saved 5 slices
+2025-04-24 22:04:48,488 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA45: saved 11 slices
+2025-04-24 22:04:48,489 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA368: saved 8 slices
+2025-04-24 22:04:48,490 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA782: saved 8 slices
+2025-04-24 22:04:48,491 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1010: saved 4 slices
+2025-04-24 22:04:48,493 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA467: saved 20 slices
+2025-04-24 22:04:48,495 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA617: saved 11 slices
+2025-04-24 22:04:48,496 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA622: saved 1 slices
+2025-04-24 22:04:48,497 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA779: saved 34 slices
+2025-04-24 22:04:48,498 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA185: saved 8 slices
+2025-04-24 22:04:48,499 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA830: saved 14 slices
+2025-04-24 22:04:48,500 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1051: saved 14 slices
+2025-04-24 22:04:48,500 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA294: saved 9 slices
+2025-04-24 22:04:48,502 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA495: saved 29 slices
+2025-04-24 22:04:48,502 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA305: saved 10 slices
+2025-04-24 22:04:48,503 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1078: saved 11 slices
+2025-04-24 22:04:48,504 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA6: saved 17 slices
+2025-04-24 22:04:48,505 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA8: saved 8 slices
+2025-04-24 22:04:48,506 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA803: saved 9 slices
+2025-04-24 22:04:48,508 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA635: saved 15 slices
+2025-04-24 22:04:48,509 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1228: saved 4 slices
+2025-04-24 22:04:48,510 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA9: saved 11 slices
+2025-04-24 22:04:48,511 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA806: saved 13 slices
+2025-04-24 22:04:48,512 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1210: saved 3 slices
+2025-04-24 22:04:48,513 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA10: saved 14 slices
+2025-04-24 22:04:48,513 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA314: saved 37 slices
+2025-04-24 22:04:48,514 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA276: saved 12 slices
+2025-04-24 22:04:48,516 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA105: saved 8 slices
+2025-04-24 22:04:48,518 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA415: saved 46 slices
+2025-04-24 22:04:48,520 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA608: saved 25 slices
+2025-04-24 22:04:48,522 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA909: saved 42 slices
+2025-04-24 22:04:48,524 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1012: saved 14 slices
+2025-04-24 22:04:48,525 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA241: saved 11 slices
+2025-04-24 22:04:48,526 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA99: saved 13 slices
+2025-04-24 22:04:48,528 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA777: saved 8 slices
+2025-04-24 22:04:48,528 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA14: saved 2 slices
+2025-04-24 22:04:48,531 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA50: saved 16 slices
+2025-04-24 22:04:48,533 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA732: saved 5 slices
+2025-04-24 22:04:48,534 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA971: saved 4 slices
+2025-04-24 22:04:48,536 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA483: saved 7 slices
+2025-04-24 22:04:48,538 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA828: saved 14 slices
+2025-04-24 22:04:48,539 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA365: saved 2 slices
+2025-04-24 22:04:48,540 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA370: saved 7 slices
+2025-04-24 22:04:48,541 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA725: saved 3 slices
+2025-04-24 22:04:48,542 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA272: saved 12 slices
+2025-04-24 22:04:48,543 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1103: saved 3 slices
+2025-04-24 22:04:48,545 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA916: saved 26 slices
+2025-04-24 22:04:48,546 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA291: saved 7 slices
+2025-04-24 22:04:48,547 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA227: saved 3 slices
+2025-04-24 22:04:48,548 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA888: saved 5 slices
+2025-04-24 22:04:48,551 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA680: saved 21 slices
+2025-04-24 22:04:48,552 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA925: saved 8 slices
+2025-04-24 22:04:48,554 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA665: saved 26 slices
+2025-04-24 22:04:48,556 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA810: saved 12 slices
+2025-04-24 22:04:48,558 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA535: saved 8 slices
+2025-04-24 22:04:48,560 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA81: saved 12 slices
+2025-04-24 22:04:48,563 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA868: saved 15 slices
+2025-04-24 22:04:48,565 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA598: saved 9 slices
+2025-04-24 22:04:48,567 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA817: saved 4 slices
+2025-04-24 22:04:48,568 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1208: saved 4 slices
+2025-04-24 22:04:48,570 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA627: saved 8 slices
+2025-04-24 22:04:48,570 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1048: saved 15 slices
+2025-04-24 22:04:48,571 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA325: saved 8 slices
+2025-04-24 22:04:48,573 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA237: saved 3 slices
+2025-04-24 22:04:48,574 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1097: saved 5 slices
+2025-04-24 22:04:48,577 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA738: saved 7 slices
+2025-04-24 22:04:48,579 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA788: saved 3 slices
+2025-04-24 22:04:48,580 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1121: saved 4 slices
+2025-04-24 22:04:48,582 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA522: saved 4 slices
+2025-04-24 22:04:48,584 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA677: saved 15 slices
+2025-04-24 22:04:48,585 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA969: saved 38 slices
+2025-04-24 22:04:48,587 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA838: saved 4 slices
+2025-04-24 22:04:48,589 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA638: saved 22 slices
+2025-04-24 22:04:48,591 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA426: saved 52 slices
+2025-04-24 22:04:48,593 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA320: saved 8 slices
+2025-04-24 22:04:48,595 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA798: saved 16 slices
+2025-04-24 22:04:48,597 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1107: saved 4 slices
+2025-04-24 22:04:48,598 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA992: saved 7 slices
+2025-04-24 22:04:48,599 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA181: saved 9 slices
+2025-04-24 22:04:48,601 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1013: saved 14 slices
+2025-04-24 22:04:48,603 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA446: saved 7 slices
+2025-04-24 22:04:48,604 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1020: saved 4 slices
+2025-04-24 22:04:48,606 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA566: saved 12 slices
+2025-04-24 22:04:48,607 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1130: saved 4 slices
+2025-04-24 22:04:48,608 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1110: saved 3 slices
+2025-04-24 22:04:48,610 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA374: saved 3 slices
+2025-04-24 22:04:48,610 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA153: saved 23 slices
+2025-04-24 22:04:48,612 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA714: saved 16 slices
+2025-04-24 22:04:48,615 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA793: saved 11 slices
+2025-04-24 22:04:48,618 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA392: saved 7 slices
+2025-04-24 22:04:48,622 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA809: saved 8 slices
+2025-04-24 22:04:48,626 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA716: saved 10 slices
+2025-04-24 22:04:48,628 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA159: saved 8 slices
+2025-04-24 22:04:48,631 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA41: saved 11 slices
+2025-04-24 22:04:48,632 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA266: saved 7 slices
+2025-04-24 22:04:48,633 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1074: saved 6 slices
+2025-04-24 22:04:48,635 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1128: saved 6 slices
+2025-04-24 22:04:48,636 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1170: saved 3 slices
+2025-04-24 22:04:48,637 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1061: saved 5 slices
+2025-04-24 22:04:48,639 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA372: saved 25 slices
+2025-04-24 22:04:48,639 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA155: saved 44 slices
+2025-04-24 22:04:48,640 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1108: saved 8 slices
+2025-04-24 22:04:48,641 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA20: saved 17 slices
+2025-04-24 22:04:48,644 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA576: saved 29 slices
+2025-04-24 22:04:48,645 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA257: saved 9 slices
+2025-04-24 22:04:48,646 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA538: saved 45 slices
+2025-04-24 22:04:48,648 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA691: saved 4 slices
+2025-04-24 22:04:48,649 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA893: saved 8 slices
+2025-04-24 22:04:48,651 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA391: saved 10 slices
+2025-04-24 22:04:48,652 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA48: saved 4 slices
+2025-04-24 22:04:48,654 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA490: saved 8 slices
+2025-04-24 22:04:48,656 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA862: saved 15 slices
+2025-04-24 22:04:48,657 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1127: saved 3 slices
+2025-04-24 22:04:48,659 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA873: saved 47 slices
+2025-04-24 22:04:48,660 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1067: saved 11 slices
+2025-04-24 22:04:48,661 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1145: saved 2 slices
+2025-04-24 22:04:48,662 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA279: saved 14 slices
+2025-04-24 22:04:48,663 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA209: saved 25 slices
+2025-04-24 22:04:48,663 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1003: saved 2 slices
+2025-04-24 22:04:48,664 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA166: saved 5 slices
+2025-04-24 22:04:48,666 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA829: saved 5 slices
+2025-04-24 22:04:48,668 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1167: saved 4 slices
+2025-04-24 22:04:48,670 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA886: saved 22 slices
+2025-04-24 22:04:48,671 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA111: saved 14 slices
+2025-04-24 22:04:48,671 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1221: saved 4 slices
+2025-04-24 22:04:48,673 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1157: saved 9 slices
+2025-04-24 22:04:48,674 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA164: saved 11 slices
+2025-04-24 22:04:48,676 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA882: saved 19 slices
+2025-04-24 22:04:48,678 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA54: saved 19 slices
+2025-04-24 22:04:48,680 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA42: saved 7 slices
+2025-04-24 22:04:48,681 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA398: saved 8 slices
+2025-04-24 22:04:48,682 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA228: saved 14 slices
+2025-04-24 22:04:48,684 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA371: saved 31 slices
+2025-04-24 22:04:48,685 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA568: saved 13 slices
+2025-04-24 22:04:48,686 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA193: saved 16 slices
+2025-04-24 22:04:48,687 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA914: saved 7 slices
+2025-04-24 22:04:48,688 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA921: saved 5 slices
+2025-04-24 22:04:48,689 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA341: saved 5 slices
+2025-04-24 22:04:48,690 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA336: saved 7 slices
+2025-04-24 22:04:48,692 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1047: saved 7 slices
+2025-04-24 22:04:48,693 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1205: saved 4 slices
+2025-04-24 22:04:48,694 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA684: saved 11 slices
+2025-04-24 22:04:48,695 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA385: saved 5 slices
+2025-04-24 22:04:48,697 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA514: saved 12 slices
+2025-04-24 22:04:48,698 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA659: saved 7 slices
+2025-04-24 22:04:48,698 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA287: saved 11 slices
+2025-04-24 22:04:48,699 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA313: saved 18 slices
+2025-04-24 22:04:48,701 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA76: saved 63 slices
+2025-04-24 22:04:48,702 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA55: saved 23 slices
+2025-04-24 22:04:48,703 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA284: saved 7 slices
+2025-04-24 22:04:48,704 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA991: saved 5 slices
+2025-04-24 22:04:48,705 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA430: saved 48 slices
+2025-04-24 22:04:48,707 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA721: saved 16 slices
+2025-04-24 22:04:48,708 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA866: saved 11 slices
+2025-04-24 22:04:48,708 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1090: saved 3 slices
+2025-04-24 22:04:48,709 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA823: saved 3 slices
+2025-04-24 22:04:48,710 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1230: saved 3 slices
+2025-04-24 22:04:48,712 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA814: saved 13 slices
+2025-04-24 22:04:48,714 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1001: saved 14 slices
+2025-04-24 22:04:48,718 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA401: saved 5 slices
+2025-04-24 22:04:48,720 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA376: saved 4 slices
+2025-04-24 22:04:48,724 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA599: saved 14 slices
+2025-04-24 22:04:48,725 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA963: saved 48 slices
+2025-04-24 22:04:48,726 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1014: saved 3 slices
+2025-04-24 22:04:48,727 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA316: saved 13 slices
+2025-04-24 22:04:48,728 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA419: saved 9 slices
+2025-04-24 22:04:48,729 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA440: saved 11 slices
+2025-04-24 22:04:48,730 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA855: saved 7 slices
+2025-04-24 22:04:48,730 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1053: saved 4 slices
+2025-04-24 22:04:48,733 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA503: saved 8 slices
+2025-04-24 22:04:48,735 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA71: saved 13 slices
+2025-04-24 22:04:48,736 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA978: saved 8 slices
+2025-04-24 22:04:48,737 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1060: saved 8 slices
+2025-04-24 22:04:48,737 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA150: saved 5 slices
+2025-04-24 22:04:48,739 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1069: saved 4 slices
+2025-04-24 22:04:48,740 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA550: saved 25 slices
+2025-04-24 22:04:48,742 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA600: saved 20 slices
+2025-04-24 22:04:48,742 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1000: saved 14 slices
+2025-04-24 22:04:48,744 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA86: saved 7 slices
+2025-04-24 22:04:48,745 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA890: saved 14 slices
+2025-04-24 22:04:48,748 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA530: saved 44 slices
+2025-04-24 22:04:48,750 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA940: saved 9 slices
+2025-04-24 22:04:48,751 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA460: saved 4 slices
+2025-04-24 22:04:48,753 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA171: saved 7 slices
+2025-04-24 22:04:48,754 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1159: saved 3 slices
+2025-04-24 22:04:48,755 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1065: saved 3 slices
+2025-04-24 22:04:48,757 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA417: saved 14 slices
+2025-04-24 22:04:48,760 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA593: saved 22 slices
+2025-04-24 22:04:48,763 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA875: saved 13 slices
+2025-04-24 22:04:48,766 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA685: saved 26 slices
+2025-04-24 22:04:48,769 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA710: saved 21 slices
+2025-04-24 22:04:48,770 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA826: saved 6 slices
+2025-04-24 22:04:48,771 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA103: saved 3 slices
+2025-04-24 22:04:48,772 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA68: saved 6 slices
+2025-04-24 22:04:48,774 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA579: saved 14 slices
+2025-04-24 22:04:48,775 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA508: saved 11 slices
+2025-04-24 22:04:48,775 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA999: saved 13 slices
+2025-04-24 22:04:48,776 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA32: saved 9 slices
+2025-04-24 22:04:48,777 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA235: saved 6 slices
+2025-04-24 22:04:48,778 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA990: saved 14 slices
+2025-04-24 22:04:48,779 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA767: saved 9 slices
+2025-04-24 22:04:48,780 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA578: saved 20 slices
+2025-04-24 22:04:48,781 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA624: saved 4 slices
+2025-04-24 22:04:48,782 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA703: saved 10 slices
+2025-04-24 22:04:48,783 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA242: saved 9 slices
+2025-04-24 22:04:48,785 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA790: saved 12 slices
+2025-04-24 22:04:48,787 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA517: saved 7 slices
+2025-04-24 22:04:48,788 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA943: saved 3 slices
+2025-04-24 22:04:48,789 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA553: saved 17 slices
+2025-04-24 22:04:48,789 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA302: saved 11 slices
+2025-04-24 22:04:48,790 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA802: saved 6 slices
+2025-04-24 22:04:48,791 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA190: saved 17 slices
+2025-04-24 22:04:48,791 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA214: saved 12 slices
+2025-04-24 22:04:48,793 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA416: saved 10 slices
+2025-04-24 22:04:48,794 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA63: saved 6 slices
+2025-04-24 22:04:48,794 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA147: saved 9 slices
+2025-04-24 22:04:48,795 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA984: saved 3 slices
+2025-04-24 22:04:48,795 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA100: saved 5 slices
+2025-04-24 22:04:48,796 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1207: saved 4 slices
+2025-04-24 22:04:48,797 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA799: saved 9 slices
+2025-04-24 22:04:48,797 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1018: saved 8 slices
+2025-04-24 22:04:48,798 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA694: saved 11 slices
+2025-04-24 22:04:48,799 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA794: saved 8 slices
+2025-04-24 22:04:48,800 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA192: saved 11 slices
+2025-04-24 22:04:48,800 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1165: saved 18 slices
+2025-04-24 22:04:48,801 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA27: saved 6 slices
+2025-04-24 22:04:48,802 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA915: saved 10 slices
+2025-04-24 22:04:48,803 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1032: saved 5 slices
+2025-04-24 22:04:48,804 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA934: saved 51 slices
+2025-04-24 22:04:48,805 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1172: saved 7 slices
+2025-04-24 22:04:48,806 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA656: saved 8 slices
+2025-04-24 22:04:48,807 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA657: saved 36 slices
+2025-04-24 22:04:48,809 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA849: saved 41 slices
+2025-04-24 22:04:48,810 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA334: saved 17 slices
+2025-04-24 22:04:48,812 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA623: saved 8 slices
+2025-04-24 22:04:48,813 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1004: saved 8 slices
+2025-04-24 22:04:48,814 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA3: saved 9 slices
+2025-04-24 22:04:48,815 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA993: saved 6 slices
+2025-04-24 22:04:48,816 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA57: saved 9 slices
+2025-04-24 22:04:48,816 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA123: saved 7 slices
+2025-04-24 22:04:48,817 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA647: saved 7 slices
+2025-04-24 22:04:48,818 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA494: saved 9 slices
+2025-04-24 22:04:48,819 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA880: saved 3 slices
+2025-04-24 22:04:48,820 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1088: saved 3 slices
+2025-04-24 22:04:48,821 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA466: saved 20 slices
+2025-04-24 22:04:48,821 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA355: saved 6 slices
+2025-04-24 22:04:48,822 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1043: saved 4 slices
+2025-04-24 22:04:48,823 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1235: saved 5 slices
+2025-04-24 22:04:48,825 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA47: saved 5 slices
+2025-04-24 22:04:48,825 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1141: saved 11 slices
+2025-04-24 22:04:48,826 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1132: saved 11 slices
+2025-04-24 22:04:48,827 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA129: saved 11 slices
+2025-04-24 22:04:48,827 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA245: saved 53 slices
+2025-04-24 22:04:48,828 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA900: saved 8 slices
+2025-04-24 22:04:48,829 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1166: saved 18 slices
+2025-04-24 22:04:48,831 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA523: saved 29 slices
+2025-04-24 22:04:48,832 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA775: saved 7 slices
+2025-04-24 22:04:48,833 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA887: saved 5 slices
+2025-04-24 22:04:48,834 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA531: saved 3 slices
+2025-04-24 22:04:48,835 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA587: saved 16 slices
+2025-04-24 22:04:48,836 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1129: saved 8 slices
+2025-04-24 22:04:48,837 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA883: saved 5 slices
+2025-04-24 22:04:48,837 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA34: saved 24 slices
+2025-04-24 22:04:48,839 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA605: saved 21 slices
+2025-04-24 22:04:48,840 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA966: saved 15 slices
+2025-04-24 22:04:48,841 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1239: saved 5 slices
+2025-04-24 22:04:48,842 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA811: saved 27 slices
+2025-04-24 22:04:48,843 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA461: saved 16 slices
+2025-04-24 22:04:48,844 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA891: saved 3 slices
+2025-04-24 22:04:48,845 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA609: saved 5 slices
+2025-04-24 22:04:48,846 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA885: saved 14 slices
+2025-04-24 22:04:48,847 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA570: saved 26 slices
+2025-04-24 22:04:48,849 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA554: saved 10 slices
+2025-04-24 22:04:48,849 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1033: saved 5 slices
+2025-04-24 22:04:48,850 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA910: saved 20 slices
+2025-04-24 22:04:48,852 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA66: saved 12 slices
+2025-04-24 22:04:48,852 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1178: saved 15 slices
+2025-04-24 22:04:48,854 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA870: saved 4 slices
+2025-04-24 22:04:48,854 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA270: saved 13 slices
+2025-04-24 22:04:48,855 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA529: saved 4 slices
+2025-04-24 22:04:48,856 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1054: saved 12 slices
+2025-04-24 22:04:48,858 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA781: saved 60 slices
+2025-04-24 22:04:48,858 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1189: saved 6 slices
+2025-04-24 22:04:48,860 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA911: saved 21 slices
+2025-04-24 22:04:48,861 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA744: saved 16 slices
+2025-04-24 22:04:48,863 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA742: saved 20 slices
+2025-04-24 22:04:48,864 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA457: saved 8 slices
+2025-04-24 22:04:48,865 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA589: saved 2 slices
+2025-04-24 22:04:48,866 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA255: saved 64 slices
+2025-04-24 22:04:48,867 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1034: saved 15 slices
+2025-04-24 22:04:48,868 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA206: saved 10 slices
+2025-04-24 22:04:48,869 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA140: saved 7 slices
+2025-04-24 22:04:48,871 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA938: saved 8 slices
+2025-04-24 22:04:48,872 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA556: saved 5 slices
+2025-04-24 22:04:48,874 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA860: saved 43 slices
+2025-04-24 22:04:48,876 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA525: saved 21 slices
+2025-04-24 22:04:48,877 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA248: saved 5 slices
+2025-04-24 22:04:48,878 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1160: saved 10 slices
+2025-04-24 22:04:48,879 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA69: saved 13 slices
+2025-04-24 22:04:48,880 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1211: saved 4 slices
+2025-04-24 22:04:48,881 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA180: saved 31 slices
+2025-04-24 22:04:48,882 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1153: saved 11 slices
+2025-04-24 22:04:48,882 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA198: saved 6 slices
+2025-04-24 22:04:48,884 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA690: saved 11 slices
+2025-04-24 22:04:48,884 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA986: saved 11 slices
+2025-04-24 22:04:48,885 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1197: saved 3 slices
+2025-04-24 22:04:48,889 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA740: saved 23 slices
+2025-04-24 22:04:48,897 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA821: saved 27 slices
+2025-04-24 22:04:48,899 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1176: saved 4 slices
+2025-04-24 22:04:48,900 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1100: saved 9 slices
+2025-04-24 22:04:48,901 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA145: saved 8 slices
+2025-04-24 22:04:48,902 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA477: saved 10 slices
+2025-04-24 22:04:48,904 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA613: saved 17 slices
+2025-04-24 22:04:48,904 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1134: saved 8 slices
+2025-04-24 22:04:48,906 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA56: saved 22 slices
+2025-04-24 22:04:48,908 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA729: saved 32 slices
+2025-04-24 22:04:48,909 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA964: saved 7 slices
+2025-04-24 22:04:48,910 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA318: saved 22 slices
+2025-04-24 22:04:48,911 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA203: saved 7 slices
+2025-04-24 22:04:48,912 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA184: saved 15 slices
+2025-04-24 22:04:48,912 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1216: saved 4 slices
+2025-04-24 22:04:48,914 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA459: saved 13 slices
+2025-04-24 22:04:48,914 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA170: saved 9 slices
+2025-04-24 22:04:48,916 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA749: saved 10 slices
+2025-04-24 22:04:48,917 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1146: saved 2 slices
+2025-04-24 22:04:48,918 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA689: saved 16 slices
+2025-04-24 22:04:48,919 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA352: saved 10 slices
+2025-04-24 22:04:48,921 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA869: saved 9 slices
+2025-04-24 22:04:48,922 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA462: saved 16 slices
+2025-04-24 22:04:48,924 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA847: saved 8 slices
+2025-04-24 22:04:48,926 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA769: saved 15 slices
+2025-04-24 22:04:48,926 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA162: saved 10 slices
+2025-04-24 22:04:48,928 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA107: saved 7 slices
+2025-04-24 22:04:48,930 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1237: saved 5 slices
+2025-04-24 22:04:48,933 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST997: saved 4 slices
+2025-04-24 22:04:48,937 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA682: saved 8 slices
+2025-04-24 22:04:48,938 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA36: saved 10 slices
+2025-04-24 22:04:48,943 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA369: saved 24 slices
+2025-04-24 22:04:48,945 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA489: saved 15 slices
+2025-04-24 22:04:48,947 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA845: saved 12 slices
+2025-04-24 22:04:48,948 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA630: saved 8 slices
+2025-04-24 22:04:48,949 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1041: saved 6 slices
+2025-04-24 22:04:48,950 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA326: saved 12 slices
+2025-04-24 22:04:48,951 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA588: saved 20 slices
+2025-04-24 22:04:48,953 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA639: saved 16 slices
+2025-04-24 22:04:48,954 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA889: saved 8 slices
+2025-04-24 22:04:48,956 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA678: saved 9 slices
+2025-04-24 22:04:48,956 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1101: saved 15 slices
+2025-04-24 22:04:48,957 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1219: saved 9 slices
+2025-04-24 22:04:48,958 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1092: saved 5 slices
+2025-04-24 22:04:48,959 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA188: saved 10 slices
+2025-04-24 22:04:48,959 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA292: saved 6 slices
+2025-04-24 22:04:48,961 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA5: saved 15 slices
+2025-04-24 22:04:48,962 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA896: saved 14 slices
+2025-04-24 22:04:48,964 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA687: saved 21 slices
+2025-04-24 22:04:48,967 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA957: saved 24 slices
+2025-04-24 22:04:48,969 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA432: saved 28 slices
+2025-04-24 22:04:48,970 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA331: saved 4 slices
+2025-04-24 22:04:48,971 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1006: saved 6 slices
+2025-04-24 22:04:48,972 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA223: saved 8 slices
+2025-04-24 22:04:48,975 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA444: saved 41 slices
+2025-04-24 22:04:48,977 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA441: saved 10 slices
+2025-04-24 22:04:48,978 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA219: saved 4 slices
+2025-04-24 22:04:48,980 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1224: saved 12 slices
+2025-04-24 22:04:48,982 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA565: saved 12 slices
+2025-04-24 22:04:48,984 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA917: saved 8 slices
+2025-04-24 22:04:48,985 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA208: saved 12 slices
+2025-04-24 22:04:48,987 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1222: saved 12 slices
+2025-04-24 22:04:48,988 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1031: saved 4 slices
+2025-04-24 22:04:48,989 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA332: saved 6 slices
+2025-04-24 22:04:48,991 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA73: saved 5 slices
+2025-04-24 22:04:48,993 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA560: saved 16 slices
+2025-04-24 22:04:48,995 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA941: saved 15 slices
+2025-04-24 22:04:48,996 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA142: saved 7 slices
+2025-04-24 22:04:48,998 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA932: saved 8 slices
+2025-04-24 22:04:48,999 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1002: saved 2 slices
+2025-04-24 22:04:49,000 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA364: saved 23 slices
+2025-04-24 22:04:49,001 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1007: saved 3 slices
+2025-04-24 22:04:49,003 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA939: saved 6 slices
+2025-04-24 22:04:49,004 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA161: saved 24 slices
+2025-04-24 22:04:49,006 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA856: saved 14 slices
+2025-04-24 22:04:49,007 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA367: saved 16 slices
+2025-04-24 22:04:49,009 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA733: saved 5 slices
+2025-04-24 22:04:49,010 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA330: saved 8 slices
+2025-04-24 22:04:49,011 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA271: saved 7 slices
+2025-04-24 22:04:49,012 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA146: saved 28 slices
+2025-04-24 22:04:49,014 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA784: saved 6 slices
+2025-04-24 22:04:49,015 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1084: saved 4 slices
+2025-04-24 22:04:49,016 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA119: saved 6 slices
+2025-04-24 22:04:49,019 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA735: saved 22 slices
+2025-04-24 22:04:49,021 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA852: saved 24 slices
+2025-04-24 22:04:49,024 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA428: saved 5 slices
+2025-04-24 22:04:49,026 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA846: saved 6 slices
+2025-04-24 22:04:49,029 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA537: saved 18 slices
+2025-04-24 22:04:49,031 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA791: saved 5 slices
+2025-04-24 22:04:49,033 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA418: saved 6 slices
+2025-04-24 22:04:49,034 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA205: saved 18 slices
+2025-04-24 22:04:49,035 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1240: saved 5 slices
+2025-04-24 22:04:49,037 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA648: saved 41 slices
+2025-04-24 22:04:49,038 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1066: saved 6 slices
+2025-04-24 22:04:49,040 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA79: saved 10 slices
+2025-04-24 22:04:49,041 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1028: saved 6 slices
+2025-04-24 22:04:49,044 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA404: saved 7 slices
+2025-04-24 22:04:49,046 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA753: saved 35 slices
+2025-04-24 22:04:49,048 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA541: saved 6 slices
+2025-04-24 22:04:49,050 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA491: saved 14 slices
+2025-04-24 22:04:49,051 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA350: saved 20 slices
+2025-04-24 22:04:49,053 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA812: saved 16 slices
+2025-04-24 22:04:49,054 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA175: saved 18 slices
+2025-04-24 22:04:49,055 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1083: saved 4 slices
+2025-04-24 22:04:49,056 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA233: saved 6 slices
+2025-04-24 22:04:49,057 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA281: saved 4 slices
+2025-04-24 22:04:49,059 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA675: saved 11 slices
+2025-04-24 22:04:49,061 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA601: saved 11 slices
+2025-04-24 22:04:49,062 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA132: saved 54 slices
+2025-04-24 22:04:49,064 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA792: saved 11 slices
+2025-04-24 22:04:49,065 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1161: saved 10 slices
+2025-04-24 22:04:49,067 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA134: saved 12 slices
+2025-04-24 22:04:49,069 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA40: saved 45 slices
+2025-04-24 22:04:49,071 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA470: saved 24 slices
+2025-04-24 22:04:49,074 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA84: saved 59 slices
+2025-04-24 22:04:49,076 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA595: saved 10 slices
+2025-04-24 22:04:49,077 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA156: saved 6 slices
+2025-04-24 22:04:49,078 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA225: saved 13 slices
+2025-04-24 22:04:49,080 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA528: saved 19 slices
+2025-04-24 22:04:49,082 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA133: saved 8 slices
+2025-04-24 22:04:49,083 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA795: saved 7 slices
+2025-04-24 22:04:49,085 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA942: saved 6 slices
+2025-04-24 22:04:49,087 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA918: saved 13 slices
+2025-04-24 22:04:49,088 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA186: saved 13 slices
+2025-04-24 22:04:49,089 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA179: saved 9 slices
+2025-04-24 22:04:49,090 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA221: saved 43 slices
+2025-04-24 22:04:49,092 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA436: saved 24 slices
+2025-04-24 22:04:49,094 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA786: saved 8 slices
+2025-04-24 22:04:49,096 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA827: saved 30 slices
+2025-04-24 22:04:49,098 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA586: saved 3 slices
+2025-04-24 22:04:49,100 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA540: saved 28 slices
+2025-04-24 22:04:49,101 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA824: saved 5 slices
+2025-04-24 22:04:49,103 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA575: saved 15 slices
+2025-04-24 22:04:49,105 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA636: saved 6 slices
+2025-04-24 22:04:49,106 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA187: saved 30 slices
+2025-04-24 22:04:49,107 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA15: saved 11 slices
+2025-04-24 22:04:49,109 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA402: saved 8 slices
+2025-04-24 22:04:49,110 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1056: saved 4 slices
+2025-04-24 22:04:49,111 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1045: saved 4 slices
+2025-04-24 22:04:49,112 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1238: saved 6 slices
+2025-04-24 22:04:49,115 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA898: saved 7 slices
+2025-04-24 22:04:49,117 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA532: saved 6 slices
+2025-04-24 22:04:49,118 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA177: saved 6 slices
+2025-04-24 22:04:49,120 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA104: saved 12 slices
+2025-04-24 22:04:49,121 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1085: saved 4 slices
+2025-04-24 22:04:49,122 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1223: saved 12 slices
+2025-04-24 22:04:49,123 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1233: saved 3 slices
+2025-04-24 22:04:49,125 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA383: saved 8 slices
+2025-04-24 22:04:49,127 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA571: saved 23 slices
+2025-04-24 22:04:49,129 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA584: saved 20 slices
+2025-04-24 22:04:49,130 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1081: saved 7 slices
+2025-04-24 22:04:49,132 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA412: saved 11 slices
+2025-04-24 22:04:49,134 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA746: saved 6 slices
+2025-04-24 22:04:49,135 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA157: saved 8 slices
+2025-04-24 22:04:49,136 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1082: saved 14 slices
+2025-04-24 22:04:49,138 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA924: saved 18 slices
+2025-04-24 22:04:49,139 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA309: saved 13 slices
+2025-04-24 22:04:49,140 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA94: saved 5 slices
+2025-04-24 22:04:49,141 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA126: saved 27 slices
+2025-04-24 22:04:49,143 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA681: saved 10 slices
+2025-04-24 22:04:49,145 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA764: saved 7 slices
+2025-04-24 22:04:49,146 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA960: saved 6 slices
+2025-04-24 22:04:49,147 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1023: saved 7 slices
+2025-04-24 22:04:49,148 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA182: saved 22 slices
+2025-04-24 22:04:49,151 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA513: saved 13 slices
+2025-04-24 22:04:49,152 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA122: saved 10 slices
+2025-04-24 22:04:49,153 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA358: saved 4 slices
+2025-04-24 22:04:49,154 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST999: saved 4 slices
+2025-04-24 22:04:49,155 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA496: saved 8 slices
+2025-04-24 22:04:49,157 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA65: saved 12 slices
+2025-04-24 22:04:49,159 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA913: saved 4 slices
+2025-04-24 22:04:49,161 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA465: saved 6 slices
+2025-04-24 22:04:49,164 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA455: saved 9 slices
+2025-04-24 22:04:49,165 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1106: saved 4 slices
+2025-04-24 22:04:49,166 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA138: saved 21 slices
+2025-04-24 22:04:49,169 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA763: saved 39 slices
+2025-04-24 22:04:49,170 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA663: saved 12 slices
+2025-04-24 22:04:49,172 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA797: saved 13 slices
+2025-04-24 22:04:49,174 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA974: saved 6 slices
+2025-04-24 22:04:49,175 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA311: saved 15 slices
+2025-04-24 22:04:49,176 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA697: saved 9 slices
+2025-04-24 22:04:49,178 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA127: saved 27 slices
+2025-04-24 22:04:49,179 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA113: saved 22 slices
+2025-04-24 22:04:49,181 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA506: saved 5 slices
+2025-04-24 22:04:49,182 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA286: saved 14 slices
+2025-04-24 22:04:49,183 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA31: saved 16 slices
+2025-04-24 22:04:49,185 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA507: saved 10 slices
+2025-04-24 22:04:49,187 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA583: saved 12 slices
+2025-04-24 22:04:49,188 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA592: saved 7 slices
+2025-04-24 22:04:49,190 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA616: saved 7 slices
+2025-04-24 22:04:49,192 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA574: saved 7 slices
+2025-04-24 22:04:49,194 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA407: saved 41 slices
+2025-04-24 22:04:49,195 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA202: saved 4 slices
+2025-04-24 22:04:49,197 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA591: saved 9 slices
+2025-04-24 22:04:49,199 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA388: saved 15 slices
+2025-04-24 22:04:49,201 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA633: saved 12 slices
+2025-04-24 22:04:49,203 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA197: saved 7 slices
+2025-04-24 22:04:49,205 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA259: saved 8 slices
+2025-04-24 22:04:49,208 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA515: saved 33 slices
+2025-04-24 22:04:49,210 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA46: saved 9 slices
+2025-04-24 22:04:49,212 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA603: saved 8 slices
+2025-04-24 22:04:49,214 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA776: saved 19 slices
+2025-04-24 22:04:49,216 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA512: saved 17 slices
+2025-04-24 22:04:49,218 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA683: saved 9 slices
+2025-04-24 22:04:49,219 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA759: saved 15 slices
+2025-04-24 22:04:49,220 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA128: saved 11 slices
+2025-04-24 22:04:49,221 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA114: saved 8 slices
+2025-04-24 22:04:49,222 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA244: saved 17 slices
+2025-04-24 22:04:49,223 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1024: saved 7 slices
+2025-04-24 22:04:49,224 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA480: saved 21 slices
+2025-04-24 22:04:49,226 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA927: saved 8 slices
+2025-04-24 22:04:49,227 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA679: saved 6 slices
+2025-04-24 22:04:49,229 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA77: saved 15 slices
+2025-04-24 22:04:49,231 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA74: saved 63 slices
+2025-04-24 22:04:49,231 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA211: saved 7 slices
+2025-04-24 22:04:49,233 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA864: saved 16 slices
+2025-04-24 22:04:49,234 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA780: saved 8 slices
+2025-04-24 22:04:49,235 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA250: saved 18 slices
+2025-04-24 22:04:49,237 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA7: saved 16 slices
+2025-04-24 22:04:49,237 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1050: saved 5 slices
+2025-04-24 22:04:49,239 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA819: saved 11 slices
+2025-04-24 22:04:49,240 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA832: saved 7 slices
+2025-04-24 22:04:49,241 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA267: saved 13 slices
+2025-04-24 22:04:49,242 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1195: saved 4 slices
+2025-04-24 22:04:49,243 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA379: saved 6 slices
+2025-04-24 22:04:49,245 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA577: saved 10 slices
+2025-04-24 22:04:49,246 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA231: saved 13 slices
+2025-04-24 22:04:49,246 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA97: saved 7 slices
+2025-04-24 22:04:49,247 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA19: saved 7 slices
+2025-04-24 22:04:49,249 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA481: saved 16 slices
+2025-04-24 22:04:49,250 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA283: saved 7 slices
+2025-04-24 22:04:49,251 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA555: saved 17 slices
+2025-04-24 22:04:49,252 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1162: saved 21 slices
+2025-04-24 22:04:49,253 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1140: saved 10 slices
+2025-04-24 22:04:49,253 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1206: saved 4 slices
+2025-04-24 22:04:49,255 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA653: saved 6 slices
+2025-04-24 22:04:49,256 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA745: saved 6 slices
+2025-04-24 22:04:49,258 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA82: saved 6 slices
+2025-04-24 22:04:49,258 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA144: saved 22 slices
+2025-04-24 22:04:49,260 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA758: saved 8 slices
+2025-04-24 22:04:49,262 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA85: saved 41 slices
+2025-04-24 22:04:49,263 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA930: saved 6 slices
+2025-04-24 22:04:49,264 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA427: saved 5 slices
+2025-04-24 22:04:49,266 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA493: saved 17 slices
+2025-04-24 22:04:49,267 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA498: saved 5 slices
+2025-04-24 22:04:49,268 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1038: saved 4 slices
+2025-04-24 22:04:49,269 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA752: saved 13 slices
+2025-04-24 22:04:49,270 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA189: saved 16 slices
+2025-04-24 22:04:49,272 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA651: saved 27 slices
+2025-04-24 22:04:49,273 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA614: saved 27 slices
+2025-04-24 22:04:49,274 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA329: saved 18 slices
+2025-04-24 22:04:49,276 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA580: saved 27 slices
+2025-04-24 22:04:49,277 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA634: saved 4 slices
+2025-04-24 22:04:49,278 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1150: saved 13 slices
+2025-04-24 22:04:49,279 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA296: saved 52 slices
+2025-04-24 22:04:49,280 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA929: saved 12 slices
+2025-04-24 22:04:49,281 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1135: saved 5 slices
+2025-04-24 22:04:49,282 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA922: saved 7 slices
+2025-04-24 22:04:49,283 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1094: saved 3 slices
+2025-04-24 22:04:49,285 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA51: saved 9 slices
+2025-04-24 22:04:49,286 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA258: saved 39 slices
+2025-04-24 22:04:49,287 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA389: saved 4 slices
+2025-04-24 22:04:49,289 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA959: saved 54 slices
+2025-04-24 22:04:49,290 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA707: saved 5 slices
+2025-04-24 22:04:49,291 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA500: saved 4 slices
+2025-04-24 22:04:49,293 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA772: saved 12 slices
+2025-04-24 22:04:49,294 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA295: saved 6 slices
+2025-04-24 22:04:49,295 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA409: saved 5 slices
+2025-04-24 22:04:49,296 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA833: saved 7 slices
+2025-04-24 22:04:49,297 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA224: saved 4 slices
+2025-04-24 22:04:49,298 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA399: saved 12 slices
+2025-04-24 22:04:49,299 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1156: saved 9 slices
+2025-04-24 22:04:49,300 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1182: saved 4 slices
+2025-04-24 22:04:49,301 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA310: saved 15 slices
+2025-04-24 22:04:49,302 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA92: saved 8 slices
+2025-04-24 22:04:49,304 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA394: saved 3 slices
+2025-04-24 22:04:49,305 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA693: saved 8 slices
+2025-04-24 22:04:49,306 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA260: saved 5 slices
+2025-04-24 22:04:49,307 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA297: saved 13 slices
+2025-04-24 22:04:49,308 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA628: saved 11 slices
+2025-04-24 22:04:49,309 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA327: saved 10 slices
+2025-04-24 22:04:49,310 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA573: saved 9 slices
+2025-04-24 22:04:49,311 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1215: saved 17 slices
+2025-04-24 22:04:49,312 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA141: saved 7 slices
+2025-04-24 22:04:49,312 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1138: saved 8 slices
+2025-04-24 22:04:49,314 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA397: saved 28 slices
+2025-04-24 22:04:49,315 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1025: saved 12 slices
+2025-04-24 22:04:49,316 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1148: saved 6 slices
+2025-04-24 22:04:49,317 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA118: saved 19 slices
+2025-04-24 22:04:49,319 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA393: saved 51 slices
+2025-04-24 22:04:49,320 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA435: saved 17 slices
+2025-04-24 22:04:49,322 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA518: saved 15 slices
+2025-04-24 22:04:49,323 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA449: saved 9 slices
+2025-04-24 22:04:49,324 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA264: saved 26 slices
+2025-04-24 22:04:49,325 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA987: saved 14 slices
+2025-04-24 22:04:49,326 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1104: saved 3 slices
+2025-04-24 22:04:49,327 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1046: saved 2 slices
+2025-04-24 22:04:49,328 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA62: saved 4 slices
+2025-04-24 22:04:49,329 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA445: saved 8 slices
+2025-04-24 22:04:49,331 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA479: saved 27 slices
+2025-04-24 22:04:49,332 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA620: saved 6 slices
+2025-04-24 22:04:49,333 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA277: saved 50 slices
+2025-04-24 22:04:49,334 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1071: saved 7 slices
+2025-04-24 22:04:49,335 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA340: saved 33 slices
+2025-04-24 22:04:49,336 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA520: saved 15 slices
+2025-04-24 22:04:49,337 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1112: saved 4 slices
+2025-04-24 22:04:49,338 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1133: saved 6 slices
+2025-04-24 22:04:49,339 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA158: saved 4 slices
+2025-04-24 22:04:49,339 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1118: saved 9 slices
+2025-04-24 22:04:49,341 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA411: saved 8 slices
+2025-04-24 22:04:49,342 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA610: saved 11 slices
+2025-04-24 22:04:49,344 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA378: saved 22 slices
+2025-04-24 22:04:49,345 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA945: saved 18 slices
+2025-04-24 22:04:49,346 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA590: saved 2 slices
+2025-04-24 22:04:49,347 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA110: saved 9 slices
+2025-04-24 22:04:49,348 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA195: saved 5 slices
+2025-04-24 22:04:49,350 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA478: saved 30 slices
+2025-04-24 22:04:49,352 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA718: saved 50 slices
+2025-04-24 22:04:49,353 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA1000: saved 5 slices
+2025-04-24 22:04:49,354 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA373: saved 9 slices
+2025-04-24 22:04:49,354 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA230: saved 11 slices
+2025-04-24 22:04:49,355 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA278: saved 20 slices
+2025-04-24 22:04:49,356 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA785: saved 7 slices
+2025-04-24 22:04:49,358 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA89: saved 21 slices
+2025-04-24 22:04:49,358 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA218: saved 15 slices
+2025-04-24 22:04:49,359 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA985: saved 4 slices
+2025-04-24 22:04:49,360 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA300: saved 7 slices
+2025-04-24 22:04:49,361 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1015: saved 3 slices
+2025-04-24 22:04:49,361 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1111: saved 6 slices
+2025-04-24 22:04:49,362 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA262: saved 7 slices
+2025-04-24 22:04:49,363 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1059: saved 3 slices
+2025-04-24 22:04:49,364 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA151: saved 4 slices
+2025-04-24 22:04:49,365 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA661: saved 9 slices
+2025-04-24 22:04:49,366 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA766: saved 4 slices
+2025-04-24 22:04:49,367 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1227: saved 4 slices
+2025-04-24 22:04:49,368 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1168: saved 6 slices
+2025-04-24 22:04:49,369 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA607: saved 13 slices
+2025-04-24 22:04:49,370 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1021: saved 5 slices
+2025-04-24 22:04:49,371 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA719: saved 8 slices
+2025-04-24 22:04:49,372 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA201: saved 12 slices
+2025-04-24 22:04:49,373 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1202: saved 5 slices
+2025-04-24 22:04:49,374 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1119: saved 10 slices
+2025-04-24 22:04:49,375 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA249: saved 25 slices
+2025-04-24 22:04:49,376 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA982: saved 9 slices
+2025-04-24 22:04:49,377 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA783: saved 9 slices
+2025-04-24 22:04:49,378 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA549: saved 23 slices
+2025-04-24 22:04:49,380 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA723: saved 23 slices
+2025-04-24 22:04:49,380 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA348: saved 5 slices
+2025-04-24 22:04:49,382 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA952: saved 8 slices
+2025-04-24 22:04:49,383 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA213: saved 41 slices
+2025-04-24 22:04:49,383 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA236: saved 6 slices
+2025-04-24 22:04:49,384 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA52: saved 5 slices
+2025-04-24 22:04:49,385 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA475: saved 5 slices
+2025-04-24 22:04:49,386 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA26: saved 12 slices
+2025-04-24 22:04:49,387 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA903: saved 7 slices
+2025-04-24 22:04:49,388 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA299: saved 14 slices
+2025-04-24 22:04:49,389 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1089: saved 10 slices
+2025-04-24 22:04:49,389 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA243: saved 19 slices
+2025-04-24 22:04:49,391 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1124: saved 4 slices
+2025-04-24 22:04:49,392 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1229: saved 3 slices
+2025-04-24 22:04:49,392 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1188: saved 10 slices
+2025-04-24 22:04:49,394 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA750: saved 25 slices
+2025-04-24 22:04:49,395 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA700: saved 5 slices
+2025-04-24 22:04:49,396 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA619: saved 28 slices
+2025-04-24 22:04:49,397 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1058: saved 4 slices
+2025-04-24 22:04:49,398 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA363: saved 30 slices
+2025-04-24 22:04:49,399 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA761: saved 3 slices
+2025-04-24 22:04:49,400 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA1: saved 5 slices
+2025-04-24 22:04:49,400 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA345: saved 6 slices
+2025-04-24 22:04:49,402 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA597: saved 8 slices
+2025-04-24 22:04:49,403 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA937: saved 25 slices
+2025-04-24 22:04:49,404 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA818: saved 6 slices
+2025-04-24 22:04:49,406 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA484: saved 9 slices
+2025-04-24 22:04:49,407 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA143: saved 5 slices
+2025-04-24 22:04:49,408 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA403: saved 8 slices
+2025-04-24 22:04:49,409 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA450: saved 4 slices
+2025-04-24 22:04:49,410 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA21: saved 12 slices
+2025-04-24 22:04:49,411 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1149: saved 6 slices
+2025-04-24 22:04:49,412 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA485: saved 7 slices
+2025-04-24 22:04:49,414 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA881: saved 3 slices
+2025-04-24 22:04:49,415 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1005: saved 5 slices
+2025-04-24 22:04:49,416 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA859: saved 34 slices
+2025-04-24 22:04:49,418 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA59: saved 18 slices
+2025-04-24 22:04:49,419 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA438: saved 17 slices
+2025-04-24 22:04:49,420 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA139: saved 11 slices
+2025-04-24 22:04:49,421 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA923: saved 11 slices
+2025-04-24 22:04:49,423 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA396: saved 8 slices
+2025-04-24 22:04:49,424 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA78: saved 12 slices
+2025-04-24 22:04:49,425 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1093: saved 5 slices
+2025-04-24 22:04:49,426 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA951: saved 8 slices
+2025-04-24 22:04:49,428 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA902: saved 12 slices
+2025-04-24 22:04:49,429 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA486: saved 5 slices
+2025-04-24 22:04:49,431 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA955: saved 6 slices
+2025-04-24 22:04:49,431 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA154: saved 10 slices
+2025-04-24 22:04:49,432 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA994: saved 15 slices
+2025-04-24 22:04:49,434 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA582: saved 13 slices
+2025-04-24 22:04:49,435 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA771: saved 5 slices
+2025-04-24 22:04:49,437 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA377: saved 14 slices
+2025-04-24 22:04:49,439 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA842: saved 17 slices
+2025-04-24 22:04:49,439 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA168: saved 5 slices
+2025-04-24 22:04:49,441 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA770: saved 4 slices
+2025-04-24 22:04:49,441 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1209: saved 3 slices
+2025-04-24 22:04:49,443 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA884: saved 24 slices
+2025-04-24 22:04:49,444 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA988: saved 4 slices
+2025-04-24 22:04:49,446 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA39: saved 9 slices
+2025-04-24 22:04:49,447 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1055: saved 12 slices
+2025-04-24 22:04:49,448 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA37: saved 8 slices
+2025-04-24 22:04:49,449 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA216: saved 6 slices
+2025-04-24 22:04:49,450 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA699: saved 5 slices
+2025-04-24 22:04:49,451 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA499: saved 5 slices
+2025-04-24 22:04:49,452 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1241: saved 4 slices
+2025-04-24 22:04:49,453 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1027: saved 12 slices
+2025-04-24 22:04:49,454 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1008: saved 3 slices
+2025-04-24 22:04:49,454 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA222: saved 40 slices
+2025-04-24 22:04:49,455 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1096: saved 3 slices
+2025-04-24 22:04:49,457 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA765: saved 6 slices
+2025-04-24 22:04:49,457 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA339: saved 8 slices
+2025-04-24 22:04:49,458 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1198: saved 3 slices
+2025-04-24 22:04:49,459 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1151: saved 6 slices
+2025-04-24 22:04:49,460 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA333: saved 21 slices
+2025-04-24 22:04:49,461 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA872: saved 6 slices
+2025-04-24 22:04:49,462 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1077: saved 14 slices
+2025-04-24 22:04:49,464 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA762: saved 40 slices
+2025-04-24 22:04:49,465 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA174: saved 9 slices
+2025-04-24 22:04:49,466 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA543: saved 9 slices
+2025-04-24 22:04:49,467 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA572: saved 11 slices
+2025-04-24 22:04:49,469 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA524: saved 32 slices
+2025-04-24 22:04:49,471 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA715: saved 10 slices
+2025-04-24 22:04:49,472 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA756: saved 12 slices
+2025-04-24 22:04:49,473 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA307: saved 13 slices
+2025-04-24 22:04:49,474 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA476: saved 13 slices
+2025-04-24 22:04:49,476 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA72: saved 9 slices
+2025-04-24 22:04:49,477 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1179: saved 4 slices
+2025-04-24 22:04:49,478 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA650: saved 8 slices
+2025-04-24 22:04:49,479 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA35: saved 29 slices
+2025-04-24 22:04:49,480 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA502: saved 10 slices
+2025-04-24 22:04:49,481 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA112: saved 22 slices
+2025-04-24 22:04:49,482 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1087: saved 8 slices
+2025-04-24 22:04:49,484 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA442: saved 12 slices
+2025-04-24 22:04:49,485 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA857: saved 14 slices
+2025-04-24 22:04:49,486 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1098: saved 6 slices
+2025-04-24 22:04:49,487 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA226: saved 13 slices
+2025-04-24 22:04:49,488 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA844: saved 9 slices
+2025-04-24 22:04:49,489 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA315: saved 18 slices
+2025-04-24 22:04:49,490 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA375: saved 4 slices
+2025-04-24 22:04:49,491 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA361: saved 6 slices
+2025-04-24 22:04:49,492 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA254: saved 17 slices
+2025-04-24 22:04:49,492 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA261: saved 4 slices
+2025-04-24 22:04:49,493 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA108: saved 6 slices
+2025-04-24 22:04:49,495 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA594: saved 10 slices
+2025-04-24 22:04:49,496 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA730: saved 10 slices
+2025-04-24 22:04:49,497 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1185: saved 3 slices
+2025-04-24 22:04:49,498 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA60: saved 17 slices
+2025-04-24 22:04:49,500 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA858: saved 40 slices
+2025-04-24 22:04:49,502 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA899: saved 13 slices
+2025-04-24 22:04:49,503 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA102: saved 9 slices
+2025-04-24 22:04:49,504 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA191: saved 9 slices
+2025-04-24 22:04:49,504 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA324: saved 9 slices
+2025-04-24 22:04:49,505 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA384: saved 3 slices
+2025-04-24 22:04:49,507 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA967: saved 9 slices
+2025-04-24 22:04:49,507 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA178: saved 7 slices
+2025-04-24 22:04:49,509 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA853: saved 8 slices
+2025-04-24 22:04:49,510 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA406: saved 5 slices
+2025-04-24 22:04:49,512 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA83: saved 13 slices
+2025-04-24 22:04:49,513 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA946: saved 16 slices
+2025-04-24 22:04:49,514 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA220: saved 14 slices
+2025-04-24 22:04:49,515 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA867: saved 11 slices
+2025-04-24 22:04:49,517 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA947: saved 16 slices
+2025-04-24 22:04:49,518 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA169: saved 20 slices
+2025-04-24 22:04:49,519 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA165: saved 4 slices
+2025-04-24 22:04:49,521 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA629: saved 44 slices
+2025-04-24 22:04:49,522 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1035: saved 15 slices
+2025-04-24 22:04:49,522 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA306: saved 13 slices
+2025-04-24 22:04:49,523 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1044: saved 4 slices
+2025-04-24 22:04:49,524 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1136: saved 5 slices
+2025-04-24 22:04:49,525 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA335: saved 18 slices
+2025-04-24 22:04:49,526 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA998: saved 4 slices
+2025-04-24 22:04:49,528 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA552: saved 21 slices
+2025-04-24 22:04:49,529 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA148: saved 24 slices
+2025-04-24 22:04:49,529 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA30: saved 14 slices
+2025-04-24 22:04:49,531 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA865: saved 13 slices
+2025-04-24 22:04:49,532 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1203: saved 4 slices
+2025-04-24 22:04:49,534 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA637: saved 8 slices
+2025-04-24 22:04:49,535 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA822: saved 15 slices
+2025-04-24 22:04:49,538 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA511: saved 18 slices
+2025-04-24 22:04:49,542 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA850: saved 6 slices
+2025-04-24 22:04:49,543 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1212: saved 5 slices
+2025-04-24 22:04:49,544 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA109: saved 5 slices
+2025-04-24 22:04:49,546 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA452: saved 6 slices
+2025-04-24 22:04:49,547 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA136: saved 6 slices
+2025-04-24 22:04:49,548 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA322: saved 4 slices
+2025-04-24 22:04:49,549 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA429: saved 9 slices
+2025-04-24 22:04:49,551 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA43: saved 18 slices
+2025-04-24 22:04:49,553 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA596: saved 5 slices
+2025-04-24 22:04:49,553 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1068: saved 11 slices
+2025-04-24 22:04:49,555 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA874: saved 45 slices
+2025-04-24 22:04:49,556 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1117: saved 9 slices
+2025-04-24 22:04:49,557 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA977: saved 17 slices
+2025-04-24 22:04:49,558 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1079: saved 4 slices
+2025-04-24 22:04:49,559 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA668: saved 9 slices
+2025-04-24 22:04:49,560 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA962: saved 5 slices
+2025-04-24 22:04:49,561 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1186: saved 4 slices
+2025-04-24 22:04:49,562 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA726: saved 11 slices
+2025-04-24 22:04:49,563 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA38: saved 17 slices
+2025-04-24 22:04:49,565 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA905: saved 9 slices
+2025-04-24 22:04:49,565 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST994: saved 8 slices
+2025-04-24 22:04:49,566 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA743: saved 13 slices
+2025-04-24 22:04:49,567 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST998: saved 4 slices
+2025-04-24 22:04:49,568 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA443: saved 6 slices
+2025-04-24 22:04:49,570 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA516: saved 19 slices
+2025-04-24 22:04:49,571 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA975: saved 12 slices
+2025-04-24 22:04:49,572 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA527: saved 8 slices
+2025-04-24 22:04:49,573 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA701: saved 15 slices
+2025-04-24 22:04:49,575 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA973: saved 39 slices
+2025-04-24 22:04:49,576 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA649: saved 32 slices
+2025-04-24 22:04:49,578 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA787: saved 9 slices
+2025-04-24 22:04:49,579 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA724: saved 5 slices
+2025-04-24 22:04:49,579 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA200: saved 6 slices
+2025-04-24 22:04:49,581 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA995: saved 15 slices
+2025-04-24 22:04:49,581 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1019: saved 8 slices
+2025-04-24 22:04:49,583 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA585: saved 28 slices
+2025-04-24 22:04:49,583 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA18: saved 7 slices
+2025-04-24 22:04:49,585 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA652: saved 12 slices
+2025-04-24 22:04:49,586 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA654: saved 6 slices
+2025-04-24 22:04:49,587 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA919: saved 9 slices
+2025-04-24 22:04:49,588 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA288: saved 8 slices
+2025-04-24 22:04:49,589 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA275: saved 15 slices
+2025-04-24 22:04:49,589 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1196: saved 3 slices
+2025-04-24 22:04:49,590 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA115: saved 30 slices
+2025-04-24 22:04:49,591 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA293: saved 9 slices
+2025-04-24 22:04:49,592 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA631: saved 19 slices
+2025-04-24 22:04:49,594 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA604: saved 4 slices
+2025-04-24 22:04:49,595 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA120: saved 6 slices
+2025-04-24 22:04:49,596 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA422: saved 6 slices
+2025-04-24 22:04:49,597 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1073: saved 1 slices
+2025-04-24 22:04:49,600 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA713: saved 14 slices
+2025-04-24 22:04:49,601 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA487: saved 15 slices
+2025-04-24 22:04:49,604 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA768: saved 9 slices
+2025-04-24 22:04:49,605 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1226: saved 4 slices
+2025-04-24 22:04:49,606 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA564: saved 3 slices
+2025-04-24 22:04:49,609 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA533: saved 19 slices
+2025-04-24 22:04:49,612 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA93: saved 13 slices
+2025-04-24 22:04:49,615 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA754: saved 7 slices
+2025-04-24 22:04:49,617 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA968: saved 24 slices
+2025-04-24 22:04:49,618 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA454: saved 5 slices
+2025-04-24 22:04:49,619 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA894: saved 4 slices
+2025-04-24 22:04:49,621 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA800: saved 18 slices
+2025-04-24 22:04:49,622 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1095: saved 3 slices
+2025-04-24 22:04:49,623 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA505: saved 5 slices
+2025-04-24 22:04:49,624 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA980: saved 6 slices
+2025-04-24 22:04:49,625 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA504: saved 5 slices
+2025-04-24 22:04:49,625 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1177: saved 4 slices
+2025-04-24 22:04:49,627 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA501: saved 10 slices
+2025-04-24 22:04:49,628 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA497: saved 19 slices
+2025-04-24 22:04:49,629 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1174: saved 3 slices
+2025-04-24 22:04:49,629 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1063: saved 10 slices
+2025-04-24 22:04:49,632 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA526: saved 16 slices
+2025-04-24 22:04:49,633 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA116: saved 43 slices
+2025-04-24 22:04:49,635 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA907: saved 3 slices
+2025-04-24 22:04:49,636 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA453: saved 12 slices
+2025-04-24 22:04:49,637 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1142: saved 2 slices
+2025-04-24 22:04:49,638 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA199: saved 39 slices
+2025-04-24 22:04:49,639 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA390: saved 29 slices
+2025-04-24 22:04:49,640 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA534: saved 7 slices
+2025-04-24 22:04:49,641 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1123: saved 5 slices
+2025-04-24 22:04:49,642 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA989: saved 8 slices
+2025-04-24 22:04:49,643 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1192: saved 5 slices
+2025-04-24 22:04:49,644 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA646: saved 14 slices
+2025-04-24 22:04:49,645 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA926: saved 20 slices
+2025-04-24 22:04:49,647 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA382: saved 9 slices
+2025-04-24 22:04:49,648 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA904: saved 40 slices
+2025-04-24 22:04:49,649 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1139: saved 8 slices
+2025-04-24 22:04:49,649 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA354: saved 14 slices
+2025-04-24 22:04:49,651 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA712: saved 10 slices
+2025-04-24 22:04:49,652 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA400: saved 24 slices
+2025-04-24 22:04:49,653 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA611: saved 3 slices
+2025-04-24 22:04:49,654 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA643: saved 32 slices
+2025-04-24 22:04:49,655 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1091: saved 4 slices
+2025-04-24 22:04:49,656 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1200: saved 3 slices
+2025-04-24 22:04:49,657 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA958: saved 10 slices
+2025-04-24 22:04:49,658 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA90: saved 4 slices
+2025-04-24 22:04:49,659 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA301: saved 9 slices
+2025-04-24 22:04:49,659 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA121: saved 17 slices
+2025-04-24 22:04:49,660 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1026: saved 7 slices
+2025-04-24 22:04:49,661 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA976: saved 14 slices
+2025-04-24 22:04:49,662 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA321: saved 35 slices
+2025-04-24 22:04:49,663 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1075: saved 5 slices
+2025-04-24 22:04:49,663 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1042: saved 4 slices
+2025-04-24 22:04:49,664 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA207: saved 6 slices
+2025-04-24 22:04:49,665 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA671: saved 34 slices
+2025-04-24 22:04:49,666 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA28: saved 10 slices
+2025-04-24 22:04:49,667 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1017: saved 5 slices
+2025-04-24 22:04:49,667 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1076: saved 7 slices
+2025-04-24 22:04:49,669 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA70: saved 23 slices
+2025-04-24 22:04:49,669 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient NLST1064: saved 11 slices
+2025-04-24 22:04:49,671 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA928: saved 11 slices
+2025-04-24 22:04:49,672 - richard.src.test.tester:generate_visualizations:295 - INFO - Patient UCLA871: saved 14 slices
+2025-04-24 22:04:49,672 - richard.src.test.tester:generate_visualizations:297 - INFO - Saved visualizations for 1248 patients (15181 total slices)
+2025-04-24 22:04:49,676 - root:test:190 - INFO - Testing process finished.

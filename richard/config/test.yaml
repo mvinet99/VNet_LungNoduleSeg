@@ -8,8 +8,8 @@ testing:
 
   # --- Tester Parameters ---
   thresh_min: 0.0
-  thresh_max: 0.05
+  thresh_max: 0.01
   thresh_step: 0.002
-  num_visual_patients: 10
+  num_visual_patients: 1248
   overlay_opacity: 0.3
 
