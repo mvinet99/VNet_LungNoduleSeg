@@ -3,7 +3,7 @@
 #   1. Resample images to 1.5x1.5x1.5
 #   2. Obtain the nodule centroid coordinate - for now from spreadsheet. In the future, from MONAI. 
 #      Convert the coordinate to the correct xyz coordinate for trimming
-#   3. Trim to a fixed 96x96x16 size centered on the nodule center coordinate, saving as .npy
+#   3. Trim to a fixed 64x64x64 size centered on the nodule center coordinate, saving as .npy
 #   4. Save diameter to a separate folder
 
 import numpy as np
@@ -32,7 +32,7 @@ def resample_nii(input_path: str,
 
 def find_object_centroid(mask):
     # Ensure mask is binary
-    mask = mask.get_fdata()
+    #mask = mask.get_fdata()
 
     mask = (mask == 1)
 
@@ -150,13 +150,76 @@ def resample_coordinate(coord, nii_path, new_spacing):
 
     return tuple(new_coord)
 
+def crop_around_center(image, mask, center, target_shape=(64, 64, 64)):
+    """
+    Crop the image and mask around the center coordinate, ensuring the result has the target shape.
+    """
+    center_z, center_y, center_x = center
+
+    # Calculate the crop bounds
+    z_start = int(center_z - target_shape[0] // 2)
+    z_end = int(center_z + target_shape[0] // 2)
+    y_start = int(center_y - target_shape[1] // 2)
+    y_end = int(center_y + target_shape[1] // 2)
+    x_start = int(center_x - target_shape[2] // 2)
+    x_end = int(center_x + target_shape[2] // 2)
+
+    # Ensure the crop is within bounds of the image
+    z_start = max(z_start, 0)
+    z_end = min(z_end, image.shape[0])
+    y_start = max(y_start, 0)
+    y_end = min(y_end, image.shape[1])
+    x_start = max(x_start, 0)
+    x_end = min(x_end, image.shape[2])
+
+    # Crop the image and mask
+    cropped_image = image[z_start:z_end, y_start:y_end, x_start:x_end]
+    cropped_mask = mask[z_start:z_end, y_start:y_end, x_start:x_end]
+
+    # If the cropped region is smaller than the target shape, pad with zeros
+    if cropped_image.shape != target_shape:
+        padding = [(0, max(target_shape[i] - cropped_image.shape[i], 0)) for i in range(3)]
+        cropped_image = np.pad(cropped_image, padding, mode='constant', constant_values=0)
+        cropped_mask = np.pad(cropped_mask, padding, mode='constant', constant_values=0)
+
+    return cropped_image, cropped_mask
+
+def unique_in_order(strings):
+    seen = set()
+    return [s for s in strings if not (s in seen or seen.add(s))]
+
+def filter_by_unique_indices(ref_list, target_list, target_list2, target_list3):
+    seen = set()
+    result_ref = []
+    result_target = []
+    result_target2 = []
+    result_target3 = []
+
+    for ref_item, target_item, target_item2, target_item3 in zip(ref_list, target_list, target_list2, target_list3):
+        if ref_item not in seen:
+            seen.add(ref_item)
+            result_ref.append(ref_item)
+            result_target.append(target_item)
+            result_target2.append(target_item2)
+            result_target3.append(target_item3)
+
+    return result_ref, result_target, result_target2, result_target3
+
 # Read all nodules to run
 nodule_csv = pd.read_csv('/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/datasheets/images_and_segpaths_2024-12-11-checkpoint.csv')
 nodule_list = list(nodule_csv['image_path'])
 nodule_pids = list(nodule_csv['pid'])
 nodule_list_labels = list(nodule_csv['nodule_path'])
 nodule_dataset = list(nodule_csv['Dataset'])
-4
+
+print('Nodule path labels', len(nodule_list_labels))
+print('Nodule path', len(nodule_list))
+print('dataset',len(nodule_dataset))
+nodule_list_labels, nodule_list, nodule_dataset, nodule_pids = filter_by_unique_indices(nodule_list_labels, nodule_list, nodule_dataset, nodule_pids)
+print('unique paths labels', len(nodule_list_labels))
+print('unique paths', len(nodule_list))
+print('dataset',len(nodule_dataset))
+
 # Read all UCLA, LIDC, and NLST spreadsheets containing pids, xyz coordinates, and diameter
 ucla_csv = pd.read_csv('/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/datasheets/UCLAIDx_Task78_Lesion_info.csv')
 ucla_pid = list(ucla_csv['patient_id'])
@@ -179,84 +242,95 @@ nlst_y = list(nlst_csv['coordY'])
 nlst_z = list(nlst_csv['coordZ'])
 nlst_diam = list(nlst_csv['longest_axial_diameter_(mm)'])
 
-for nodule_path in tqdm(nodule_list, 'Running...'):
-    if 'NLST_CT_annotations' in nodule_path or 'Ticket8859' in nodule_path or 'LIDC' in nodule_path:
-        skip = 0
-    else:
-    # 1. Resample images to 1.5x1.5x1.5
-        resample_size = (1.5, 1.5, 1.5)
-        resampled_img = resample_nii(nodule_path, resample_size) 
+image_paths = []
+mask_paths = []
+new_names = []
 
-        resampled_mask = resample_nii(nodule_list_labels[nodule_list.index(nodule_path)], resample_size)
-        
-        # 2. Obtain the nodule coordinate from the correct spreadsheet 
-        if nodule_dataset[nodule_list.index(nodule_path)] == 'UCLA':
-            # For UCLA dataset, there do not exist XYZ coordiantes for nodule centroids. For this, use the label volume to find the centroid
+i = 1
+j = 1
+k = 1
+# Nodule_path = path to nodule mask
+for nodule_path in tqdm(nodule_list_labels, 'Running...'):
+    #if nodule_dataset[nodule_list_labels.index(nodule_path)] == 'UCLA':
+        try:
+            # 1. Resample images to 1.5x1.5x1.5
+            resample_size = (1.5, 1.5, 1.5)
 
-            center = find_object_centroid(nib.load(nodule_list_labels[nodule_list.index(nodule_path)]))
+            resampled_img = resample_nii(nodule_list[nodule_list_labels.index(nodule_path)], resample_size) 
+            resampled_img = resampled_img.data.numpy()
+            resampled_img = resampled_img.squeeze(axis=0)
+
+            resampled_mask = resample_nii(nodule_path, resample_size)
+            resampled_mask = resampled_mask.data.numpy()
+            resampled_mask = resampled_mask.squeeze(axis=0)
+
+            # 2. Find the center of the nodule using the resampled mask
+            center = find_object_centroid(resampled_mask)
+
             x = center[0]
             y = center[1]
             z = center[2]
-            diam = np.array(ucla_diam[ucla_pid.index(nodule_pids[nodule_list.index(nodule_path)])])
-            dname = 'UCLA'
-            fname = dname + ucla_pid[ucla_pid.index(nodule_pids[nodule_list.index(nodule_path)])]
+            
+            # 2.5. Obtain the nodule maximal diameter from the spreadsheet
+            
+            if nodule_dataset[nodule_list_labels.index(nodule_path)] == 'UCLA':
+                # For UCLA dataset, there do not exist XYZ coordiantes for nodule centroids. For this, use the label volume to find the centroid
+                diam = np.array(ucla_diam[ucla_pid.index(nodule_pids[nodule_list_labels.index(nodule_path)])])
+                dname = 'UCLA'
+                fname = dname + str(i)
+                i = i + 1
 
-            new_coord = resample_coordinate((x,y,z), nodule_path, (1.5,1.5,1.5))
-            img = nib.load(nodule_path)
-            coord_system = nib.aff2axcodes(img.affine)
-            voxelxyz = cartesian_to_voxel(img, new_coord, coord_system)
-            x = voxelxyz[0][0]
-            y = voxelxyz[0][1]
-            z = voxelxyz[0][2]
 
-        elif nodule_dataset[nodule_list.index(nodule_path)] == 'LIDC':
-            # For LIDC dataset, use the coordinates in the spreadsheet to convert to the correct nodule centroids (need to use paths)
-            lidc_index = lidc_paths_labels.index(nodule_list_labels[nodule_list.index(nodule_path)])
-            x = lidc_x[lidc_index]
-            y = lidc_y[lidc_index]
-            z = lidc_z[lidc_index]
-            diam = np.array(lidc_diam[lidc_index])
-            dname = 'LIDC'
-            fname = dname + lidc_pid[lidc_index]
+            elif nodule_dataset[nodule_list_labels.index(nodule_path)] == 'LIDC':
+                # For LIDC dataset, use the coordinates in the spreadsheet to convert to the correct nodule centroids (need to use paths)
+                lidc_index = lidc_paths_labels.index(nodule_list_labels[nodule_list_labels.index(nodule_path)])
+                diam = np.array(lidc_diam[lidc_index])
+                dname = 'LIDC'
+                fname = dname + str(j)
+                j = j + 1
 
-            new_coord = resample_coordinate((x,y,z), nodule_path, (1.5,1.5,1.5))
-            img = nib.load(nodule_path)
-            coord_system = nib.aff2axcodes(img.affine)
-            voxelxyz = cartesian_to_voxel(img, new_coord, coord_system)
-            x = voxelxyz[0][0]
-            y = voxelxyz[0][1]
-            z = voxelxyz[0][2]
+            elif nodule_dataset[nodule_list_labels.index(nodule_path)] == 'NLST':
+                # For the NLST dataset, use the coordinates in the spreadsheet to convert to the correct nodule centroids
+                nlst_index = nlst_label_paths.index(nodule_list_labels[nodule_list_labels.index(nodule_path)])
+                diam = np.array(nlst_diam[nlst_index])
+                dname = 'NLST'
+                fname = dname + str(k)
+                k = k + 1
+            
+            # 3. Trim to a fixed 64x64x64 size centered on the nodule center coordinate, saving as .npy
+            # image, mask, center, target_shape
+            trimmed_img, trimmed_mask = crop_around_center(resampled_img, resampled_mask, (x, y, z), (64, 64, 64))
+            trimmed_mask = crop_around_center(resampled_mask, resampled_mask, (x, y, z), (64, 64, 64))
 
-        elif nodule_dataset[nodule_list.index(nodule_path)] == 'NLST':
-            # For the NLST dataset, use the coordinates in the spreadsheet to convert to the correct nodule centroids
+            # 4. Save diameter, image, and label to a separate folders
 
-            nlst_index = nlst_label_paths.index(nodule_list_labels[nodule_list.index(nodule_path)])
-            x = nlst_x[nlst_index]
-            y = nlst_y[nlst_index]
-            z = nlst_z[nlst_index]
-            diam = np.array(nlst_diam[nlst_index])
-            dname = 'NLST'
-            fname = dname + nlst_pid[nlst_index]
+            # Save image
+            np.save('/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/data/'+dname+'/images/'+fname,trimmed_img)
 
-            new_coord = resample_coordinate((x,y,z), nodule_path, (1.5,1.5,1.5))
-            img = nib.load(nodule_path)
-            coord_system = nib.aff2axcodes(img.affine)
-            voxelxyz = cartesian_to_voxel(img, new_coord, coord_system)
-            x = voxelxyz[0][0]
-            y = voxelxyz[0][1]
-            z = voxelxyz[0][2]
-        
-        # 3. Trim to a fixed 96x96x16 size centered on the nodule center coordinate, saving as .npy
-        trimmed_img = trim_nifti(resampled_img, (x, y, z), (96, 96, 16))
-        trimmed_mask = trim_nifti(resampled_mask, (x, y, z), (96, 96, 16))
+            # Save mask
+            np.save('/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/data/'+dname+'/labels/'+fname,trimmed_mask)
 
-        # 4. Save diameter, image, and label to a separate folders
+            # Save diameter
+            np.save('/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/data/'+dname+'/diameters/'+fname,diam)
 
-        # Save image
-        np.save('/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/data/'+dname+'/images/'+fname,trimmed_img)
+            image_paths.append(nodule_list[nodule_list_labels.index(nodule_path)])
+            mask_paths.append(nodule_path)
+            new_names.append(fname)
 
-        # Save mask
-        np.save('/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/data/'+dname+'/labels/'+fname,trimmed_mask)
+            print('processed', fname)
+        except:
+            print('Skipped', nodule_path)
 
-        # Save diameter
-        np.save('/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/data/'+dname+'/diameters/'+fname,diam)
+# Save mapping to excel sheet
+data = {
+    'Image Path': image_paths,
+    'Mask Path': mask_paths,
+    'New Filename': new_names
+}
+
+df = pd.DataFrame(data)
+
+filename =  '/radraid2/mvinet/VNet_Lung_Nodule_Segmentation/data/data_mapping.csv'
+df.to_csv(filename, index=False)
+
+print('Finished')
