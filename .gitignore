@@ -10,5 +10,8 @@
 richard/data/
 richard/results/
 richard/logs/parallel_tests/
+richard/scripts/additional_figures/
+richard/scripts/figures/
 .cursorignore
 /datasheets/
+VISTA/

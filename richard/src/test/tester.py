@@ -197,14 +197,22 @@ class Tester:
             logger.error(f"Failed to save overlay image {filename}: {e}")
 
 
-    def generate_visualizations(self, best_threshold: float):
-        """Generates and saves predicted masks and overlay visualizations for a specific number of patients."""
+    def generate_visualizations(self, best_threshold: float, new_only: bool = True):
+        """Generates and saves predicted masks and overlay visualizations for a specific number of patients.
+
+        Args:
+            best_threshold: The probability threshold used to create binary masks.
+            new_only: If True, only generate visualizations for patients who do not
+                      already have an existing visualization directory.
+        """
         self.model.eval()
         patient_dirs = {}  # Track patient directories: {patient_id: (pred_dir, overlay_dir)}
         processed_patients = set()  # Track which patients we've already processed
         
-        logger.info(f"Generating visualizations for {self.num_visual_patients} patients using threshold {best_threshold:.2f}...")
-        
+        logger.info(f"Generating visualizations for up to {self.num_visual_patients} patients using threshold {best_threshold:.2f}.")
+        if new_only:
+            logger.info("Flag 'new_only' is set. Skipping patients with existing visualizations.")
+
         # First pass: collect all patient IDs from the dataset
         all_patient_ids = set()
         for batch_idx in range(len(self.test_loader)):
@@ -215,13 +223,35 @@ class Tester:
         
         logger.info(f"Found {len(all_patient_ids)} total patients in dataset")
         
-        # Decide which patients to visualize (take first num_visual_patients)
-        patients_to_visualize = sorted(list(all_patient_ids))[:self.num_visual_patients]
-        logger.info(f"Will generate visualizations for patients: {', '.join(patients_to_visualize)}")
+        # Filter out patients with existing visualizations if new_only is True
+        patients_for_consideration = all_patient_ids
+        if new_only:
+            existing_patient_ids = set()
+            for patient_id in all_patient_ids:
+                patient_overlay_dir = self.overlay_dir / patient_id
+                if patient_overlay_dir.exists() and any(patient_overlay_dir.iterdir()): # Check if dir exists and is not empty
+                    existing_patient_ids.add(patient_id)
+            
+            if existing_patient_ids:
+                logger.info(f"Skipping {len(existing_patient_ids)} patients with existing visualization directories.")
+                patients_for_consideration = all_patient_ids - existing_patient_ids
+            else:
+                logger.info("No existing patient visualization directories found to skip.")
+
+        # Decide which patients to visualize (take first num_visual_patients from the considered list)
+        patients_to_visualize = sorted(list(patients_for_consideration))[:self.num_visual_patients]
         
+        if patients_to_visualize:
+            logger.info(f"Will generate visualizations for patients: {', '.join(patients_to_visualize)}")
+        else:
+            logger.info("No new patients selected for visualization based on current settings.")
+            # No need to proceed further if no patients are selected
+            return
+
         # Second pass: process the data and save visualizations for selected patients
         with torch.no_grad():
-            for batch_idx, (images, labels) in enumerate(self.test_loader):
+            progress_bar = tqdm(self.test_loader, desc="[Visualizing]", leave=False, unit="batch")
+            for batch_idx, (images, labels) in enumerate(progress_bar):
                 # Get filenames for the current batch
                 filenames = self._get_batch_filenames(batch_idx)
                 

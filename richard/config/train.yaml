@@ -1,5 +1,5 @@
 model: vnet
-dataset: luna16_2d
+dataset: splits_2d
 dataloader: dataloader
 optimizer: AdamW
 scheduler: ReduceLROnPlateau

@@ -167,7 +167,27 @@ def test(args: argparse.Namespace, cfg: dict, checkpoint_basename: str):
     thresh_min = test_cfg.get('thresh_min', 0.0)
     thresh_max = test_cfg.get('thresh_max', 1.0)
     thresh_step = test_cfg.get('thresh_step', 0.05)
-    num_visuals = test_cfg.get('num_visual_patients', 10)
+    num_visuals_config = test_cfg.get('num_visual_patients', 10)
+
+    if num_visuals_config == -1:
+        if test_dataset and hasattr(test_dataset, 'images'):
+            # Define patient ID extraction logic (similar to Tester._extract_patient_id)
+            def extract_patient_id_from_filename(filename: str) -> str:
+                return filename.split('_', 1)[0]
+
+            unique_patient_ids = set()
+            for img_filename in test_dataset.images:
+                patient_id = extract_patient_id_from_filename(img_filename)
+                unique_patient_ids.add(patient_id)
+            num_visuals = len(unique_patient_ids)
+            logging.info(f"'num_visual_patients' is -1. Set to total unique patients: {num_visuals}")
+        else:
+            logging.warning("Could not determine unique patient count for num_visuals as test_dataset is not available or has no 'images' attribute. Defaulting to 10.")
+            num_visuals = 10 # Fallback
+    else:
+        num_visuals = num_visuals_config
+        
+    logging.info(f"Number of patients to visualize: {num_visuals}")
     overlay_opacity = test_cfg.get('overlay_opacity', 0.4)
     
     tester = Tester(
@@ -186,7 +206,7 @@ def test(args: argparse.Namespace, cfg: dict, checkpoint_basename: str):
     # --- Run Evaluation and Visualization ---
     try:
         best_dice, best_threshold, _ = tester.evaluate()
-        tester.generate_visualizations(best_threshold=best_threshold)
+        tester.generate_visualizations(best_threshold=best_threshold, new_only=True)
         logging.info("Testing process finished.")
     except Exception as e:
          logging.error(f"Error during tester execution: {e}", exc_info=True)

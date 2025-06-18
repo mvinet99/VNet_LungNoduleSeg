@@ -26,16 +26,16 @@ training:
 checkpoint: 
     path: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-17_13:58:47.pth
     freeze_config:
-        freeze: True
+        freeze: false
         config: # Dictionary format: name/prefix: true_to_freeze
-            "init_conv": true
-            "downsample_block_1": true
-            "downsample_block_2": true
-            "downsample_block_3": true
-            "downsample_block_4": true
-            "upsample_block_1": true
-            "upsample_block_2": true
-            "upsample_block_3": true
-            "upsample_block_4": true
+            "init_conv": false
+            "downsample_block_1": false
+            "downsample_block_2": false
+            "downsample_block_3": false
+            "downsample_block_4": false
+            "upsample_block_1": false
+            "upsample_block_2": false
+            "upsample_block_3": false
+            "upsample_block_4": false
             "final_conv": false
 

@@ -1,11 +1,12 @@
 import numpy as np
 import pandas as pd
 import os
+from richard.src.test.test import select_checkpoint_interactive
 
-IMAGES_DIR = '/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis'
-MASKS_DIR = '/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis'
+IMAGES_DIR = '/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_2axis'
+MASKS_DIR = '/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_2axis'
 
-checkpoint = 'final_checkpoint_25-04-24_00:05:13'
+checkpoint = select_checkpoint_interactive('/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints').split('.')[0]
 PRED_MASKS_DIR = f'/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results/{checkpoint}/predicted_masks'
 
 images_filenames = os.listdir(IMAGES_DIR)
@@ -40,6 +41,7 @@ def get_dice_score(true_masks:np.ndarray, pred_masks:np.ndarray) -> float:
     return dice_score
 
 results_list = []
+prev_pid = None
 prev_num_slices = 0
 prev_pos_voxels = 0
 prev_dice_score = 0
@@ -64,11 +66,14 @@ for pid in pids:
 
     num_slices = len(img_slices)
     pos_voxels = get_pos_voxels(mask_slices)
-
-    if prev_num_slices != num_slices or prev_pos_voxels != pos_voxels:
-        dice_score = get_dice_score(mask_slices, pred_mask_slices)
+    dice_score = get_dice_score(mask_slices, pred_mask_slices)
+    
+    if prev_num_slices != num_slices or prev_pos_voxels != pos_voxels or prev_dice_score != dice_score:
         results_list.append({'pid': pid, 'num_slices': num_slices, 'pos_voxels': pos_voxels, 'dice_score': dice_score})
+    else:
+        print(f"{pid} is likely a duplicate of {prev_pid}")
 
+    prev_pid = pid
     prev_num_slices = num_slices
     prev_pos_voxels = pos_voxels
     prev_dice_score = dice_score
