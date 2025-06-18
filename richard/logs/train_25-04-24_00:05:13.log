@@ -1,0 +1,520 @@
+2025-04-24 00:05:13,678 - root:setup_logging:143 - INFO - File logging (DEBUG level) activated: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/logs/train_25-04-24_00:05:13.log
+2025-04-24 00:05:13,678 - root:setup_logging:149 - INFO - Console logging level set to: INFO
+2025-04-24 00:05:13,678 - root:setup_logging:151 - INFO - File logging level set to: DEBUG
+2025-04-24 00:05:13,678 - root:<module>:239 - INFO - Start time: 25-04-24_00:05:13
+2025-04-24 00:05:13,678 - root:<module>:240 - INFO - This is a finetune script.
+2025-04-24 00:05:13,689 - richard.src.utils.utils:_load_and_merge_yaml_configs:290 - INFO - Decorator loaded base config from: richard/config/finetune.yaml
+2025-04-24 00:05:13,695 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'model' from: richard/config/model/vnet.yaml
+2025-04-24 00:05:13,701 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataset' from: richard/config/dataset/splits_2d.yaml
+2025-04-24 00:05:13,705 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'dataloader' from: richard/config/dataloader/dataloader.yaml
+2025-04-24 00:05:13,708 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'optimizer' from: richard/config/optimizer/AdamW.yaml
+2025-04-24 00:05:13,712 - richard.src.utils.utils:_load_and_merge_yaml_configs:307 - INFO - Decorator loaded config for 'scheduler' from: richard/config/scheduler/ReduceLROnPlateau.yaml
+2025-04-24 00:05:13,713 - richard.src.utils.utils:wrapper:364 - INFO - Decorator successfully loaded and merged configurations.
+2025-04-24 00:05:13,713 - richard.src.utils.utils:wrapper:372 - INFO - Decorator injecting loaded 'cfg' into function call.
+2025-04-24 00:05:13,714 - richard.src.utils.utils:wrapper:382 - DEBUG - Decorator injected 'cfg' into function call:
+ {
+  "model": {
+    "name": "VNet2D",
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "train": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/train/masks_2D_0axis/",
+      "augment": true,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    },
+    "val": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -493.0376
+      ],
+      "std": [
+        443.1897
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 1e-05,
+    "weight_decay": 0.01
+  },
+  "scheduler": {
+    "name": "ReduceLROnPlateau",
+    "factor": 0.2,
+    "mode": "max",
+    "patience": 5,
+    "min_lr": 1e-06
+  },
+  "criterion": {
+    "Dice": {
+      "name": "DiceLoss",
+      "weight": 1.0
+    }
+  },
+  "training": {
+    "num_epochs": 30,
+    "batch_size": 16,
+    "early_stopping_patience": 15,
+    "early_stopping_min_delta": 0.0005
+  },
+  "checkpoint": {
+    "path": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-17_13:58:47.pth",
+    "freeze_config": {
+      "freeze": true,
+      "config": {
+        "init_conv": false,
+        "downsample_block_1": false,
+        "downsample_block_2": false,
+        "downsample_block_3": false,
+        "downsample_block_4": false,
+        "upsample_block_1": false,
+        "upsample_block_2": false,
+        "upsample_block_3": false,
+        "upsample_block_4": false,
+        "final_conv": false
+      }
+    }
+  }
+}
+2025-04-24 00:05:13,821 - root:train:29 - INFO - Using device: cuda
+2025-04-24 00:05:13,822 - root:train:32 - INFO - Train function received config keys: ['model', 'dataset', 'dataloader', 'optimizer', 'scheduler', 'criterion', 'training', 'checkpoint']
+2025-04-24 00:05:13,825 - root:train:36 - DEBUG - Created deep copy of config for instantiation.
+2025-04-24 00:05:48,079 - root:train:53 - INFO - Loaded train dataset with 21340 samples.
+2025-04-24 00:05:48,081 - root:train:54 - INFO - Loaded validation dataset with 15181 samples.
+2025-04-24 00:05:48,083 - root:train:58 - INFO - Created DataLoaders.
+2025-04-24 00:05:48,613 - root:train:73 - INFO - Initialized model: VNet2D
+2025-04-24 00:05:48,884 - root:train:91 - INFO - Loaded model state_dict from checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-17_13:58:47.pth
+2025-04-24 00:05:48,885 - root:train:93 - DEBUG - Original Model Training Config: {
+  "model": {
+    "in_channels": 1,
+    "out_channels": 1,
+    "conv_kernel_size": 5,
+    "conv_stride": 1,
+    "conv_padding": 2,
+    "conv_bn": true,
+    "conv_activation_fn": null,
+    "sampling_conv_kernel_size": 2,
+    "sampling_conv_stride": 2,
+    "sampling_conv_padding": 0,
+    "sampling_conv_bn": true,
+    "sampling_conv_activation_fn": null,
+    "dropout_rate": 0.3
+  },
+  "dataset": {
+    "train": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/LUNA16/train/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/LUNA16/train/masks_2D_0axis/",
+      "augment": true,
+      "normalize": true,
+      "mean": [
+        -593.997
+      ],
+      "std": [
+        417.0208
+      ]
+    },
+    "val": {
+      "image_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/images_2D_0axis/",
+      "mask_dir": "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/data/splits/val/masks_2D_0axis/",
+      "augment": false,
+      "normalize": true,
+      "mean": [
+        -593.997
+      ],
+      "std": [
+        417.0208
+      ]
+    }
+  },
+  "dataloader": {
+    "train": {
+      "batch_size": 16,
+      "shuffle": true,
+      "num_workers": 8
+    },
+    "val": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    },
+    "test": {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 8
+    }
+  },
+  "optimizer": {
+    "lr": 0.0001,
+    "weight_decay": 0.01
+  },
+  "scheduler": {
+    "factor": 0.2,
+    "mode": "max",
+    "patience": 5,
+    "min_lr": 1e-06
+  },
+  "criterion": {
+    "Dice": {
+      "name": "DiceLoss",
+      "weight": 1.0
+    }
+  },
+  "training": {
+    "num_epochs": 30,
+    "batch_size": 16,
+    "early_stopping_patience": 15,
+    "early_stopping_min_delta": 0.0005
+  }
+}
+2025-04-24 00:05:48,887 - root:train:127 - WARNING - Freeze was enabled, but no parameters matched the names in freeze_config: ['init_conv', 'downsample_block_1', 'downsample_block_2', 'downsample_block_3', 'downsample_block_4', 'upsample_block_1', 'upsample_block_2', 'upsample_block_3', 'upsample_block_4', 'final_conv']
+2025-04-24 00:05:48,888 - root:train:148 - INFO - Initialized AdamW optimizer with params: {'lr': 1e-05, 'weight_decay': 0.01}
+2025-04-24 00:05:48,888 - root:train:171 - INFO - Initialized ReduceLROnPlateau scheduler with params: {'factor': 0.2, 'mode': 'max', 'patience': 5, 'min_lr': 1e-06}
+2025-04-24 00:05:48,888 - richard.src.utils.loss:__init__:202 - INFO - Initialized loss component 'Dice' (DiceLoss) with effective params: {}
+2025-04-24 00:05:48,888 - richard.src.utils.loss:__init__:231 - INFO - Final combined loss weights: {'Dice': 1.0}
+2025-04-24 00:05:48,888 - root:train:188 - INFO - Initialized CombinedLoss criterion.
+2025-04-24 00:05:48,888 - richard.src.train.trainer:__init__:39 - INFO - Trainer initialized with optimizer: AdamW
+2025-04-24 00:05:48,888 - richard.src.train.trainer:__init__:45 - INFO - Trainer initialized with scheduler: ReduceLROnPlateau
+2025-04-24 00:05:48,888 - richard.src.train.trainer:__init__:53 - INFO - Trainer initialized with criterion: CombinedLoss
+2025-04-24 00:05:48,889 - richard.src.train.trainer:__init__:97 - INFO - Early stopping enabled with patience: 15, min_delta: 0.0005
+2025-04-24 00:05:48,889 - richard.src.train.trainer:__init__:107 - DEBUG - Initialized raw loss tracking for components: ['Dice']
+2025-04-24 00:05:48,889 - root:train:209 - INFO - Starting training for 30 epochs...
+2025-04-24 00:06:33,428 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.5763
+2025-04-24 00:06:33,429 - richard.src.train.trainer:train:146 - DEBUG - Epoch 1: Current learning rate: 1.00e-05
+2025-04-24 00:06:34,850 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_1.pth with val Dice: 0.5763
+2025-04-24 00:06:34,852 - richard.src.train.trainer:train:152 - DEBUG - Epoch 1 Summary:
+2025-04-24 00:06:34,852 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.4624, Train Dice: 0.5540
+2025-04-24 00:06:34,852 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.4624}
+2025-04-24 00:06:34,852 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.4239,   Val Dice: 0.5763
+2025-04-24 00:06:34,852 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.4239}
+2025-04-24 00:06:34,852 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: inf, Best Val Dice So Far: 0.5763
+2025-04-24 00:07:18,132 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.5883
+2025-04-24 00:07:18,132 - richard.src.train.trainer:train:146 - DEBUG - Epoch 2: Current learning rate: 1.00e-05
+2025-04-24 00:07:19,545 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_2.pth with val Dice: 0.5883
+2025-04-24 00:07:19,636 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_1.pth
+2025-04-24 00:07:19,638 - richard.src.train.trainer:train:152 - DEBUG - Epoch 2 Summary:
+2025-04-24 00:07:19,638 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.3404, Train Dice: 0.6770
+2025-04-24 00:07:19,639 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.3404}
+2025-04-24 00:07:19,639 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.4119,   Val Dice: 0.5883
+2025-04-24 00:07:19,639 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.4119}
+2025-04-24 00:07:19,639 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.4239, Best Val Dice So Far: 0.5883
+2025-04-24 00:08:08,832 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6203
+2025-04-24 00:08:08,833 - richard.src.train.trainer:train:146 - DEBUG - Epoch 3: Current learning rate: 1.00e-05
+2025-04-24 00:08:10,258 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_3.pth with val Dice: 0.6203
+2025-04-24 00:08:10,331 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_2.pth
+2025-04-24 00:08:10,332 - richard.src.train.trainer:train:152 - DEBUG - Epoch 3 Summary:
+2025-04-24 00:08:10,332 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.3198, Train Dice: 0.6948
+2025-04-24 00:08:10,332 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.3198}
+2025-04-24 00:08:10,332 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3806,   Val Dice: 0.6203
+2025-04-24 00:08:10,332 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3806}
+2025-04-24 00:08:10,332 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.4119, Best Val Dice So Far: 0.6203
+2025-04-24 00:08:58,470 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6311
+2025-04-24 00:08:58,470 - richard.src.train.trainer:train:146 - DEBUG - Epoch 4: Current learning rate: 1.00e-05
+2025-04-24 00:08:59,877 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_4.pth with val Dice: 0.6311
+2025-04-24 00:08:59,951 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_3.pth
+2025-04-24 00:08:59,952 - richard.src.train.trainer:train:152 - DEBUG - Epoch 4 Summary:
+2025-04-24 00:08:59,953 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.3035, Train Dice: 0.7100
+2025-04-24 00:08:59,953 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.3035}
+2025-04-24 00:08:59,953 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3701,   Val Dice: 0.6311
+2025-04-24 00:08:59,953 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3701}
+2025-04-24 00:08:59,953 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3806, Best Val Dice So Far: 0.6311
+2025-04-24 00:09:54,306 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6339
+2025-04-24 00:09:54,307 - richard.src.train.trainer:train:146 - DEBUG - Epoch 5: Current learning rate: 1.00e-05
+2025-04-24 00:09:55,739 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_5.pth with val Dice: 0.6339
+2025-04-24 00:09:55,813 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_4.pth
+2025-04-24 00:09:55,814 - richard.src.train.trainer:train:152 - DEBUG - Epoch 5 Summary:
+2025-04-24 00:09:55,816 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2893, Train Dice: 0.7219
+2025-04-24 00:09:55,816 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2893}
+2025-04-24 00:09:55,816 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3667,   Val Dice: 0.6339
+2025-04-24 00:09:55,816 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3667}
+2025-04-24 00:09:55,816 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3701, Best Val Dice So Far: 0.6339
+2025-04-24 00:10:50,118 - richard.src.train.trainer:train:132 - DEBUG - Epoch 6: No improvement in val_dice for 1 epoch(s). Patience: 15
+2025-04-24 00:10:50,123 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6256
+2025-04-24 00:10:50,123 - richard.src.train.trainer:train:146 - DEBUG - Epoch 6: Current learning rate: 1.00e-05
+2025-04-24 00:10:50,123 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 6: Val Dice 0.6256 did not improve over best 0.6339
+2025-04-24 00:10:50,123 - richard.src.train.trainer:train:152 - DEBUG - Epoch 6 Summary:
+2025-04-24 00:10:50,123 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2824, Train Dice: 0.7274
+2025-04-24 00:10:50,123 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2824}
+2025-04-24 00:10:50,123 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3748,   Val Dice: 0.6256
+2025-04-24 00:10:50,123 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3748}
+2025-04-24 00:10:50,123 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3667, Best Val Dice So Far: 0.6339
+2025-04-24 00:11:41,598 - richard.src.train.trainer:train:132 - DEBUG - Epoch 7: No improvement in val_dice for 2 epoch(s). Patience: 15
+2025-04-24 00:11:41,599 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6309
+2025-04-24 00:11:41,599 - richard.src.train.trainer:train:146 - DEBUG - Epoch 7: Current learning rate: 1.00e-05
+2025-04-24 00:11:41,599 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 7: Val Dice 0.6309 did not improve over best 0.6339
+2025-04-24 00:11:41,599 - richard.src.train.trainer:train:152 - DEBUG - Epoch 7 Summary:
+2025-04-24 00:11:41,600 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2750, Train Dice: 0.7340
+2025-04-24 00:11:41,600 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2750}
+2025-04-24 00:11:41,600 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3700,   Val Dice: 0.6309
+2025-04-24 00:11:41,600 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3700}
+2025-04-24 00:11:41,600 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3667, Best Val Dice So Far: 0.6339
+2025-04-24 00:12:33,266 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6495
+2025-04-24 00:12:33,267 - richard.src.train.trainer:train:146 - DEBUG - Epoch 8: Current learning rate: 1.00e-05
+2025-04-24 00:12:34,704 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_8.pth with val Dice: 0.6495
+2025-04-24 00:12:34,786 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_5.pth
+2025-04-24 00:12:34,787 - richard.src.train.trainer:train:152 - DEBUG - Epoch 8 Summary:
+2025-04-24 00:12:34,787 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2714, Train Dice: 0.7368
+2025-04-24 00:12:34,787 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2714}
+2025-04-24 00:12:34,787 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3514,   Val Dice: 0.6495
+2025-04-24 00:12:34,787 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3514}
+2025-04-24 00:12:34,787 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3667, Best Val Dice So Far: 0.6495
+2025-04-24 00:13:31,774 - richard.src.train.trainer:train:132 - DEBUG - Epoch 9: No improvement in val_dice for 1 epoch(s). Patience: 15
+2025-04-24 00:13:31,774 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6369
+2025-04-24 00:13:31,774 - richard.src.train.trainer:train:146 - DEBUG - Epoch 9: Current learning rate: 1.00e-05
+2025-04-24 00:13:31,774 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 9: Val Dice 0.6369 did not improve over best 0.6495
+2025-04-24 00:13:31,774 - richard.src.train.trainer:train:152 - DEBUG - Epoch 9 Summary:
+2025-04-24 00:13:31,774 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2649, Train Dice: 0.7425
+2025-04-24 00:13:31,774 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2649}
+2025-04-24 00:13:31,774 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3635,   Val Dice: 0.6369
+2025-04-24 00:13:31,774 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3635}
+2025-04-24 00:13:31,774 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3514, Best Val Dice So Far: 0.6495
+2025-04-24 00:14:20,149 - richard.src.train.trainer:train:132 - DEBUG - Epoch 10: No improvement in val_dice for 2 epoch(s). Patience: 15
+2025-04-24 00:14:20,150 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6486
+2025-04-24 00:14:20,150 - richard.src.train.trainer:train:146 - DEBUG - Epoch 10: Current learning rate: 1.00e-05
+2025-04-24 00:14:20,151 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 10: Val Dice 0.6486 did not improve over best 0.6495
+2025-04-24 00:14:20,151 - richard.src.train.trainer:train:152 - DEBUG - Epoch 10 Summary:
+2025-04-24 00:14:20,151 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2621, Train Dice: 0.7449
+2025-04-24 00:14:20,151 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2621}
+2025-04-24 00:14:20,151 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3522,   Val Dice: 0.6486
+2025-04-24 00:14:20,151 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3522}
+2025-04-24 00:14:20,151 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3514, Best Val Dice So Far: 0.6495
+2025-04-24 00:15:13,690 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6594
+2025-04-24 00:15:13,690 - richard.src.train.trainer:train:146 - DEBUG - Epoch 11: Current learning rate: 1.00e-05
+2025-04-24 00:15:15,111 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_11.pth with val Dice: 0.6594
+2025-04-24 00:15:15,201 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_8.pth
+2025-04-24 00:15:15,202 - richard.src.train.trainer:train:152 - DEBUG - Epoch 11 Summary:
+2025-04-24 00:15:15,203 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2570, Train Dice: 0.7494
+2025-04-24 00:15:15,203 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2570}
+2025-04-24 00:15:15,203 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3413,   Val Dice: 0.6594
+2025-04-24 00:15:15,203 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3413}
+2025-04-24 00:15:15,203 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3514, Best Val Dice So Far: 0.6594
+2025-04-24 00:16:07,910 - richard.src.train.trainer:train:132 - DEBUG - Epoch 12: No improvement in val_dice for 1 epoch(s). Patience: 15
+2025-04-24 00:16:07,911 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6554
+2025-04-24 00:16:07,911 - richard.src.train.trainer:train:146 - DEBUG - Epoch 12: Current learning rate: 1.00e-05
+2025-04-24 00:16:07,912 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 12: Val Dice 0.6554 did not improve over best 0.6594
+2025-04-24 00:16:07,912 - richard.src.train.trainer:train:152 - DEBUG - Epoch 12 Summary:
+2025-04-24 00:16:07,912 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2552, Train Dice: 0.7507
+2025-04-24 00:16:07,913 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2552}
+2025-04-24 00:16:07,913 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3453,   Val Dice: 0.6554
+2025-04-24 00:16:07,913 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3453}
+2025-04-24 00:16:07,913 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3413, Best Val Dice So Far: 0.6594
+2025-04-24 00:17:04,946 - richard.src.train.trainer:train:132 - DEBUG - Epoch 13: No improvement in val_dice for 2 epoch(s). Patience: 15
+2025-04-24 00:17:04,946 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6478
+2025-04-24 00:17:04,946 - richard.src.train.trainer:train:146 - DEBUG - Epoch 13: Current learning rate: 1.00e-05
+2025-04-24 00:17:04,946 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 13: Val Dice 0.6478 did not improve over best 0.6594
+2025-04-24 00:17:04,946 - richard.src.train.trainer:train:152 - DEBUG - Epoch 13 Summary:
+2025-04-24 00:17:04,946 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2533, Train Dice: 0.7520
+2025-04-24 00:17:04,947 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2533}
+2025-04-24 00:17:04,948 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3526,   Val Dice: 0.6478
+2025-04-24 00:17:04,948 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3526}
+2025-04-24 00:17:04,948 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3413, Best Val Dice So Far: 0.6594
+2025-04-24 00:17:56,997 - richard.src.train.trainer:train:132 - DEBUG - Epoch 14: No improvement in val_dice for 3 epoch(s). Patience: 15
+2025-04-24 00:17:56,998 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6530
+2025-04-24 00:17:56,998 - richard.src.train.trainer:train:146 - DEBUG - Epoch 14: Current learning rate: 1.00e-05
+2025-04-24 00:17:56,998 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 14: Val Dice 0.6530 did not improve over best 0.6594
+2025-04-24 00:17:56,999 - richard.src.train.trainer:train:152 - DEBUG - Epoch 14 Summary:
+2025-04-24 00:17:56,999 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2459, Train Dice: 0.7589
+2025-04-24 00:17:56,999 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2459}
+2025-04-24 00:17:56,999 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3476,   Val Dice: 0.6530
+2025-04-24 00:17:56,999 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3476}
+2025-04-24 00:17:56,999 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3413, Best Val Dice So Far: 0.6594
+2025-04-24 00:18:48,676 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6601
+2025-04-24 00:18:48,676 - richard.src.train.trainer:train:146 - DEBUG - Epoch 15: Current learning rate: 1.00e-05
+2025-04-24 00:18:50,130 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_15.pth with val Dice: 0.6601
+2025-04-24 00:18:50,247 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_11.pth
+2025-04-24 00:18:50,248 - richard.src.train.trainer:train:152 - DEBUG - Epoch 15 Summary:
+2025-04-24 00:18:50,249 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2480, Train Dice: 0.7569
+2025-04-24 00:18:50,249 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2480}
+2025-04-24 00:18:50,249 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3405,   Val Dice: 0.6601
+2025-04-24 00:18:50,249 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3405}
+2025-04-24 00:18:50,249 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3413, Best Val Dice So Far: 0.6601
+2025-04-24 00:19:46,131 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6666
+2025-04-24 00:19:46,131 - richard.src.train.trainer:train:146 - DEBUG - Epoch 16: Current learning rate: 1.00e-05
+2025-04-24 00:19:47,557 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_16.pth with val Dice: 0.6666
+2025-04-24 00:19:47,648 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_15.pth
+2025-04-24 00:19:47,650 - richard.src.train.trainer:train:152 - DEBUG - Epoch 16 Summary:
+2025-04-24 00:19:47,654 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2451, Train Dice: 0.7597
+2025-04-24 00:19:47,654 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2451}
+2025-04-24 00:19:47,654 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3341,   Val Dice: 0.6666
+2025-04-24 00:19:47,654 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3341}
+2025-04-24 00:19:47,654 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3405, Best Val Dice So Far: 0.6666
+2025-04-24 00:20:42,433 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6677
+2025-04-24 00:20:42,434 - richard.src.train.trainer:train:146 - DEBUG - Epoch 17: Current learning rate: 1.00e-05
+2025-04-24 00:20:43,848 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_17.pth with val Dice: 0.6677
+2025-04-24 00:20:43,917 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_16.pth
+2025-04-24 00:20:43,918 - richard.src.train.trainer:train:152 - DEBUG - Epoch 17 Summary:
+2025-04-24 00:20:43,918 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2440, Train Dice: 0.7605
+2025-04-24 00:20:43,918 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2440}
+2025-04-24 00:20:43,918 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3329,   Val Dice: 0.6677
+2025-04-24 00:20:43,918 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3329}
+2025-04-24 00:20:43,918 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3341, Best Val Dice So Far: 0.6677
+2025-04-24 00:21:35,541 - richard.src.train.trainer:train:132 - DEBUG - Epoch 18: No improvement in val_dice for 1 epoch(s). Patience: 15
+2025-04-24 00:21:35,542 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6634
+2025-04-24 00:21:35,542 - richard.src.train.trainer:train:146 - DEBUG - Epoch 18: Current learning rate: 1.00e-05
+2025-04-24 00:21:35,542 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 18: Val Dice 0.6634 did not improve over best 0.6677
+2025-04-24 00:21:35,542 - richard.src.train.trainer:train:152 - DEBUG - Epoch 18 Summary:
+2025-04-24 00:21:35,542 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2392, Train Dice: 0.7653
+2025-04-24 00:21:35,542 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2392}
+2025-04-24 00:21:35,542 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3372,   Val Dice: 0.6634
+2025-04-24 00:21:35,543 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3372}
+2025-04-24 00:21:35,543 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3329, Best Val Dice So Far: 0.6677
+2025-04-24 00:22:31,902 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6703
+2025-04-24 00:22:31,902 - richard.src.train.trainer:train:146 - DEBUG - Epoch 19: Current learning rate: 1.00e-05
+2025-04-24 00:22:33,364 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_19.pth with val Dice: 0.6703
+2025-04-24 00:22:33,447 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_17.pth
+2025-04-24 00:22:33,448 - richard.src.train.trainer:train:152 - DEBUG - Epoch 19 Summary:
+2025-04-24 00:22:33,449 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2369, Train Dice: 0.7670
+2025-04-24 00:22:33,449 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2369}
+2025-04-24 00:22:33,449 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3301,   Val Dice: 0.6703
+2025-04-24 00:22:33,449 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3301}
+2025-04-24 00:22:33,449 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3329, Best Val Dice So Far: 0.6703
+2025-04-24 00:23:25,957 - richard.src.train.trainer:train:132 - DEBUG - Epoch 20: No improvement in val_dice for 1 epoch(s). Patience: 15
+2025-04-24 00:23:25,958 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6601
+2025-04-24 00:23:25,958 - richard.src.train.trainer:train:146 - DEBUG - Epoch 20: Current learning rate: 1.00e-05
+2025-04-24 00:23:25,958 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 20: Val Dice 0.6601 did not improve over best 0.6703
+2025-04-24 00:23:25,958 - richard.src.train.trainer:train:152 - DEBUG - Epoch 20 Summary:
+2025-04-24 00:23:25,958 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2384, Train Dice: 0.7654
+2025-04-24 00:23:25,958 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2384}
+2025-04-24 00:23:25,958 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3402,   Val Dice: 0.6601
+2025-04-24 00:23:25,958 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3402}
+2025-04-24 00:23:25,959 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3301, Best Val Dice So Far: 0.6703
+2025-04-24 00:24:14,210 - richard.src.train.trainer:train:132 - DEBUG - Epoch 21: No improvement in val_dice for 2 epoch(s). Patience: 15
+2025-04-24 00:24:14,210 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6617
+2025-04-24 00:24:14,210 - richard.src.train.trainer:train:146 - DEBUG - Epoch 21: Current learning rate: 1.00e-05
+2025-04-24 00:24:14,211 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 21: Val Dice 0.6617 did not improve over best 0.6703
+2025-04-24 00:24:14,211 - richard.src.train.trainer:train:152 - DEBUG - Epoch 21 Summary:
+2025-04-24 00:24:14,211 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2342, Train Dice: 0.7694
+2025-04-24 00:24:14,211 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2342}
+2025-04-24 00:24:14,211 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3389,   Val Dice: 0.6617
+2025-04-24 00:24:14,211 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3389}
+2025-04-24 00:24:14,211 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3301, Best Val Dice So Far: 0.6703
+2025-04-24 00:25:01,333 - richard.src.train.trainer:train:132 - DEBUG - Epoch 22: No improvement in val_dice for 3 epoch(s). Patience: 15
+2025-04-24 00:25:01,334 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6691
+2025-04-24 00:25:01,334 - richard.src.train.trainer:train:146 - DEBUG - Epoch 22: Current learning rate: 1.00e-05
+2025-04-24 00:25:01,338 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 22: Val Dice 0.6691 did not improve over best 0.6703
+2025-04-24 00:25:01,338 - richard.src.train.trainer:train:152 - DEBUG - Epoch 22 Summary:
+2025-04-24 00:25:01,338 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2361, Train Dice: 0.7675
+2025-04-24 00:25:01,339 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2361}
+2025-04-24 00:25:01,339 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3314,   Val Dice: 0.6691
+2025-04-24 00:25:01,339 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3314}
+2025-04-24 00:25:01,339 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3301, Best Val Dice So Far: 0.6703
+2025-04-24 00:25:47,006 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6740
+2025-04-24 00:25:47,007 - richard.src.train.trainer:train:146 - DEBUG - Epoch 23: Current learning rate: 1.00e-05
+2025-04-24 00:25:48,428 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_23.pth with val Dice: 0.6740
+2025-04-24 00:25:48,506 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_19.pth
+2025-04-24 00:25:48,508 - richard.src.train.trainer:train:152 - DEBUG - Epoch 23 Summary:
+2025-04-24 00:25:48,508 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2338, Train Dice: 0.7695
+2025-04-24 00:25:48,508 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2338}
+2025-04-24 00:25:48,508 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3266,   Val Dice: 0.6740
+2025-04-24 00:25:48,508 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3266}
+2025-04-24 00:25:48,508 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3301, Best Val Dice So Far: 0.6740
+2025-04-24 00:26:30,473 - richard.src.train.trainer:train:132 - DEBUG - Epoch 24: No improvement in val_dice for 1 epoch(s). Patience: 15
+2025-04-24 00:26:30,474 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6599
+2025-04-24 00:26:30,475 - richard.src.train.trainer:train:146 - DEBUG - Epoch 24: Current learning rate: 1.00e-05
+2025-04-24 00:26:30,475 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 24: Val Dice 0.6599 did not improve over best 0.6740
+2025-04-24 00:26:30,475 - richard.src.train.trainer:train:152 - DEBUG - Epoch 24 Summary:
+2025-04-24 00:26:30,475 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2307, Train Dice: 0.7727
+2025-04-24 00:26:30,475 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2307}
+2025-04-24 00:26:30,475 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3407,   Val Dice: 0.6599
+2025-04-24 00:26:30,475 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3407}
+2025-04-24 00:26:30,475 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3266, Best Val Dice So Far: 0.6740
+2025-04-24 00:27:16,782 - richard.src.train.trainer:train:132 - DEBUG - Epoch 25: No improvement in val_dice for 2 epoch(s). Patience: 15
+2025-04-24 00:27:16,782 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6693
+2025-04-24 00:27:16,782 - richard.src.train.trainer:train:146 - DEBUG - Epoch 25: Current learning rate: 1.00e-05
+2025-04-24 00:27:16,782 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 25: Val Dice 0.6693 did not improve over best 0.6740
+2025-04-24 00:27:16,783 - richard.src.train.trainer:train:152 - DEBUG - Epoch 25 Summary:
+2025-04-24 00:27:16,783 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2321, Train Dice: 0.7710
+2025-04-24 00:27:16,783 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2321}
+2025-04-24 00:27:16,783 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3313,   Val Dice: 0.6693
+2025-04-24 00:27:16,783 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3313}
+2025-04-24 00:27:16,783 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3266, Best Val Dice So Far: 0.6740
+2025-04-24 00:28:01,843 - richard.src.train.trainer:train:132 - DEBUG - Epoch 26: No improvement in val_dice for 3 epoch(s). Patience: 15
+2025-04-24 00:28:01,843 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6650
+2025-04-24 00:28:01,843 - richard.src.train.trainer:train:146 - DEBUG - Epoch 26: Current learning rate: 1.00e-05
+2025-04-24 00:28:01,843 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 26: Val Dice 0.6650 did not improve over best 0.6740
+2025-04-24 00:28:01,843 - richard.src.train.trainer:train:152 - DEBUG - Epoch 26 Summary:
+2025-04-24 00:28:01,843 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2280, Train Dice: 0.7749
+2025-04-24 00:28:01,843 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2280}
+2025-04-24 00:28:01,845 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3353,   Val Dice: 0.6650
+2025-04-24 00:28:01,845 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3353}
+2025-04-24 00:28:01,845 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3266, Best Val Dice So Far: 0.6740
+2025-04-24 00:28:47,098 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6748
+2025-04-24 00:28:47,099 - richard.src.train.trainer:train:146 - DEBUG - Epoch 27: Current learning rate: 1.00e-05
+2025-04-24 00:28:48,513 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_27.pth with val Dice: 0.6748
+2025-04-24 00:28:48,582 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_23.pth
+2025-04-24 00:28:48,584 - richard.src.train.trainer:train:152 - DEBUG - Epoch 27 Summary:
+2025-04-24 00:28:48,584 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2272, Train Dice: 0.7759
+2025-04-24 00:28:48,584 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2272}
+2025-04-24 00:28:48,584 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3256,   Val Dice: 0.6748
+2025-04-24 00:28:48,584 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3256}
+2025-04-24 00:28:48,584 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3266, Best Val Dice So Far: 0.6748
+2025-04-24 00:29:30,579 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6777
+2025-04-24 00:29:30,579 - richard.src.train.trainer:train:146 - DEBUG - Epoch 28: Current learning rate: 1.00e-05
+2025-04-24 00:29:31,982 - richard.src.train.trainer:save_checkpoint:395 - DEBUG - Saved new best checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_28.pth with val Dice: 0.6777
+2025-04-24 00:29:32,055 - richard.src.train.trainer:save_checkpoint:405 - DEBUG - Removed previous best checkpoint: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/best_checkpoint_25-04-24_00:05:13_epoch_27.pth
+2025-04-24 00:29:32,057 - richard.src.train.trainer:train:152 - DEBUG - Epoch 28 Summary:
+2025-04-24 00:29:32,057 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2259, Train Dice: 0.7767
+2025-04-24 00:29:32,057 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2259}
+2025-04-24 00:29:32,057 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3228,   Val Dice: 0.6777
+2025-04-24 00:29:32,057 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3228}
+2025-04-24 00:29:32,057 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3256, Best Val Dice So Far: 0.6777
+2025-04-24 00:30:08,423 - richard.src.train.trainer:train:132 - DEBUG - Epoch 29: No improvement in val_dice for 1 epoch(s). Patience: 15
+2025-04-24 00:30:08,423 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6686
+2025-04-24 00:30:08,423 - richard.src.train.trainer:train:146 - DEBUG - Epoch 29: Current learning rate: 1.00e-05
+2025-04-24 00:30:08,423 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 29: Val Dice 0.6686 did not improve over best 0.6777
+2025-04-24 00:30:08,423 - richard.src.train.trainer:train:152 - DEBUG - Epoch 29 Summary:
+2025-04-24 00:30:08,423 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2271, Train Dice: 0.7761
+2025-04-24 00:30:08,423 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2271}
+2025-04-24 00:30:08,423 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3319,   Val Dice: 0.6686
+2025-04-24 00:30:08,423 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3319}
+2025-04-24 00:30:08,423 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3228, Best Val Dice So Far: 0.6777
+2025-04-24 00:30:46,755 - richard.src.train.trainer:train:132 - DEBUG - Epoch 30: No improvement in val_dice for 2 epoch(s). Patience: 15
+2025-04-24 00:30:46,755 - richard.src.train.trainer:train:140 - DEBUG - Stepped ReduceLROnPlateau scheduler with val_dice: 0.6665
+2025-04-24 00:30:46,755 - richard.src.train.trainer:train:146 - DEBUG - Epoch 30: Current learning rate: 1.00e-05
+2025-04-24 00:30:46,755 - richard.src.train.trainer:save_checkpoint:409 - DEBUG - Epoch 30: Val Dice 0.6665 did not improve over best 0.6777
+2025-04-24 00:30:46,755 - richard.src.train.trainer:train:152 - DEBUG - Epoch 30 Summary:
+2025-04-24 00:30:46,755 - richard.src.train.trainer:train:153 - DEBUG -   Train Loss: 0.2227, Train Dice: 0.7799
+2025-04-24 00:30:46,755 - richard.src.train.trainer:train:156 - DEBUG -   Raw Train Losses: {Dice: 0.2227}
+2025-04-24 00:30:46,755 - richard.src.train.trainer:train:158 - DEBUG -     Val Loss: 0.3341,   Val Dice: 0.6665
+2025-04-24 00:30:46,755 - richard.src.train.trainer:train:161 - DEBUG -   Raw Val Losses: {Dice: 0.3341}
+2025-04-24 00:30:46,755 - richard.src.train.trainer:train:163 - DEBUG - Best Val Loss So Far: 0.3228, Best Val Dice So Far: 0.6777
+2025-04-24 00:30:48,167 - richard.src.train.trainer:train:210 - INFO - Saved final checkpoint to /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-24_00:05:13.pth
+2025-04-24 00:30:48,169 - root:train:211 - INFO - Training finished.

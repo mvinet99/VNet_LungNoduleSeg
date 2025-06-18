@@ -1,0 +1,14 @@
+name: VNet2D
+in_channels: 1  # For grayscale medical images
+out_channels: 1
+conv_kernel_size: 5
+conv_stride: 1
+conv_padding: 2
+conv_bn: True  # Enable batch normalization
+conv_activation_fn: null # torch.nn.ReLU
+sampling_conv_kernel_size: 2
+sampling_conv_stride: 2
+sampling_conv_padding: 0
+sampling_conv_bn: True
+sampling_conv_activation_fn: null # torch.nn.PReLU
+dropout_rate: 0.3

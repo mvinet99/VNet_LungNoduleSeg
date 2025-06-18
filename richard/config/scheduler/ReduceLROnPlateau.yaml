@@ -1,0 +1,5 @@
+name: ReduceLROnPlateau
+factor: 0.2
+mode: max
+patience: 5
+min_lr: 1e-6

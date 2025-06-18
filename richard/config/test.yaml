@@ -1,0 +1,15 @@
+model: vnet
+dataset: test_2d
+dataloader: dataloader
+# --- Testing Specific Configuration ---
+testing:
+  model_checkpoint_dir: "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints"
+  results_dir: "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results"
+
+  # --- Tester Parameters ---
+  thresh_min: 0.0
+  thresh_max: 1.0
+  thresh_step: 0.01
+  num_visual_patients: -1
+  overlay_opacity: 0.3
+

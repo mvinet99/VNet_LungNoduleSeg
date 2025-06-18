@@ -1,0 +1,41 @@
+model: vnet
+dataset: splits_2d
+dataloader: dataloader
+optimizer: AdamW
+scheduler: ReduceLROnPlateau
+criterion:
+#    Focal:
+#        name: FocalLoss
+#        weight: 1.0 # Adjust weight as needed
+#        params:
+#            alpha: 0.25
+#            gamma: 2.0
+#    BCE:
+#        name: BCEWithLogitsLoss
+#        weight: 1.0
+#        params:
+#            pos_weight: 102.0 # Pass pos_weight directly if needed by BCE
+    Dice:
+        name: DiceLoss
+        weight: 1.0
+training:
+    num_epochs: 30
+    batch_size: 16
+    early_stopping_patience: 15
+    early_stopping_min_delta: 0.0005
+checkpoint: 
+    path: /radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints/final_checkpoint_25-04-17_13:58:47.pth
+    freeze_config:
+        freeze: false
+        config: # Dictionary format: name/prefix: true_to_freeze
+            "init_conv": false
+            "downsample_block_1": false
+            "downsample_block_2": false
+            "downsample_block_3": false
+            "downsample_block_4": false
+            "upsample_block_1": false
+            "upsample_block_2": false
+            "upsample_block_3": false
+            "upsample_block_4": false
+            "final_conv": false
+
