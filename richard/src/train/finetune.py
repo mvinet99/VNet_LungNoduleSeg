@@ -222,9 +222,9 @@ if __name__ == "__main__":
                         help="Comma-separated list of GPU IDs to use. (e.g. '0,1')")
     parser.add_argument("--debug", action="store_true",
                         help="Enable debug mode (less verbose logging).")
-    parser.add_argument("--save_dir", type=str, default="/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints",
+    parser.add_argument("--save_dir", type=str, default="richard/checkpoints",
                         help="Directory to save checkpoints.")
-    parser.add_argument("--log_dir", type=str, default="/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/logs",
+    parser.add_argument("--log_dir", type=str, default="richard/logs",
                         help="Directory to save logs.")
     args = parser.parse_args()
 

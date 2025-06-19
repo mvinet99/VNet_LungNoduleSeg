@@ -7,10 +7,25 @@ from typing import Optional, Union, Tuple, Dict
 import logging
 import os
 from tqdm import tqdm
-from richard.src.utils.utils import DiceLoss
 from datetime import datetime
 
 class Trainer:
+    """
+    Trainer class for training a model.
+
+    Args:
+        model (nn.Module): The model to train.
+        train_loader (data.DataLoader): DataLoader for the training dataset.
+        val_loader (data.DataLoader): DataLoader for the validation dataset.
+        test_loader (data.DataLoader): DataLoader for the test dataset.
+        optimizer (optim.Optimizer): Optimizer for the model.
+        scheduler (optim.lr_scheduler._LRScheduler): Scheduler for the optimizer.
+        criterion (nn.Module): Criterion for the model.
+        config (dict): Configuration for the trainer.
+        device (torch.device): Device to train on (e.g., 'cuda').
+        start_time (str): Unique identifier for the training run.
+    """
+
     def __init__(self, 
                  model: nn.Module, 
                  train_loader: Optional[data.DataLoader]=None, 
@@ -449,8 +464,3 @@ class Trainer:
         intersection = (pred_flat * target_flat).sum()
         dice_coefficient = (2. * intersection + 1e-6) / (pred_flat.sum() + target_flat.sum() + 1e-6)
         return dice_coefficient.item() 
-        
-    def diameter_loss(self, outputs, labels):
-        # This needs significant update if used with 1-channel logit output
-        self.logger.warning("Diameter loss calculation is likely incorrect for 1-channel logit output.")
-        return 0.0 

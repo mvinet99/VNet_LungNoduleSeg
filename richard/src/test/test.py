@@ -1,17 +1,11 @@
 import os
 import torch
 from torch.utils.data import DataLoader
-from torchvision import transforms
 import torch.nn.functional as F
-import numpy as np
-from tqdm import tqdm
 import argparse
-import yaml
 import logging
-from datetime import datetime
 from pathlib import Path
 from typing import Optional
-import pprint
 import json
 
 # Custom imports
@@ -200,7 +194,9 @@ def test(args: argparse.Namespace, cfg: dict, checkpoint_basename: str):
         thresh_max=thresh_max,
         thresh_step=thresh_step,
         num_visual_patients=num_visuals,
-        overlay_opacity=overlay_opacity
+        overlay_opacity=overlay_opacity,
+        save_masks=args.save_masks,
+        save_overlays=args.save_overlays
     )
     
     # --- Run Evaluation and Visualization ---
@@ -225,6 +221,10 @@ if __name__ == "__main__":
                         help="Comma-separated list of GPU IDs to use. (e.g. '0,1')")
     parser.add_argument("--debug", action="store_true",
                         help="Enable debug mode logging.")
+    parser.add_argument("--save_masks", action="store_true",
+                        help="Enable saving of predicted masks as .npy files.")
+    parser.add_argument("--save_overlays", action="store_true",
+                        help="Enable saving of visual overlay images as .png files.")
     args = parser.parse_args()
     
     # --- Determine Checkpoint Name (Interactive if needed) --- 

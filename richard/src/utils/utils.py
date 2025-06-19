@@ -16,95 +16,6 @@ from typing import Optional, Dict
 from datetime import datetime
 import json
 
-class DiceLoss(nn.Module):
-    """Computes Dice Loss for binary segmentation.
-
-    Assumes input is probabilities (e.g., after sigmoid) and target is binary mask.
-    Input and target tensors are expected to be flattened or will be flattened.
-    """
-    def __init__(self, smooth: float = 1e-6):
-        super(DiceLoss, self).__init__()
-        self.smooth = smooth
-
-    def forward(self, inputs: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
-        inputs = inputs.contiguous().view(-1)
-        targets = targets.contiguous().view(-1)
-        targets = targets.float()
-        intersection = (inputs * targets).sum()
-        denominator = inputs.sum() + targets.sum()
-        dice_coefficient = (2. * intersection + self.smooth) / (denominator + self.smooth)
-        return 1. - dice_coefficient
-
-class DiameterLoss(nn.Module):
-    def __init__(self):
-        super(DiameterLoss, self).__init__()
-
-    def compute_weighted_centroid(self, mask):
-        """ Compute soft centroid as a weighted sum of coordinates. """
-        B, H, W, D = mask.shape  # (Batch, Height, Width, Depth)
-        device = mask.device
-
-        # Generate coordinate grids
-        y_coords = torch.arange(H, device=device).view(1, H, 1, 1).expand(B, H, W, D)
-        x_coords = torch.arange(W, device=device).view(1, 1, W, 1).expand(B, H, W, D)
-
-        # Convert to same dtype as mask
-        y_coords = y_coords.to(mask.dtype)
-        x_coords = x_coords.to(mask.dtype)
-
-        # Compute weighted centroid
-        total_mass = mask.sum(dim=(1, 2, 3), keepdim=True) + 1e-6  # Avoid div by zero
-        centroid_x = (x_coords * mask).sum(dim=(1, 2, 3), keepdim=True) / total_mass
-        centroid_y = (y_coords * mask).sum(dim=(1, 2, 3), keepdim=True) / total_mass
-
-        return centroid_x.view(B), centroid_y.view(B)  # Ensure correct shape
-
-    def compute_diameter(self, mask):
-        """ Compute a differentiable approximation of the longest diameter. """
-        B, H, W, D = mask.shape  # (Batch, Height, Width, Depth)
-        device = mask.device
-
-        # Generate coordinate grids
-        y_coords = torch.arange(H, device=device).view(1, H, 1, 1).expand(B, H, W, D)
-        x_coords = torch.arange(W, device=device).view(1, 1, W, 1).expand(B, H, W, D)
-
-        # Convert to same dtype as mask
-        y_coords = y_coords.to(mask.dtype)
-        x_coords = x_coords.to(mask.dtype)
-
-        # Compute centroid
-        centroid_x, centroid_y = self.compute_weighted_centroid(mask)
-
-        # Reshape centroid for broadcasting
-        centroid_x = centroid_x.view(B, 1, 1, 1)  # Shape (B,1,1,1)
-        centroid_y = centroid_y.view(B, 1, 1, 1)  # Shape (B,1,1,1)
-
-        # Compute distances from centroid
-        dist_x = (x_coords - centroid_x).abs()
-        dist_y = (y_coords - centroid_y).abs()
-
-        # Approximate max distance in x and y directions (soft max)
-        max_x = torch.sum(dist_x * mask, dim=(1, 2, 3)) / (mask.sum(dim=(1, 2, 3)) + 1e-6)
-        max_y = torch.sum(dist_y * mask, dim=(1, 2, 3)) / (mask.sum(dim=(1, 2, 3)) + 1e-6)
-
-        # Approximate max diameter using Pythagorean theorem
-        soft_diameter = torch.sqrt(max_x**2 + max_y**2)  # Shape (B,)
-        return soft_diameter
-
-    def forward(self, inputs, targets):
-        """ Compute differentiable loss as absolute diameter difference. """
-        inputs = torch.sigmoid(inputs)  # Ensure values are in (0,1) range
-
-        # Extract only the segmentation mask (assumes first channel contains mask)
-        inputs = inputs[:, 0, :, :, :]  # Shape (16, 96, 96, 32)
-
-        # Compute predicted diameter
-        pred_diameter = self.compute_diameter(inputs)  # Shape (16,)
-
-        # Compute loss (absolute difference with targets)
-        loss = torch.abs(pred_diameter - targets).mean()
-        return loss
-
 # Model debugging decorator
 def setup_logging(console_level=logging.INFO, file_level=logging.DEBUG, log_dir:os.PathLike=None, start_time:Optional[str]=None, test:bool=False):
     # Define the detailed log format
@@ -229,8 +140,16 @@ def set_visible_devices(device_ids=None):
 
 # Dice coefficient calculation
 def dice_score(pred:torch.Tensor, target:torch.Tensor):
-    # Remove thresholding as pred now contains class indices (0 or 1)
-    # Ensure both tensors are float for multiplication
+    """
+    Calculate the Dice score between predicted and target masks.
+
+    Args:
+        pred (torch.Tensor): Predicted mask (binary, not logit).
+        target (torch.Tensor): Target mask (binary, not logit).
+
+    Returns:
+        float: Dice score between 0 and 1.
+    """
     pred = pred.float()
     target = target.float()
     intersection = torch.sum(pred * target)
@@ -239,6 +158,17 @@ def dice_score(pred:torch.Tensor, target:torch.Tensor):
 
 # Load the model
 def load_model(checkpoint_path:os.PathLike, device:torch.device, eval:bool=True):
+    """
+    Load a model from a checkpoint file. Mostly used for testing a pre-trained model.
+
+    Args:
+        checkpoint_path (os.PathLike): Path to the checkpoint file.
+        device (torch.device): Device to load the model on (e.g., 'cuda').
+        eval (bool): Whether to set the model to evaluation mode.
+
+    Returns:
+        nn.Module: Loaded model.
+    """
     model = VNet()
     model.load_state_dict(torch.load(checkpoint_path, map_location=device))
     model.to(device)
@@ -247,7 +177,24 @@ def load_model(checkpoint_path:os.PathLike, device:torch.device, eval:bool=True)
     return model
 
 # Predict and save masks
-def predict_and_evaluate(model:torch.nn.Module, image_folder:os.PathLike, mask_folder:os.PathLike, output_folder:os.PathLike, device:torch.device):
+def predict_and_evaluate(model:torch.nn.Module, 
+                         image_folder:os.PathLike, 
+                         mask_folder:os.PathLike, 
+                         output_folder:os.PathLike, 
+                         device:torch.device):
+    """
+    Predict and evaluate a model on a test dataset.
+
+    Args:
+        model (torch.nn.Module): Model to predict on.
+        image_folder (os.PathLike): Path to the directory containing the images.
+        mask_folder (os.PathLike): Path to the directory containing the masks.
+        output_folder (os.PathLike): Path to the directory to save the predicted masks.
+        device (torch.device): Device to run inference on (e.g., 'cuda').
+
+    Returns:
+        list: List of Dice scores.
+    """
     dice_scores = []
     
     os.makedirs(output_folder, exist_ok=True)
@@ -277,8 +224,21 @@ def predict_and_evaluate(model:torch.nn.Module, image_folder:os.PathLike, mask_f
         dice_scores.append(dice)
     
     return dice_scores
+
 # --- Configuration Loading Helper ---
 def _load_and_merge_yaml_configs(main_config_path: Path) -> dict:
+    """
+    Load and merge YAML configurations specified in a base file.
+    This looks for all the yaml files in the config directory and merges them into a single dictionary.
+    This is a helper function for the load_config_decorator.
+
+    Args:
+        main_config_path (Path): Path to the main configuration file.
+
+    Returns:
+        dict: Merged configuration dictionary.
+    """
+
     yaml = YAML()
     config_dir = main_config_path.parent
     merged_cfg = {}
@@ -307,12 +267,9 @@ def _load_and_merge_yaml_configs(main_config_path: Path) -> dict:
                     logger.info(f"Decorator loaded config for '{key}' from: {specific_config_path}")
             except FileNotFoundError:
                 logger.error(f"Decorator: Specific configuration file not found for key '{key}': {specific_config_path}")
-                # Decide behavior: Assign empty dict or raise error? Raising is often safer.
-                # merged_cfg[key] = {}
                 raise FileNotFoundError(f"Missing specific config file: {specific_config_path}")
             except Exception as e:
                 logger.error(f"Decorator: Error loading specific configuration {specific_config_path}: {e}")
-                # merged_cfg[key] = {}
                 raise # Re-raise exception
         else:
             merged_cfg[key] = value_name
@@ -330,6 +287,12 @@ def load_config_decorator(config_arg_name: str = "config"):
 
     Injects the loaded config dictionary as a keyword argument 'cfg' into the
     decorated function call.
+
+    Args:
+        config_arg_name (str): Name of the argument that contains the path to the main config file.
+
+    Returns:
+        func: Decorated function.
     """
     def decorator(func):
         @functools.wraps(func)
@@ -386,6 +349,11 @@ def load_config_decorator(config_arg_name: str = "config"):
     return decorator
 
 def main():
+    """
+    Main function to test the load_config_decorator.
+    This is a test function for the load_config_decorator.
+    """
+
     # Set device and paths
     device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 

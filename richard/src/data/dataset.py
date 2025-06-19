@@ -9,6 +9,15 @@ from typing import Tuple, List, Dict, Optional
 import random # Import random for synchronized transforms
 
 class AllDataset(Dataset):
+    """
+    Dataset class for loading and augmenting images and masks.
+
+    Args:
+        image_dir (str): Path to the directory containing the images.
+        mask_dir (str): Path to the directory containing the masks.
+        augment (bool): Whether to augment the data.
+        normalize (bool): Whether to normalize the data.
+    """
     def __init__(self, image_dir:str, mask_dir:str,
                  augment:bool=False,
                  normalize:bool=True,
@@ -112,6 +121,15 @@ class AllDataset(Dataset):
         return image, mask
     
 class AugmentedAllDataset(Dataset):
+    """
+    Dataset class for loading and augmenting images, masks, and augmenting masks. (Not implemented yet)
+
+    Args:
+        image_dir (str): Path to the directory containing the images.
+        mask_dir (str): Path to the directory containing the masks.
+        augment_mask_dir (str): Path to the directory containing the augmenting masks.
+        augment (bool): Whether to augment the data.
+    """
     def __init__(self, image_dir:str, mask_dir:str, augment_mask_dir: str,
                  augment:bool=False,
                  normalize:bool=True,

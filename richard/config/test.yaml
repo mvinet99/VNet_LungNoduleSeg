@@ -3,8 +3,8 @@ dataset: test_2d
 dataloader: dataloader
 # --- Testing Specific Configuration ---
 testing:
-  model_checkpoint_dir: "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints"
-  results_dir: "/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/results"
+  model_checkpoint_dir: "/richard/checkpoints"
+  results_dir: "richard/results"
 
   # --- Tester Parameters ---
   thresh_min: 0.0

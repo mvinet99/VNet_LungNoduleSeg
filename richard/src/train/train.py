@@ -1,26 +1,18 @@
-import os
-import pandas as pd
-import numpy as np
 import torch
-import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 import logging
 import argparse
-from pathlib import Path
-from typing import Union, Optional
+from typing import Optional
 from datetime import datetime
-import copy # Import the copy module
-# Assuming these modules exist based on previous context
+import copy
+
+# Custom imports
 from richard.src.data.dataset import AllDataset
 from richard.src.models.VNet2D import VNet2D
 from richard.src.train.trainer import Trainer
 from richard.src.utils.utils import setup_logging, set_visible_devices, set_seed, load_config_decorator
 from richard.src.utils.loss import CombinedLoss
-
-# Import DiceLoss if it's defined in utils
-# Ensure DiceLoss is imported if you intend to use it
-# from richard.src.utils.utils import DiceLoss 
 
 # Apply the decorator
 @load_config_decorator(config_arg_name="config")
@@ -162,9 +154,9 @@ if __name__ == "__main__":
                         help="Comma-separated list of GPU IDs to use. (e.g. '0,1')")
     parser.add_argument("--debug", action="store_true",
                         help="Enable debug mode (less verbose logging).")
-    parser.add_argument("--save_dir", type=str, default="/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/checkpoints",
+    parser.add_argument("--save_dir", type=str, default="richard/checkpoints",
                         help="Directory to save checkpoints.")
-    parser.add_argument("--log_dir", type=str, default="/radraid2/dongwoolee/VNet_LungNoduleSeg/richard/logs",
+    parser.add_argument("--log_dir", type=str, default="richard/logs",
                         help="Directory to save logs.")
     args = parser.parse_args()
 

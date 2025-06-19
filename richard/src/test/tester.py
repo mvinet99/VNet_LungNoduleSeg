@@ -23,7 +23,9 @@ class Tester:
                  thresh_max: float = 1.0,
                  thresh_step: float = 0.05,
                  num_visual_patients: int = 10,
-                 overlay_opacity: float = 0.4):
+                 overlay_opacity: float = 0.4,
+                 save_masks: bool = False,
+                 save_overlays: bool = False):
         """
         Args:
             model: The trained model to evaluate.
@@ -34,6 +36,8 @@ class Tester:
             thresholds: A list of thresholds to evaluate the Dice score at.
             num_visual_patients: Number of patients to generate overlay visualizations for.
             overlay_opacity: Opacity level for the mask overlays (0.0 to 1.0).
+            save_masks (bool): If True, save predicted masks as .npy files.
+            save_overlays (bool): If True, save visual overlay images.
         """
         self.model = model.to(device)
         self.test_loader = test_loader
@@ -43,18 +47,25 @@ class Tester:
         self.thresholds = sorted(np.arange(thresh_min, thresh_max + thresh_step, thresh_step))
         self.num_visual_patients = num_visual_patients
         self.overlay_opacity = overlay_opacity
+        self.save_masks = save_masks
+        self.save_overlays = save_overlays
         
         self.pred_mask_dir = self.output_dir / "predicted_masks"
         self.overlay_dir = self.output_dir / "overlays"
         
         # Create output directories
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        self.pred_mask_dir.mkdir(exist_ok=True)
-        self.overlay_dir.mkdir(exist_ok=True)
+        if self.save_masks:
+            self.pred_mask_dir.mkdir(exist_ok=True)
+        if self.save_overlays:
+            self.overlay_dir.mkdir(exist_ok=True)
 
         logger.info(f"Tester initialized. Results will be saved to: {self.output_dir}")
+        logger.info(f"Save predicted masks: {self.save_masks}")
+        logger.info(f"Save overlay visuals: {self.save_overlays}")
+        if self.save_overlays:
+            logger.info(f"Generating visualizations for {self.num_visual_patients} patients.")
         logger.info(f"Evaluating Dice at thresholds: {self.thresholds}")
-        logger.info(f"Generating visualizations for {self.num_visual_patients} patients.")
 
     def _extract_patient_id(self, filename: str) -> str:
         """Extract patient ID from filename.
@@ -209,6 +220,11 @@ class Tester:
         patient_dirs = {}  # Track patient directories: {patient_id: (pred_dir, overlay_dir)}
         processed_patients = set()  # Track which patients we've already processed
         
+        # Early exit if no visualizations are requested
+        if not self.save_masks and not self.save_overlays:
+            logger.info("Skipping visualization generation as both save_masks and save_overlays are False.")
+            return
+
         logger.info(f"Generating visualizations for up to {self.num_visual_patients} patients using threshold {best_threshold:.2f}.")
         if new_only:
             logger.info("Flag 'new_only' is set. Skipping patients with existing visualizations.")
@@ -288,8 +304,10 @@ class Tester:
                     if patient_id not in patient_dirs:
                         patient_pred_dir = self.pred_mask_dir / patient_id
                         patient_overlay_dir = self.overlay_dir / patient_id
-                        patient_pred_dir.mkdir(exist_ok=True)
-                        patient_overlay_dir.mkdir(exist_ok=True)
+                        if self.save_masks:
+                            patient_pred_dir.mkdir(exist_ok=True)
+                        if self.save_overlays:
+                            patient_overlay_dir.mkdir(exist_ok=True)
                         patient_dirs[patient_id] = (patient_pred_dir, patient_overlay_dir)
                         processed_patients.add(patient_id)
                     
@@ -304,13 +322,15 @@ class Tester:
                     pred_mask_np = predicted_masks[slice_idx].cpu().numpy().squeeze()
 
                     # Save predicted mask
-                    try:
-                        np.save(pred_mask_path, pred_mask_np)
-                    except Exception as e:
-                        logger.error(f"Failed to save predicted mask {pred_mask_path}: {e}")
+                    if self.save_masks:
+                        try:
+                            np.save(pred_mask_path, pred_mask_np)
+                        except Exception as e:
+                            logger.error(f"Failed to save predicted mask {pred_mask_path}: {e}")
 
                     # Create and save overlay
-                    self._create_overlay(img_np, label_np, pred_mask_np, overlay_path)
+                    if self.save_overlays:
+                        self._create_overlay(img_np, label_np, pred_mask_np, overlay_path)
                 
                 # Early exit if we've processed all target patients
                 if len(processed_patients) >= self.num_visual_patients:
